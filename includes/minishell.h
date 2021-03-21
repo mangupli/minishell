@@ -9,7 +9,7 @@
 # include	<curses.h>
 # include	<errno.h>
 # include	<sys/ioctl.h>
-# include	<readline.h>
+# include	"readline.h"
 # include	"../libft/includes/libft.h"
 
 /*
@@ -20,10 +20,5 @@ void 		display_error(char *ername, char *str, int nline);
 int			execution(char *filename, char **env);
 int			shell_echo(char **args);
 
-/*
- * Parser functions
- */
-
-t_list		*parse_env(char **env);
 
 #endif
