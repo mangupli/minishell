@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/parseader.h"
+#include "../includes/minishell.h"
 
 t_env	*env_parser(char *env[])
 {
