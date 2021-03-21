@@ -1,4 +1,4 @@
 a.out
-gitignore
+.gitignore
 .idea
 parser/main.c
