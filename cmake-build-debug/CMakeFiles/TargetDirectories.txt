@@ -1,3 +1,0 @@
-/Users/mspyke/projects/minishell/shell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/mspyke/projects/minishell/shell/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mspyke/projects/minishell/shell/cmake-build-debug/CMakeFiles/shell.dir
