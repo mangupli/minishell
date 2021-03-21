@@ -7,13 +7,13 @@ include_directories(shell includes libft)
 
 add_executable(shell main.c
         includes/minishell.h
-        readline.c
-        terminal_management.c
+        processor/readline.c
+        processor/terminal_management.c
         append_line.c
-        history.c
-        exit.c
+        processor/history.c
+        processor/exit.c
         env_variables.c
-        execution.c
+        processor/execution.c
         echo.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
