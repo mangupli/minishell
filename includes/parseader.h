@@ -14,6 +14,7 @@
 # define PARSEADER_H
 
 # include <stdlib.h>
+# include "readline.h"
 
 t_env	*env_parser(char *env[]);
 int		env_count(char *env[]);
