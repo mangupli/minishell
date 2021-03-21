@@ -39,7 +39,7 @@ $(NAME): $(OBJS)
 	gcc $(OBJS) libft/libft.a -ltermcap -o $@
 
 $(OBJS_DIR)%.o : $(PROCESS_DIR)%.c $(PROCESS_INC)
-	@mkdir -p $(OBJS_PROCCESS)
+	@mkdir -p $(OBJS_DIR)
 	gcc -I./includes -c $< -o $@
 
 $(OBJS_DIR)%.o : %.c
