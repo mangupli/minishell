@@ -14,6 +14,8 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->env_list = parse_env(env);
 }
 
+// my mastera gita ****
+
 int			main(int argc, char **argv, char **env)
 {
 	char *line;
