@@ -15,12 +15,6 @@
 
 # include <stdlib.h>
 
-typedef struct s_env
-{
-	char		*name;
-	char		*content;
-}				t_env;
-
 t_env	*env_parser(char *env[]);
 int		env_count(char *env[]);
 int		env_len(char *env, int offset);

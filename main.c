@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parseader.h"
 
 static void init_shell(t_data *data, int argc, char **argv, char **env)
 {
@@ -11,7 +12,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 		display_error(argv[1], "cannot execute this file", 1);
 		exit(EXIT_FAILURE);
 	}
-	data->env_list = parse_env(env);
+	data->env = env_parser(env);
 }
 
 int			main(int argc, char **argv, char **env)
