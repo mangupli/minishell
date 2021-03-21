@@ -1,27 +1,51 @@
+# Compilation #
+
+FLAGS = -Wall -Wextra -Werror
+
+# Directories #
+
+PARSER_DIR = ./parser/
+PROCESS_DIR = ./processor/
+OBJS_DIR = ./objs/
+
+INC_DIR = ./includes/
+
+PROCESS_INC = $(INC_DIR)minishell.h
+PARSER_INC = $(INC_DIR)parseader.h
+LINK_INC = -I $(INC_DIR)
+
+# Source files #
+
 NAME = bash
 
-SRCS = main.c readline.c terminal_management.c append_line.c \
+SRCS_MAIN = main.c
+
+SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
 history.c exit.c env_variables.c execution.c echo.c
 
-PARSER_FILES = env_parser.c
-SRCS_PARSER = $(addprefix  $(PARSERDIR), $(PARSER_FILES))
-PARSER_DIR = parser/
+SRCS_PARSER = env_parser.c
 
+# Object files #
 
-HEADER = includes/minishell.h includes/parseader.h
-
-OBJ_FILES = $(SRCS:.c=.o)
-OBJ_PARSER = $(SRCS_PARSER:.c=.o)
+OBJS_MAIN = $(SRCS_MAIN:.c=.o)
+OBJS_PROCCESS = $(SRCS_PROCCESS:.c=.o)
+OBJS_PARSER = $(SRCS_PARSER:.c=.o)
 OBJS_DIR = ./objs/
-OBJS = $(addprefix  $(OBJS_DIR), $(OBJ_FILES) $(OBJ_PARSER))
+OBJS = $(addprefix  $(OBJS_DIR), $(OBJS_PROCCESS) $(OBJS_PARSER) $(OBJS_MAIN))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	gcc $(OBJS) libft/libft.a -ltermcap -o $@
 
-$(OBJS_DIR)%.o : %.c $(HEADER)
-	@mkdir -p $(OBJS_DIR)
+$(OBJS_DIR)%.o : $(PROCESS_DIR)%.c $(PROCESS_INC)
+	@mkdir -p $(OBJS_PROCCESS)
+	gcc -I./includes -c $< -o $@
+
+$(OBJS_DIR)%.o : %.c
+	gcc -I./includes -c $< -o $@
+
+$(OBJS_DIR)%.o : $(PARSER_DIR)%.c $(PARSER_INC)
 	gcc -I./includes -c $< -o $@
 
 clean:
