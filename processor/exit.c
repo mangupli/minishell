@@ -3,7 +3,7 @@
 /*
 ** Error codes:
 **
-** -1 - argument with executable
+** 1 - argument with executable
 **
 ** 9 - Malloc failed
 */
