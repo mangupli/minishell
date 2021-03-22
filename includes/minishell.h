@@ -58,12 +58,20 @@ typedef struct 	s_env
 	char		*content;
 }				t_env;
 
+typedef struct	s_flag
+{
+	int 		echo_n;
+}				t_flag;
+
 typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
 	t_list		*env_list;
 	t_env		*env;
+	char		**args;
+	t_flag		flag;
+	char		*echo;
 }				t_data;
 
 /*
@@ -110,7 +118,7 @@ struct termios orig_termios; /* In order to restore at exit.*/
  */
 
 void 		display_error(char *ername, char *str, int nline);
-int			execution(char *filename, char **env);
+int 		execution(char *line, t_data *data);
 int			shell_echo(char **args);
 
 /*

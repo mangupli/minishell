@@ -49,7 +49,7 @@ $(OBJS_DIR)%.o : $(PARSER_DIR)%.c $(PARSER_INC)
 	gcc -I./includes -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJS_DIR)
 
 fclean: clean
 	rm -f $(NAME)

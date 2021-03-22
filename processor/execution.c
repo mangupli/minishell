@@ -1,17 +1,16 @@
 #include "minishell.h"
 
-int 	execution(char *line, char **env)
+int 	execution(char *line, t_data *data)
 {
 	pid_t pid;
 	int status;
-	char **args;
-	args = ft_split(line, ' ');
+
 	pid = fork();
 	if (pid == 0) // child
 	{
-		if (!ft_strcmp(args[0], "echo"))
-			shell_echo(args);
-		execve(line, args, 0);
+		if (!ft_strcmp(data->args[0], "echo"))
+			shell_echo(data->args);
+		execve(line, data->args, 0);
 	}
 	else //parent
 	{
