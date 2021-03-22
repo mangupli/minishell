@@ -58,10 +58,10 @@ typedef struct 	s_env
 	char		*content;
 }				t_env;
 
-typedef struct	s_flag
+typedef struct	s_func
 {
 	int 		echo_n;
-}				t_flag;
+}				t_func;
 
 typedef struct	s_data
 {
@@ -70,7 +70,7 @@ typedef struct	s_data
 	t_list		*env_list;
 	t_env		*env;
 	char		**args;
-	t_flag		flag;
+	t_func		func;
 	char		*echo;
 }				t_data;
 
@@ -117,9 +117,10 @@ struct termios orig_termios; /* In order to restore at exit.*/
  * Logic functions
  */
 
-void 		display_error(char *ername, char *str, int nline);
-int 		execution(char *line, t_data *data);
+void 		error_and_exit(char *errname, char *str, int nline, int errcode);
+int 		execution(t_data *data);
 int			shell_echo(char **args);
+int			shell_pwd(char **args);
 
 /*
  * Readline functions

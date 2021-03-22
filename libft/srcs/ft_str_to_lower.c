@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_str_to_lower.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mspyke <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/02 00:16:37 by mspyke            #+#    #+#             */
-/*   Updated: 2020/11/03 22:42:33 by mspyke           ###   ########.fr       */
+/*   Created: 2020/12/05 16:49:07 by mspyke            #+#    #+#             */
+/*   Updated: 2020/12/05 16:55:57 by mspyke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_str_to_lower(char *str)
 {
-	size_t i;
+	int i;
 
-	i = -1;
-	if (dst || src)
-		while (++i < n)
-			((unsigned char*)dst)[i] = ((unsigned char*)src)[i];
-	return (dst);
+	i = 0;
+	if (str)
+	{
+		while (str[i])
+		{
+			if (ft_isupper(str[i]))
+				str[i] = ft_tolower(str[i]);
+			i++;
+		}
+	}
+	return (str);
 }

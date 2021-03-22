@@ -1,6 +1,34 @@
 #include "minishell.h"
 
-int 	execution(char *line, t_data *data)
+static int find_function(char **args)
+{
+	int i;
+
+	i = -1;
+	while (args[++i])
+		args[i] = ft_str_to_lower(args[i]);
+	if (!ft_strcmp(args[0], "echo"))
+		return (1);
+	if (!ft_strcmp(args[0], "pwd"))
+		return (3);
+	return (0);
+}
+
+
+static void child_process(t_data *data)
+{
+	int key;
+
+	key = find_function(data->args);
+	if (key == 1)
+		shell_echo(data->args);
+	else if (key == 3)
+		shell_pwd(data->args);
+	else
+		execve(data->args[0], data->args, 0);
+}
+
+int execution(t_data *data)
 {
 	pid_t pid;
 	int status;
@@ -8,11 +36,9 @@ int 	execution(char *line, t_data *data)
 	pid = fork();
 	if (pid == 0) // child
 	{
-		if (!ft_strcmp(data->args[0], "echo"))
-			shell_echo(data->args);
-		execve(line, data->args, 0);
+		child_process(data);
 	}
-	else //parent
+	else // parent
 	{
 		waitpid(-1, &status, 0);
 		//exit(status);

@@ -14,7 +14,8 @@ add_executable(shell main.c
         processor/exit.c
         env_variables.c
         processor/execution.c
-        echo.c)
+        echo.c
+        pwd.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
 

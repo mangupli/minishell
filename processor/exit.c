@@ -1,6 +1,15 @@
 #include "minishell.h"
 
-void 		display_error(char *errname, char *str, int nline)
+/*
+** Error codes:
+**
+** -1 - argument with executable
+**
+** 9 - Malloc failed
+*/
+
+
+void		error_and_exit(char *errname, char *str, int nline, int errcode)
 {
 	ft_putstr_fd("superbash: ", 2);
 	if (errname)
@@ -9,7 +18,6 @@ void 		display_error(char *errname, char *str, int nline)
 		ft_putstr_fd(": ", 2);
 	}
 	if (str)
-		ft_putstr_fd(str, 2);
-	if (nline)
-		write(1, "\n", 2);
+		ft_putendl_fd(str, 2);
+	exit(errcode);
 }
