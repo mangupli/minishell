@@ -9,7 +9,6 @@
 # include	<curses.h>
 # include	<errno.h>
 # include	<sys/ioctl.h>
-# include	"readline.h"
 # include	"../libft/includes/libft.h"
 
 /*
