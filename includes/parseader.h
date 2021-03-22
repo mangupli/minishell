@@ -16,9 +16,16 @@
 # include <stdlib.h>
 #include "minishell.h"
 
+typedef struct	s_agrs
+{
+	char	**arguments;
+	struct t_args *next;
+}				t_args;
+
 t_env	*env_parser(char *env[]);
 int		env_count(char *env[]);
 int		env_len(char *env, int offset);
 void	env_filler(char *env, char *dest_env, int offset);
+char	**path_parser(t_env *envs);
 
 #endif

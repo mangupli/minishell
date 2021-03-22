@@ -47,11 +47,6 @@ typedef struct	s_hist
 	int 		maxlen;
 }				t_hist;
 
-typedef struct	s_path
-{
-	char		*path;
-}				t_path;
-
 typedef struct 	s_env
 {
 	char		*name;
