@@ -1,6 +1,6 @@
 
-#include "../includes/parseader.h"
-#include "../includes/minishell.h"
+#include "minishell.h"
+#include "parseader.h"
 
 char	**path_parser(t_env *envs)
 {
@@ -9,7 +9,7 @@ char	**path_parser(t_env *envs)
 	i = 0;
 	while (envs[i].name != NULL)
 	{
-		if (strnstr(envs[i].name, "PATH", 5))
+		if (ft_strnstr(envs[i].name, "PATH", 5))
 			return (ft_split(envs[i].content, ':'));
 		i++;
 	}

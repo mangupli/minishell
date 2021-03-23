@@ -2,11 +2,8 @@
 // Created by Moaning Stonehouse on 3/21/21.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "../includes/parseader.h"
-#include "../includes/minishell.h"
-
+#include "minishell.h"
+#include "parseader.h"
 
 int main(int argc, char *argv[], char *env[])
 {

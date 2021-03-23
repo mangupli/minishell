@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parseader.h"
-#include "../includes/minishell.h"
+#include "minishell.h"
+#include "parseader.h"
 
 t_env	*env_parser(char *env[])
 {
