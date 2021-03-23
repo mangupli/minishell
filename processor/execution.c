@@ -19,18 +19,6 @@ static int find_function(char **args)
 
 static void child_process(t_data *data)
 {
-	int key;
-
-	key = find_function(data->args);
-	if (key == 7)
-	{
-		//exit
-	}
-	else if (key == 1)
-		shell_echo(data->args);
-	else if (key == 3)
-		shell_pwd(data->args);
-	else
 		execve(data->args[0], data->args, 0);
 }
 
@@ -38,16 +26,27 @@ int execution(t_data *data)
 {
 	pid_t pid;
 	int status;
+	int key;
 
-	pid = fork();
-	if (pid == 0) // child
+	key = find_function(data->args);
+	if (key == 7)
+		ft_exit(0);
+	else if (key == 1)
+		shell_echo(data->args);
+	else if (key == 3)
+		shell_pwd(data->args);
+	else
 	{
-		child_process(data);
-	}
-	else // parent
-	{
-		waitpid(-1, &status, 0);
-		//exit(status);
+		pid = fork();
+		if (pid == 0) //child
+		{
+			child_process(data);
+		}
+		else //parent
+		{
+			waitpid(-1, &status, 0);
+			//exit(status);
+		}
 	}
 	return (0);
 }

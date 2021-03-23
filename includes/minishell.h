@@ -116,6 +116,7 @@ void 		error_and_exit(char *errname, char *str, int nline, int errcode);
 int 		execution(t_data *data);
 int			shell_echo(char **args);
 int			shell_pwd(char **args);
+void		ft_exit(int errcode);
 
 /*
  * Readline functions

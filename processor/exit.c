@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void 	ft_exit(int errcode)
+{
+	exit(errcode);
+}
+
+
 /*
 ** Error codes:
 **
@@ -19,5 +25,5 @@ void		error_and_exit(char *errname, char *str, int nline, int errcode)
 	}
 	if (str)
 		ft_putendl_fd(str, 2);
-	exit(errcode);
+	ft_exit(errcode);
 }
