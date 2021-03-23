@@ -50,6 +50,7 @@ typedef struct 	s_env
 {
 	char		*name;
 	char		*content;
+	char
 }				t_env;
 
 typedef struct	s_func
