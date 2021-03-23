@@ -66,7 +66,6 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 	a.buflen = MAX_LINE;
 	a.prompt = data->prompt;
 	a.plen = ft_strlen(data->prompt);
-	a.oldpos = 0;
 	a.pos = 0;
 	a.len = 0;
 	a.cols = get_cols(stdin_fd, stdout_fd);

@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+void 	ft_exit(int errcode)
+{
+	exit(errcode);
+}
+
 /*
 ** Error codes:
 **
@@ -8,8 +13,7 @@
 ** 9 - Malloc failed
 */
 
-
-void		error_and_exit(char *errname, char *str, int nline, int errcode)
+void		display_error(char *errname, char *str)
 {
 	ft_putstr_fd("superbash: ", 2);
 	if (errname)
@@ -19,5 +23,4 @@ void		error_and_exit(char *errname, char *str, int nline, int errcode)
 	}
 	if (str)
 		ft_putendl_fd(str, 2);
-	exit(errcode);
 }

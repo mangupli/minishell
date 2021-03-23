@@ -9,13 +9,16 @@ add_executable(shell main.c
         includes/minishell.h
         processor/readline.c
         processor/terminal_management.c
-        append_line.c
+        processor/append_line.c
         processor/history.c
         processor/exit.c
-        env_variables.c
         processor/execution.c
-        echo.c
-        pwd.c)
+        processor/echo.c
+        processor/pwd.c
+        processor/cd.c
+        processor/utils.c
+        processor/export.c
+        parser/env_parser.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
 

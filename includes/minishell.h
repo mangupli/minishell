@@ -11,6 +11,7 @@
 # include	<sys/ioctl.h>
 # include	"../libft/includes/libft.h"
 
+
 /*
 ** int ifd ------------> Terminal stdin file descriptor.
 ** int ofd ------------> Terminal stdout file descriptor.
@@ -19,7 +20,6 @@
 ** const char *prompt -> Prompt to display.
 ** size_t plen --------> Prompt length.
 ** size_t pos ---------> Current cursor position.
-** size_t oldpos ------> Previous refresh cursor position.
 ** size_t len ---------> Current edited line length.
 ** size_t cols --------> Number of columns in terminal.
 ** int list --------> The list index we are currently editing.
@@ -34,7 +34,6 @@ typedef struct s_state
 	const char *prompt;
 	size_t plen;
 	size_t pos;
-	size_t oldpos;
 	size_t len;
 	size_t cols;
 	int index;
@@ -62,7 +61,6 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	t_list		*env_list;
 	t_env		*env;
 	char		**args;
 	t_func		func;
@@ -112,10 +110,15 @@ struct termios orig_termios; /* In order to restore at exit.*/
  * Logic functions
  */
 
-void 		error_and_exit(char *errname, char *str, int nline, int errcode);
+void 		display_error(char *errname, char *str);
 int 		execution(t_data *data);
-int			shell_echo(char **args);
-int			shell_pwd(char **args);
+int			shell_echo(t_data *data);
+int			shell_pwd(t_data *data);
+void		shell_cd(t_data *data);
+void		shell_export(t_data *data);
+void		ft_exit(int errcode);
+char		*find_env_content(t_env *envs, char *name);
+t_env		*find_env_pointer(t_env *envs, char *name);
 
 /*
  * Readline functions

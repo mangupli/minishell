@@ -1,28 +1,28 @@
 #include "minishell.h"
 
-int 	shell_echo(char **args)
+int 	shell_echo(t_data *data)
 {
 	int flag;
 	int i;
 
-	if (args)
+	if (data->args)
 	{
-		if (!args[1])
+		if (!data->args[1])
 		{
 			ft_putstr_fd("\n", 1);
 			return (0);
 		}
 		i = 0;
 		flag = 0;
-		if (args[1] && !ft_strcmp(args[1], "-n"))
+		if (data->args[1] && !ft_strcmp(data->args[1], "-n"))
 		{
 			i++;
 			flag = 1;
 		}
-		while (args[++i])
+		while (data->args[++i])
 		{
-			ft_putstr_fd(args[i], 1);
-			if (args[i + 1] != NULL)
+			ft_putstr_fd(data->args[i], 1);
+			if (data->args[i + 1] != NULL)
 				ft_putstr_fd(" ", 1);
 		}
 		if (!flag)
