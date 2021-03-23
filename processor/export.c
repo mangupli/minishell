@@ -1,14 +1,19 @@
 #include "minishell.h"
 #include "parseader.h"
 
-static void print_env(t_env *envs)
+/*
+** 1 - export without any arguments, 0 - env
+*/
+
+static void print_export(t_env *envs, int e)
 {
 	int i;
 
 	i = 0;
 	while (envs[i].name != NULL && envs[i].content != NULL)
 	{
-		ft_putstr_fd("declare -x ", 1);
+		if (e)
+			ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(envs[i].name, 1);
 		ft_putstr_fd("=", 1);
 		if (!envs[i].content)
@@ -24,11 +29,10 @@ static void print_env(t_env *envs)
 	}
 }
 
-
 void		shell_export(t_data *data)
 {
 	if (!data->args[1])
 	{
-		print_env(data->env);
+		print_export(data->env);
 	}
 }
