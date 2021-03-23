@@ -114,8 +114,9 @@ void 		display_error(char *errname, char *str);
 int 		execution(t_data *data);
 int			shell_echo(t_data *data);
 int			shell_pwd(t_data *data);
-void		ft_exit(int errcode);
 void		shell_cd(t_data *data);
+void		shell_export(t_data *data);
+void		ft_exit(int errcode);
 char		*find_env_content(t_env *envs, char *name);
 t_env		*find_env_pointer(t_env *envs, char *name);
 

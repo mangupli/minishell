@@ -50,6 +50,3 @@ void 	shell_cd(t_data *data)
 	new_pwd = getcwd(NULL, 0);
 	new_pwd_env(data->env, new_pwd);
 }
-
-
-

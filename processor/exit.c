@@ -5,7 +5,6 @@ void 	ft_exit(int errcode)
 	exit(errcode);
 }
 
-
 /*
 ** Error codes:
 **
@@ -13,7 +12,6 @@ void 	ft_exit(int errcode)
 **
 ** 9 - Malloc failed
 */
-
 
 void		display_error(char *errname, char *str)
 {

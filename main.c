@@ -11,7 +11,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->func.echo_n = 0;
 	if (argc != 1)
 	{
-		display_error(argv[1], "cannot execute this file", 1);
+		display_error(argv[1], "cannot execute this file");
 		ft_exit(1);
 	}
 	data->env = env_parser(env);

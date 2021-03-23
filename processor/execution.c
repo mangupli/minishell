@@ -8,6 +8,10 @@ static int find_function(char **args)
 		return (7);
 	else if (!ft_strcmp(args[0], "cd"))
 		return (2);
+	else if (!ft_strcmp(args[0], "export"))
+		return (4);
+
+
 	i = -1;
 	while (args[++i])
 		args[i] = ft_str_to_lower(args[i]);
@@ -38,6 +42,8 @@ int  execution(t_data *data)
 		shell_cd(data);
 	else if (key == 3)
 		shell_pwd(data);
+	else if (key == 4)
+		shell_export(data);
 	else
 	{
 		pid = fork();
@@ -48,6 +54,7 @@ int  execution(t_data *data)
 		else //parent
 		{
 			waitpid(-1, &status, 0);
+			//printf("status %d\n", status);
 			//exit(status);
 		}
 	}
