@@ -7,6 +7,7 @@ include_directories(shell includes libft)
 
 add_executable(shell main.c
         includes/minishell.h
+        includes/parseader.h
         processor/readline.c
         processor/terminal_management.c
         processor/append_line.c
@@ -18,7 +19,10 @@ add_executable(shell main.c
         processor/cd.c
         processor/utils.c
         processor/export.c
-        parser/env_parser.c)
+        processor/env.c
+        parser/env_parser.c
+        parser/env_parser2.c
+        parser/path_parser.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
 

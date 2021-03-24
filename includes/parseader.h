@@ -27,9 +27,10 @@ int		env_count(char *env[]);
 int		env_len(char *env, int offset);
 void	env_filler(char *env, char *dest_env, int offset);
 char	**path_parser(t_env *envs);
-int		env_is_empty(char *env, t_env envs);
+int		env_is_empty(char *env, t_env *envs);
 void	set_null(t_env *envs, int i);
-t_env	*find_env(t_env *envs, char *name);
+t_env	*find_pwd(t_env *envs, char *name);
+int		find_env(t_env *envs, char *name);
 t_env	*add_env(t_env *envs, char *name, char *content);
 int 	envs_count(t_env *envs);
 

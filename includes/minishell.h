@@ -53,6 +53,14 @@ typedef struct 	s_env
 	char		has_equal;
 }				t_env;
 
+typedef struct 	s_list_env
+{
+	char		*name;
+	char		*content;
+	char		has_equal;
+	struct s_list_env *next;
+}				t_list_env;
+
 typedef struct	s_func
 {
 	int 		echo_n;
@@ -66,6 +74,7 @@ typedef struct	s_data
 	char		**args;
 	t_func		func;
 	char		*echo;
+	t_list_env  *envlist;
 }				t_data;
 
 /*
@@ -122,6 +131,13 @@ void		shell_unset(t_data *data);
 void		ft_exit(int errcode);
 char		*find_env_content(t_env *envs, char *name);
 t_env		*find_env_pointer(t_env *envs, char *name);
+
+/*
+ * Logic functions
+ */
+
+t_list_env *get_envlist(char **env);
+
 
 /*
  * Readline functions

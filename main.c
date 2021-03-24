@@ -15,6 +15,17 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 		ft_exit(1);
 	}
 	data->env = env_parser(env);
+	/*
+	data->envlist = get_envlist(env);
+
+	t_list_env *tmp;
+	tmp = data->envlist;
+	while (tmp)
+	{
+		printf("lala\n");
+		tmp = tmp->next;
+	 */
+	}
 }
 
 int			main(int argc, char **argv, char **env)

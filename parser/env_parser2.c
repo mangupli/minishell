@@ -8,7 +8,7 @@ void	set_null(t_env *envs, int i)
 	envs[i].content = NULL;
 }
 
-t_env	*find_env(t_env *envs, char *name)
+t_env	*find_pwd(t_env *envs, char *name)
 {
 	int i;
 	int f;
@@ -17,13 +17,27 @@ t_env	*find_env(t_env *envs, char *name)
 	f = 0;
 	while (envs[i].name != NULL)
 	{
-		if (ft_strnstr(envs[i].name, name, ft_strlen(name)))
+		if (!ft_strcmp(envs[i].name, name))
 			f = 1;
 		i++;
 	}
 	if (!f)
 		envs = add_env(envs, name, "");
 	return (envs);
+}
+
+int	find_env(t_env *envs, char *name)
+{
+	int i;
+
+	i = 0;
+	while (envs[i].name != NULL)
+	{
+		if (!ft_strcmp(envs[i].name, name))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 t_env	*add_env(t_env *envs, char *name, char *content)
@@ -34,6 +48,7 @@ t_env	*add_env(t_env *envs, char *name, char *content)
 
 	i = 0;
 	count = envs_count(envs);
+	printf("count %d\n", count);
 	new_envs = (t_env *)malloc(sizeof(t_env) * (count + 2));
 	while (envs[i].name != NULL)
 	{
@@ -45,7 +60,7 @@ t_env	*add_env(t_env *envs, char *name, char *content)
 		//free(envs[i]); TODO возможно течет, брат. ХЗ ЧТО ПРОИСХОДИТ
 		i++;
 	}
-	free(envs);
+	//free(envs);
 	new_envs[i].name = ft_strdup(name);
 	new_envs[i].content = ft_strdup(content);
 	new_envs[i].has_equal = 1;

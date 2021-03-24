@@ -26,7 +26,7 @@ t_env	*env_parser(char *env[])
 		len = env_len(env[i], 0) + 1;
 		envs[i].name = (char *)malloc(len);
 		env_filler(env[i], envs[i].name, 0);
-		if (env_is_empty(env[i], envs[i]))
+		if (env_is_empty(env[i], &envs[i]))
 		{
 			envs[i].content = (char *)malloc(1);
 			envs[i].content[0] = '\0';
@@ -39,7 +39,7 @@ t_env	*env_parser(char *env[])
 		i++;
 	}
 	set_null(envs, i);
-	return (find_env(envs, "OLDPWD"));
+	return (find_pwd(envs, "OLDPWD"));
 }
 
 int	env_count(char *env[])
@@ -79,20 +79,20 @@ void	env_filler(char *env, char *dest_env, int offset)
 	dest_env[i] = '\0';
 }
 
-int	env_is_empty(char *env, t_env envs)
+int	env_is_empty(char *env, t_env *envs)
 {
 	int		i;
 
 	i = 0;
-	envs.has_equal = 0;
+	envs->has_equal = 0;
 	while (env[i] != '\0')
 	{
 		if (env[i] == '=')
-			envs.has_equal = 1;
+			envs->has_equal = 1;
 		i++;
 	}
-	if ((envs.has_equal && env[i - 1] == '=' && env[i] == '\0') || \
-			(!envs.has_equal))
+	if ((envs->has_equal && env[i - 1] == '=' && env[i] == '\0') || \
+			(!envs->has_equal))
 		return (1);
 	return (0);
 }
