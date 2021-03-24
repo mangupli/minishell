@@ -22,7 +22,8 @@ add_executable(shell main.c
         processor/env.c
         parser/env_parser.c
         parser/env_parser2.c
-        parser/path_parser.c)
+        parser/path_parser.c
+        parser/validators.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
 
