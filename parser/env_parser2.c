@@ -48,7 +48,6 @@ t_env	*add_env(t_env *envs, char *name, char *content)
 
 	i = 0;
 	count = envs_count(envs);
-	printf("count %d\n", count);
 	new_envs = (t_env *)malloc(sizeof(t_env) * (count + 2));
 	while (envs[i].name != NULL)
 	{
