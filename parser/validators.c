@@ -45,7 +45,6 @@ int quotes_validator(char *line)
 	}
 	if (single_quotes % 2 || double_quotes % 2)
 	{
-		printf("%s\n", line);
 		display_error("minishell", "syntax error", "unexpected token");
 		return (-1);
 	}
