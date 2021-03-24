@@ -28,6 +28,8 @@ int			main(int argc, char **argv, char **env)
 	{
 		if (line[0] != '\0')
 		{
+			if (ultimate_validator(line) == -1)
+				ft_exit(3);
 			data.args = ft_split(line, ' ');
 			execution(&data);
 			add_history(line, &data.hist); /* Add to the list. */

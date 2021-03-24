@@ -139,6 +139,7 @@ t_env		*find_env_pointer(t_env *envs, char *name);
 t_list_env	*get_envlist(char **env);
 t_list_env	*ft_mylstnew(char *content);
 void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
+int			ultimate_validator(char *line);
 
 
 /*

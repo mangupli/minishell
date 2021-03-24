@@ -9,7 +9,7 @@ void 	ft_exit(int errcode)
 ** Error codes:
 **
 ** 1 - argument with executable
-**
+** 3 - syntax error
 ** 9 - Malloc failed
 */
 

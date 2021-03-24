@@ -50,3 +50,16 @@ int quotes_validator(char *line)
 	}
 	return (0);
 }
+
+int ultimate_validator(char *line)
+{
+	int ret;
+
+	ret = quotes_validator(line);
+	if (ret == -1)
+		return (-1);
+	ret = twinks_validator(line);
+	if (ret == -1)
+		return (-1);
+	return (0);
+}
