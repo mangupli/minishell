@@ -35,14 +35,17 @@ int quotes_validator(char *line)
 	single_quotes = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '\'')
+		if ((line[i] == '\'' && i > 0 && line[i - 1] != '\\') || \
+				(!i && line[i] == '\''))
 			single_quotes++;
-		if (line[i] == '"')
+		if ((line[i] == '"' && i > 0 && line[i - 1] != '\\') || \
+				(!i && line[i] == '"'))
 			double_quotes++;
 		i++;
 	}
 	if (single_quotes % 2 || double_quotes % 2)
 	{
+		printf("%s\n", line);
 		display_error("minishell", "syntax error", "unexpected token");
 		return (-1);
 	}
