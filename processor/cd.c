@@ -39,13 +39,13 @@ void 	shell_cd(t_data *data)
 		home = find_env_content(data->env, "HOME");
 		ret = chdir(home);
 		if (ret == -1)
-			display_error(NULL, "HOME not set");
+			display_error("cd", NULL, "HOME not set");
 	}
 	else
 	{
 		ret = chdir(data->args[1]);
 		if (ret == -1)
-			display_error("cd", "No such file or directory");
+			display_error("cd", data->args[1], "No such file or directory");
 	}
 	new_pwd = getcwd(NULL, 0);
 	new_pwd_env(data->env, new_pwd);

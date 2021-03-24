@@ -111,12 +111,14 @@ struct termios orig_termios; /* In order to restore at exit.*/
  * Logic functions
  */
 
-void 		display_error(char *errname, char *str);
+void 		display_error(char *commandname, char *errname, char *str);
 int 		execution(t_data *data);
 int			shell_echo(t_data *data);
 int			shell_pwd(t_data *data);
 void		shell_cd(t_data *data);
 void		shell_export(t_data *data);
+void		shell_env(t_data *data);
+void		shell_unset(t_data *data);
 void		ft_exit(int errcode);
 char		*find_env_content(t_env *envs, char *name);
 t_env		*find_env_pointer(t_env *envs, char *name);
@@ -133,6 +135,5 @@ void		refresh_line(t_state *a);
 int			get_cursor_pos(int ifd, int ofd);
 void		save_history(char *file);
 void		edit_history_next(t_state *a, t_data *data, int dir);
-
 
 #endif

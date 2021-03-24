@@ -8,7 +8,7 @@ int shell_pwd(t_data *data)
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{
-		display_error(NULL, "Malloc allocation failed\n");
+		display_error("minishell", "malloc", "Allocation memory failed\n");
 		ft_exit(9);
 	}
 	ft_putendl_fd(pwd, 1);

@@ -23,7 +23,7 @@ SRCS_MAIN = main.c
 SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
 history.c exit.c execution.c echo.c pwd.c cd.c utils.c export.c
 
-SRCS_PARSER = env_parser.c path_parser.c
+SRCS_PARSER = env_parser.c env_parser2.c path_parser.c
 
 # Object files #
 

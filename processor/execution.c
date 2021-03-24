@@ -10,8 +10,8 @@ static int find_function(char **args)
 		return (2);
 	else if (!ft_strcmp(args[0], "export"))
 		return (4);
-
-
+	else if (!ft_strcmp(args[0], "unset"))
+		return (4);
 	i = -1;
 	while (args[++i])
 		args[i] = ft_str_to_lower(args[i]);
@@ -19,6 +19,8 @@ static int find_function(char **args)
 		return (1);
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (3);
+	else if (!ft_strcmp(args[0], "env"))
+		return (6);
 	return (0);
 }
 
@@ -44,6 +46,10 @@ int  execution(t_data *data)
 		shell_pwd(data);
 	else if (key == 4)
 		shell_export(data);
+	else if (key == 6)
+		shell_env(data);
+	else if (key == 7)
+		shell_unset(data);
 	else
 	{
 		pid = fork();

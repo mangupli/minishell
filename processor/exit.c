@@ -13,9 +13,13 @@ void 	ft_exit(int errcode)
 ** 9 - Malloc failed
 */
 
-void		display_error(char *errname, char *str)
+void		display_error(char *commandname, char *errname, char *str)
 {
-	ft_putstr_fd("superbash: ", 2);
+	if (commandname)
+	{
+		ft_putstr_fd(commandname, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (errname)
 	{
 		ft_putstr_fd(errname, 2);
