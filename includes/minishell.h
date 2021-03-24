@@ -53,13 +53,13 @@ typedef struct 	s_env
 	char		has_equal;
 }				t_env;
 
-typedef struct 	s_list_env
+typedef struct 			s_list_env
 {
-	char		*name;
-	char		*content;
-	char		has_equal;
-	struct s_list_env *next;
-}				t_list_env;
+	char				*name;
+	char				*content;
+	char				has_equal;
+	struct s_list_env 	*next;
+}						t_list_env;
 
 typedef struct	s_func
 {
@@ -133,10 +133,12 @@ char		*find_env_content(t_env *envs, char *name);
 t_env		*find_env_pointer(t_env *envs, char *name);
 
 /*
- * Logic functions
+ * Parser functions
  */
 
-t_list_env *get_envlist(char **env);
+t_list_env	*get_envlist(char **env);
+t_list_env	*ft_mylstnew(char *content);
+void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
 
 
 /*
