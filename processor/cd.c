@@ -1,11 +1,10 @@
 #include "minishell.h"
 #include "parseader.h"
 
-void new_pwd_env(t_env *envs, char *new_pwd)
+void new_pwd_env(t_list_env *envs, char *new_pwd)
 {
-	t_env *pwd;
-	t_env *oldpwd;
-	int i;
+	t_list_env *pwd;
+	t_list_env *oldpwd;
 
 	pwd = find_env_pointer(envs, "PWD");
 	oldpwd = find_env_pointer(envs, "OLDPWD");
@@ -14,10 +13,6 @@ void new_pwd_env(t_env *envs, char *new_pwd)
 		free(oldpwd->content);
 		oldpwd->content = NULL;
 		oldpwd->content = pwd->content;
-	}
-	else
-	{
-		//create new elemenent OLDPWD ?
 	}
 	pwd->content = new_pwd;
 }
@@ -36,8 +31,8 @@ void 	shell_cd(t_data *data)
 	if (!data->args[1] || !ft_strcmp(data->args[1], "~") ||
 		!ft_strcmp(data->args[1], "--"))
 	{
-		home = find_env_content(data->env, "HOME");
-		ret = chdir(home);
+		home = find_env_content(data->envlist, "HOME");
+		ret = chdir(home); // try with Null
 		if (ret == -1)
 			display_error("cd", NULL, "HOME not set");
 	}
@@ -48,5 +43,5 @@ void 	shell_cd(t_data *data)
 			display_error("cd", data->args[1], "No such file or directory");
 	}
 	new_pwd = getcwd(NULL, 0);
-	new_pwd_env(data->env, new_pwd);
+	new_pwd_env(data->envlist, new_pwd);
 }

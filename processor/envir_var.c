@@ -1,61 +1,17 @@
 #include "minishell.h"
 
-void	ft_mylstclear(t_list_env **lst)
+t_list_env *find_env_pointer(t_list_env *envs, char *name)
 {
 	t_list_env *tmp;
 
-	tmp = *lst;
-	if (lst)
+	tmp = envs;
+	while (tmp)
 	{
-		while (tmp)
-		{
-			free(tmp->content);
-			free(tmp->name);
-			free(tmp);
-			tmp = tmp->next;
-		}
+		if (!ft_strcmp(tmp->name, name))
+			return (tmp);
+		tmp = tmp->next;
 	}
-}
-
-t_list_env	*ft_mylstlast(t_list_env *lst)
-{
-	if (lst)
-		while (lst->next)
-			lst = lst->next;
-	return (lst);
-}
-
-void	ft_mylstadd_back(t_list_env **lst, t_list_env *new)
-{
-	t_list_env	*tmp;
-
-	if (lst)
-	{
-		tmp = *lst;
-		if (*lst == NULL)
-			*lst = new;
-		else
-			ft_mylstlast(tmp)->next = new;
-	}
-}
-
-t_list_env	*ft_mylstnew(char *content)
-{
-	t_list_env *new;
-	char *str;
-
-	new = (t_list_env *)malloc(sizeof(t_list_env));
-	if (NULL == new)
-		return (NULL);
-	str = ft_strchr(content, '=');
-	new->name = ft_substr(content, 0, str - content);
-	new->content = ft_substr(content, str - content + 1, ft_strlen(content));
-	if (str)
-		new->has_equal = 1;
-	else
-		new->has_equal = 0;
-	new->next = NULL;
-	return (new);
+	return (NULL);
 }
 
 t_list_env	*get_envlist(char **env)
@@ -71,5 +27,37 @@ t_list_env	*get_envlist(char **env)
 		new_elem = ft_mylstnew(env[i]);
 		ft_mylstadd_back(&new_list, new_elem);
 	}
+
+	i = find_envvar(&new_list, "OLDPWD");
+	if (!i)
+		add_var_to_list(&new_list, "OLDPWD=");
 	return (new_list);
+}
+
+int	find_envvar(t_list_env **envs, char *name)
+{
+	t_list_env *tmp;
+
+	tmp = *envs;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+char		*find_env_content(t_list_env *envs, char *name)
+{
+	t_list_env *tmp;
+
+	tmp = envs;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+			return (tmp->content);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

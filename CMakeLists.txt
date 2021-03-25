@@ -20,6 +20,8 @@ add_executable(shell main.c
         processor/utils.c
         processor/export.c
         processor/env.c
+        processor/envir_var.c
+        processor/listjob.c
         parser/env_parser.c
         parser/env_parser2.c
         parser/path_parser.c

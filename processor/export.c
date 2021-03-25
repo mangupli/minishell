@@ -23,20 +23,6 @@ static void print_export(t_list_env *envs)
 	}
 }
 
-static int	find_envvar(t_list_env *envs, char *name)
-{
-	t_list_env *tmp;
-
-	tmp = envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 void			change_content(t_list_env **envs, t_list_env *new)
 {
 	t_list_env *tmp;
@@ -60,46 +46,37 @@ void			change_content(t_list_env **envs, t_list_env *new)
 	}
 }
 
-static int check_symbols(char *name, char *content)
+void 		add_var_to_list(t_list_env **envs, char *str)
 {
-	int i;
-
-	if (!ft_isalpha(name[0]))
-		return (1);
-	i = 0;
-	while (name[++i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (1);
-	}
-	return (0);
-}
-
-static void		add_export_var(t_data *data)
-{
-	int i;
 	t_list_env *new;
 	int found;
+
+	new = ft_mylstnew(str);
+	found = find_envvar(envs, new->name);
+	if (found)
+	{
+		change_content(envs, new);
+	}
+	else
+	{
+		found = check_symbols(new->name, new->content);
+		if (!found)
+			ft_mylstadd_back(envs, new);
+		else
+		{
+			display_error("minishell", "export", "not a valid identifier");
+		}
+	}
+}
+
+void		add_export_var(t_data *data)
+{
+	int i;
 
 	i = 1;
 	while (data->args[i])
 	{
-		new = ft_mylstnew(data->args[i]);
-		found = find_envvar(data->envlist, new->name);
-		if (found)
-		{
-			change_content(&data->envlist, new);
-		}
-		else
-		{
-			found = check_symbols(new->name, new->content);
-			if (!found)
-				ft_mylstadd_back(&data->envlist, new);
-			else
-			{
-				display_error("minishell", "export", "not a valid identifier");
-			}
-		}
+		add_var_to_list(&data->envlist, data->args[i]);
 		i++;
 	}
 }

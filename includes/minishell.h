@@ -46,13 +46,6 @@ typedef struct	s_hist
 	int 		maxlen;
 }				t_hist;
 
-typedef struct 	s_env
-{
-	char		*name;
-	char		*content;
-	char		has_equal;
-}				t_env;
-
 typedef struct 			s_list_env
 {
 	char				*name;
@@ -70,7 +63,7 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	t_env		*env;
+	t_list_env	*env;
 	char		**args;
 	t_func		func;
 	char		*echo;
@@ -129,8 +122,11 @@ void		shell_export(t_data *data);
 void		shell_env(t_data *data);
 void		shell_unset(t_data *data);
 void		ft_exit(int errcode);
-char		*find_env_content(t_env *envs, char *name);
-t_env		*find_env_pointer(t_env *envs, char *name);
+char		*find_env_content(t_list_env *envs, char *name);
+t_list_env	*find_env_pointer(t_list_env *envs, char *name);
+int			find_envvar(t_list_env **envs, char *name);
+int			check_symbols(char *name, char *content);
+void		add_export_var(t_data *data);
 
 /*
  * Parser functions
@@ -140,6 +136,7 @@ t_list_env	*get_envlist(char **env);
 t_list_env	*ft_mylstnew(char *content);
 void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
 int			ultimate_validator(char *line);
+void 		add_var_to_list(t_list_env **envs, char *str);
 
 
 /*

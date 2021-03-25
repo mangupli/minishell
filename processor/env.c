@@ -29,3 +29,4 @@ void		shell_env(t_data *data)
 		display_error("env", data->args[1], "Too many arguments");
 	}
 }
+
