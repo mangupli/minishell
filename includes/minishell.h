@@ -125,7 +125,7 @@ void		ft_exit(int errcode);
 char		*find_env_content(t_list_env *envs, char *name);
 t_list_env	*find_env_pointer(t_list_env *envs, char *name);
 int			find_envvar(t_list_env **envs, char *name);
-int			check_symbols(char *name, char *content);
+int			check_symbols(char *name);
 void		add_export_var(t_data *data);
 int			ft_mylstsize(t_list_env *lst);
 t_list_env	*ft_mylstnew(char *content);

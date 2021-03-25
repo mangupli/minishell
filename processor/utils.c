@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "parseader.h"
 
-int check_symbols(char *name, char *content)
+int check_symbols(char *name)
 {
 	int i;
 

@@ -4,7 +4,7 @@ static void print_export(t_list_env *envs)
 {
 	t_list_env *tmp;
 
-	tmp = sort_list(envs);
+	//tmp = sort_list(envs);
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
@@ -45,6 +45,29 @@ void			change_content(t_list_env **envs, t_list_env *new)
 	}
 }
 
+void 		add_var_to_list(t_list_env **envs, char *str)
+{
+	t_list_env *new;
+	int found;
+
+	new = ft_mylstnew(str);
+	found = find_envvar(envs, new->name);
+	if (found)
+	{
+		change_content(envs, new);
+	}
+	else
+	{
+		found = check_symbols(new->name);
+		if (!found)
+			ft_mylstadd_back(envs, new);
+		else
+		{
+			display_error("minishell", "export", "not a valid identifier");
+		}
+	}
+}
+
 void		add_export_var(t_data *data)
 {
 	int i;
@@ -59,17 +82,16 @@ void		add_export_var(t_data *data)
 
 void		shell_export(t_data *data)
 {
+	printf("here\n");
 	if (!data->args[1])
 	{
+		int len = ft_mylstsize(data->envlist);
+		printf("len %d\n", len);
 		print_export(data->envlist);
 	}
 	else
 	{
 		add_export_var(data);
 	}
-}
-
-void		shell_unset(t_data *data)
-{
 
 }
