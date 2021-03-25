@@ -4,20 +4,43 @@
 
 char	**path_parser(t_list_env *envs)
 {
-	int i;
+	t_list_env *tmp;
 
-	i = 0;
-	while (envs[i].name != NULL)
+	tmp = envs;
+	while (tmp)
 	{
-		if (!ft_strcmp(envs[i].name, "PATH"))
-			return (ft_split(envs[i].content, ':'));
-		i++;
+		if (!ft_strcmp(tmp->name, "PATH"))
+			return (ft_split(tmp->content, ':'));
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
-
 /*
 char	*find_path(char **paths, char *command)
 {
-	????
-}*/
+
+}
+*/
+
+void find_function_path(char *func, t_list_env *envs, t_data *data)
+{
+	char **paths;
+	int i;
+	int fd;
+	char *full_path;
+
+	paths = path_parser(envs);
+	i = -1;
+	while(paths[++i])
+	{
+		full_path = ft_strjoin(paths[i], func);
+		fd = open(full_path, O_RDONLY);
+		if (fd > 0)
+		{
+			close(fd);
+			free(data->args[0]);
+			data->args[0] = ft_strdup(full_path);
+		}
+	}
+
+}

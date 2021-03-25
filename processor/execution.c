@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parseader.h"
 
 static int find_function(char **args)
 {
@@ -34,6 +35,7 @@ int  execution(t_data *data)
 	pid_t pid;
 	int status;
 	int key;
+	char *function;
 
 	key = find_function(data->args);
 	if (key == 7)
@@ -52,17 +54,22 @@ int  execution(t_data *data)
 		shell_unset(data);
 	else
 	{
-		pid = fork();
-		if (pid == 0) //child
+		find_function_path(data->args[0], data->envlist, data);
+		if (function)
 		{
-			child_process(data);
+			pid = fork();
+			if (pid == 0) //child
+			{
+				child_process(data);
+			} else //parent
+			{
+				waitpid(-1, &status, 0);
+				//printf("status %d\n", status);
+				//exit(status);
+			}
 		}
-		else //parent
-		{
-			waitpid(-1, &status, 0);
-			//printf("status %d\n", status);
-			//exit(status);
-		}
+		else
+			display_error("minishell", "command not found", data->args[0]);
 	}
 	return (0);
 }
