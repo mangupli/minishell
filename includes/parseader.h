@@ -42,7 +42,7 @@ t_env	*add_env(t_env *envs, char *name, char *content);
 int 	envs_count(t_env *envs);
 int		twinks_validator(char *line);
 int		quotes_validator(char *line);
-void	find_function_path(char *func, t_list_env *envs, t_data *data);
+int		find_function_path(char *func, t_list_env *envs, t_data *data);
 
 
 #endif

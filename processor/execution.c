@@ -54,9 +54,10 @@ int  execution(t_data *data)
 		shell_unset(data);
 	else
 	{
-		find_function_path(data->args[0], data->envlist, data);
-		if (function)
+		key = find_function_path(data->args[0], data->envlist, data);
+		if (key)
 		{
+
 			pid = fork();
 			if (pid == 0) //child
 			{
