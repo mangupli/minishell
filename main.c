@@ -29,6 +29,7 @@ int			main(int argc, char **argv, char **env)
 		{
 			if (ultimate_validator(line) == 0)
 			{
+
 				data.args = ft_split(line, ' ');
 				execution(&data);
 				add_history(line, &data.hist); /* Add to the list. */

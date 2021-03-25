@@ -10,6 +10,7 @@ void 		delete_node(t_list_env **envs, char *name)
 	{
 		if (!ft_strcmp(tmp->next->name, name))
 		{
+
 			del = tmp->next;
 			tmp->next = tmp->next->next;
 			free(del->content);
@@ -20,7 +21,6 @@ void 		delete_node(t_list_env **envs, char *name)
 		tmp = tmp->next;
 	}
 }
-
 
 void 		delete_var_from_list(t_list_env **envs, char *name)
 {
@@ -39,7 +39,6 @@ void 		delete_var_from_list(t_list_env **envs, char *name)
 		}
 	}
 }
-
 
 void		shell_unset(t_data *data)
 {

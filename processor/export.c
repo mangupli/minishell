@@ -4,7 +4,7 @@ static void print_export(t_list_env *envs)
 {
 	t_list_env *tmp;
 
-	//tmp = sort_list(envs);
+	tmp = sort_list(envs);
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
@@ -82,16 +82,13 @@ void		add_export_var(t_data *data)
 
 void		shell_export(t_data *data)
 {
-	printf("here\n");
 	if (!data->args[1])
 	{
-		int len = ft_mylstsize(data->envlist);
-		printf("len %d\n", len);
 		print_export(data->envlist);
 	}
 	else
 	{
 		add_export_var(data);
 	}
-
 }
+

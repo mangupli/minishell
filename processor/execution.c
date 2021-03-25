@@ -11,7 +11,7 @@ static int find_function(char **args)
 	else if (!ft_strcmp(args[0], "export"))
 		return (4);
 	else if (!ft_strcmp(args[0], "unset"))
-		return (4);
+		return (5);
 	i = -1;
 	while (args[++i])
 		args[i] = ft_str_to_lower(args[i]);
@@ -48,7 +48,7 @@ int  execution(t_data *data)
 		shell_export(data);
 	else if (key == 6)
 		shell_env(data);
-	else if (key == 7)
+	else if (key == 5)
 		shell_unset(data);
 	else
 	{
