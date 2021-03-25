@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+int		ft_mylstsize(t_list_env *lst)
+{
+	int i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
+
 void	ft_mylstclear(t_list_env **lst)
 {
 	t_list_env *tmp;
@@ -54,6 +68,20 @@ t_list_env	*ft_mylstnew(char *content)
 		new->has_equal = 1;
 	else
 		new->has_equal = 0;
+	new->next = NULL;
+	return (new);
+}
+
+t_list_env	*ft_mylstnew1(char *name, char *content, char has_equal)
+{
+	t_list_env *new;
+
+	new = (t_list_env *)malloc(sizeof(t_list_env));
+	if (NULL == new)
+		return (NULL);
+	new->name = ft_strdup(name);
+	new->content = ft_strdup(content);
+	new->has_equal = has_equal;
 	new->next = NULL;
 	return (new);
 }

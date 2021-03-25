@@ -1,11 +1,10 @@
 #include "minishell.h"
-#include "parseader.h"
 
 static void print_export(t_list_env *envs)
 {
 	t_list_env *tmp;
 
-	tmp = envs;
+	tmp = sort_list(envs);
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
@@ -43,29 +42,6 @@ void			change_content(t_list_env **envs, t_list_env *new)
 			}
 		}
 		tmp = tmp->next;
-	}
-}
-
-void 		add_var_to_list(t_list_env **envs, char *str)
-{
-	t_list_env *new;
-	int found;
-
-	new = ft_mylstnew(str);
-	found = find_envvar(envs, new->name);
-	if (found)
-	{
-		change_content(envs, new);
-	}
-	else
-	{
-		found = check_symbols(new->name, new->content);
-		if (!found)
-			ft_mylstadd_back(envs, new);
-		else
-		{
-			display_error("minishell", "export", "not a valid identifier");
-		}
 	}
 }
 

@@ -16,7 +16,7 @@ LINK_INC = -I $(INC_DIR)
 
 # Source files #
 
-NAME = bash
+NAME = minishell
 
 SRCS_MAIN = main.c
 
