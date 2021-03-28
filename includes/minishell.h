@@ -63,11 +63,14 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	t_list_env	*env;
 	char		**args;
 	t_func		func;
 	char		*echo;
 	t_list_env  *envlist;
+	int			fdin;
+	int			fdout;
+	int 		filein;
+	int 		fileout;
 }				t_data;
 
 /*
