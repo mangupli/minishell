@@ -35,7 +35,6 @@ int  execution(t_data *data)
 	pid_t pid;
 	int status;
 	int key;
-	char *function;
 
 	key = find_function(data->args);
 	if (key == 7)
@@ -62,7 +61,8 @@ int  execution(t_data *data)
 			if (pid == 0) //child
 			{
 				child_process(data);
-			} else //parent
+			}
+			else //parent
 			{
 				waitpid(-1, &status, 0);
 				//printf("status %d\n", status);
