@@ -36,7 +36,6 @@ int  execution(t_data *data)
 	int status;
 	int key;
 
-
 	key = find_function(data->args);
 	if (key == 7)
 		ft_exit(0);
