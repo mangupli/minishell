@@ -15,6 +15,10 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 		ft_exit(1);
 	}
 	data->envlist = get_envlist(env);
+	data->fd[0] = dup(0);
+	data->fd[1] = dup(1);
+	data->file[0] = -1;
+	data->file[1] = -1;
 }
 
 int			main(int argc, char **argv, char **env)

@@ -63,11 +63,12 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	t_list_env	*env;
 	char		**args;
 	t_func		func;
 	char		*echo;
 	t_list_env  *envlist;
+	int			fd[2];
+	int 		file[2];
 }				t_data;
 
 /*
@@ -115,8 +116,8 @@ struct termios orig_termios; /* In order to restore at exit.*/
 
 void 		display_error(char *commandname, char *errname, char *str);
 int 		execution(t_data *data);
-int			shell_echo(t_data *data);
-int			shell_pwd(t_data *data);
+void		shell_echo(t_data *data);
+void		shell_pwd(t_data *data);
 void		shell_cd(t_data *data);
 void		shell_export(t_data *data);
 void		shell_env(t_data *data);
