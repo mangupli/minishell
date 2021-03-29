@@ -1,27 +1,33 @@
 #include "minishell.h"
 #include "parseader.h"
 
-static int find_function(char **args)
+static int func_in_return(t_data *data, void (*f)(t_data *))
+{
+	f(data);
+	return (1);
+}
+
+static int exec_my_function(char **args, t_data *data)
 {
 	int i;
 
 	if (!ft_strcmp(args[0], "exit"))
-		return (7);
+		ft_exit(0);
 	else if (!ft_strcmp(args[0], "cd"))
-		return (2);
+		return (func_in_return(data, shell_cd));
 	else if (!ft_strcmp(args[0], "export"))
-		return (4);
+		return (func_in_return(data, shell_export));
 	else if (!ft_strcmp(args[0], "unset"))
-		return (5);
+		return (func_in_return(data, shell_unset));
 	i = -1;
 	while (args[++i])
 		args[i] = ft_str_to_lower(args[i]);
 	if (!ft_strcmp(args[0], "echo"))
-		return (1);
+		return (func_in_return(data, shell_echo));
 	else if (!ft_strcmp(args[0], "pwd"))
-		return (3);
+		return (func_in_return(data, shell_pwd));
 	else if (!ft_strcmp(args[0], "env"))
-		return (6);
+		return (func_in_return(data, shell_env));
 	return (0);
 }
 
@@ -34,43 +40,27 @@ int  execution(t_data *data)
 {
 	pid_t pid;
 	int status;
-	int key;
+	int ret;
 
-	key = find_function(data->args);
-	if (key == 7)
-		ft_exit(0);
-	else if (key == 1)
-		shell_echo(data);
-	else if (key == 2)
-		shell_cd(data);
-	else if (key == 3)
-		shell_pwd(data);
-	else if (key == 4)
-		shell_export(data);
-	else if (key == 6)
-		shell_env(data);
-	else if (key == 5)
-		shell_unset(data);
-	else
+	ret = exec_my_function(data->args, data);
+	if (ret)
+		return (0);
+	ret = find_function_path(data->args[0], data->envlist, data);
+	if (ret)
 	{
-		key = find_function_path(data->args[0], data->envlist, data);
-		if (key)
+		pid = fork();
+		if (pid == 0) //child
 		{
-
-			pid = fork();
-			if (pid == 0) //child
-			{
-				child_process(data);
-			}
-			else //parent
-			{
-				waitpid(-1, &status, 0);
-				//printf("status %d\n", status);
-				//exit(status);
-			}
+			child_process(data);
 		}
-		else
-			display_error("minishell", "command not found", data->args[0]);
+		else //parent
+		{
+			waitpid(-1, &status, 0);
+			//printf("status %d\n", status);
+			//exit(status);
+		}
 	}
+	else
+		display_error("minishell", "command not found", data->args[0]);
 	return (0);
 }

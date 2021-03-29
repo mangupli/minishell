@@ -6,8 +6,11 @@ set(CMAKE_C_FLAGS -ltermcap)
 include_directories(shell includes libft)
 
 add_executable(shell main.c
+
         includes/minishell.h
         includes/parseader.h
+
+
         processor/readline.c
         processor/terminal_management.c
         processor/append_line.c
@@ -23,8 +26,12 @@ add_executable(shell main.c
         processor/envir_var.c
         processor/listjob.c
         processor/unset.c
+
+
         parser/env_parser.c
         parser/env_parser2.c
+        parser/line_parser.c
+        parser/line_parser2.c
         parser/path_parser.c
         parser/validators.c)
 

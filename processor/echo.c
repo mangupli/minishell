@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int 	shell_echo(t_data *data)
+void 	shell_echo(t_data *data)
 {
 	int flag;
 	int i;
@@ -10,7 +10,7 @@ int 	shell_echo(t_data *data)
 		if (!data->args[1])
 		{
 			ft_putstr_fd("\n", 1);
-			return (0);
+			return ;
 		}
 		i = 0;
 		flag = 0;
@@ -28,5 +28,4 @@ int 	shell_echo(t_data *data)
 		if (!flag)
 			ft_putstr_fd("\n", 1);
 	}
-	return (0);
 }

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int shell_pwd(t_data *data)
+void shell_pwd(t_data *data)
 {
 	char *pwd;
 
@@ -13,5 +13,4 @@ int shell_pwd(t_data *data)
 	}
 	ft_putendl_fd(pwd, 1);
 	free(pwd);
-	return (0);
 }
