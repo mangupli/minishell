@@ -20,13 +20,13 @@ static void print_env(t_list_env *envs)
 
 void		shell_env(t_data *data)
 {
-	if (!data->args[1])
+	if (!data->ar->args[1])
 	{
 		print_env(data->envlist);
 	}
 	else
 	{
-		display_error("env", data->args[1], "Too many arguments");
+		display_error("env", data->ar->args[1], "Too many arguments");
 	}
 }
 

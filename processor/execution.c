@@ -33,7 +33,15 @@ static int exec_my_function(char **args, t_data *data)
 
 static void child_process(t_data *data)
 {
-	execve(data->args[0], data->args, 0);
+	/*
+	data->fd[0] = find_fdin(data);
+	data->fd[1] = find_fdout(data);
+	dup2(data->fd[0], 0);
+	close(data->fd[0]);
+	dup2(data->fd[1], 1);
+	close(data->fd[1]);
+	 */
+	execve(data->ar->args[0], data->ar->args, 0);
 }
 
 int  execution(t_data *data)
@@ -41,26 +49,39 @@ int  execution(t_data *data)
 	pid_t pid;
 	int status;
 	int ret;
+	t_args *head;
 
-	ret = exec_my_function(data->args, data);
-	if (ret)
-		return (0);
-	ret = find_function_path(data->args[0], data->envlist, data);
-	if (ret)
+	head = data->ar;
+	while (data->ar)
 	{
-		pid = fork();
-		if (pid == 0) //child
+		//debugging args
+		int z = -1;
+		while(data->ar->args[++z])
+			printf("args[%d]:%s\n", z, data->ar->args[z]);
+
+		ret = exec_my_function(data->ar->args, data);
+		if (ret)
+			return (0);
+		ret = find_function_path(data->ar->args[0], data->envlist, data);
+		if (ret)
 		{
-			child_process(data);
+			pid = fork();
+			if (pid == 0) //child
+			{
+				child_process(data);
+			}
+			else //parent
+			{
+				waitpid(-1, &status, 0);
+				//data->ar = data->ar->next;
+				//printf("status %d\n", status);
+				//exit(status);
+			}
 		}
-		else //parent
-		{
-			waitpid(-1, &status, 0);
-			//printf("status %d\n", status);
-			//exit(status);
-		}
+		else
+			display_error("minishell", "command not found", data->ar->args[0]);
+		data->ar = data->ar->next;
 	}
-	else
-		display_error("minishell", "command not found", data->args[0]);
+	data->ar = head;
 	return (0);
 }

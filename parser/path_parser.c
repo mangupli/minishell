@@ -15,12 +15,6 @@ char	**path_parser(t_list_env *envs)
 	}
 	return (NULL);
 }
-/*
-char	*find_path(char **paths, char *command)
-{
-
-}
-*/
 
 int find_function_path(char *func, t_list_env *envs, t_data *data)
 {
@@ -40,8 +34,8 @@ int find_function_path(char *func, t_list_env *envs, t_data *data)
 		if (fd > 0)
 		{
 			close(fd);
-			free(data->args[0]);
-			data->args[0] = ft_strdup(full_path);
+			free(data->ar->args[0]);
+			data->ar->args[0] = ft_strdup(full_path);
 			free(full_path);
 			free(buf);
 			return (1);

@@ -43,7 +43,7 @@ static void	backspace_edit(t_state *a)
 
 /*
 **This function is the core of the line editing capability of linenoise.
-** It expects 'fd' to be already in "raw mode" so that every key pressed
+** It expects 'orig_fd' to be already in "raw mode" so that every key pressed
 ** will be returned ASAP to read().
 **
 ** The resulting string is put into 'buf' when the user type enter, or

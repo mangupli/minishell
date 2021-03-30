@@ -73,16 +73,16 @@ void		add_export_var(t_data *data)
 	int i;
 
 	i = 1;
-	while (data->args[i])
+	while (data->ar->args[i])
 	{
-		add_var_to_list(&data->envlist, data->args[i]);
+		add_var_to_list(&data->envlist, data->ar->args[i]);
 		i++;
 	}
 }
 
 void		shell_export(t_data *data)
 {
-	if (!data->args[1])
+	if (!data->ar->args[1])
 	{
 		print_export(data->envlist);
 	}

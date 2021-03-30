@@ -11,7 +11,6 @@
 # include	<sys/ioctl.h>
 # include	"../libft/includes/libft.h"
 
-
 /*
 ** int ifd ------------> Terminal stdin file descriptor.
 ** int ofd ------------> Terminal stdout file descriptor.
@@ -24,6 +23,13 @@
 ** size_t cols --------> Number of columns in terminal.
 ** int list --------> The list index we are currently editing.
 */
+
+typedef struct		s_args
+{
+	char			**args;
+	char			type;
+	struct s_args	*next;
+}					t_args;
 
 typedef struct s_state
 {
@@ -63,11 +69,13 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	char		**args;
+	t_args		*ar;
 	t_func		func;
 	char		*echo;
 	t_list_env  *envlist;
-	int			fd[2];
+	int			orig_fd[2];
+	int 		pipe_fd[2];
+	int 		fd[2];
 	int 		file[2];
 }				t_data;
 
@@ -135,13 +143,21 @@ void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
 void 		add_var_to_list(t_list_env **envs, char *str);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
+int			find_fdin(t_data *data);
+int			find_fdout(t_data *data);
 
 /*
  * Parser functions
  */
 
 t_list_env	*get_envlist(char **env);
+
 int			ultimate_validator(char *line);
+/*
+ * for test functions
+ */
+
+int		test_parser(char *line, t_data *data);
 
 
 

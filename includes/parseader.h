@@ -14,13 +14,7 @@
 # define PARSEADER_H
 
 # include <stdlib.h>
-#include "minishell.h"
-
-typedef struct	s_agrs
-{
-	char	**args;
-	char	type;
-}				t_args;
+# include "minishell.h"
 
 typedef struct 	s_env
 {

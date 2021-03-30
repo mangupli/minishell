@@ -45,9 +45,9 @@ void		shell_unset(t_data *data)
 	int i;
 
 	i = 1;
-	while (data->args[i])
+	while (data->ar->args[i])
 	{
-		delete_var_from_list(&data->envlist, data->args[i]);
+		delete_var_from_list(&data->envlist, data->ar->args[i]);
 		i++;
 	}
 }
