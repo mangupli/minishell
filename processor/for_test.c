@@ -84,8 +84,7 @@ int get_args_list(char *str, t_data *data, int count)
 	test_mylstadd_back(&root, node);
 	data->ar = root;
 
-
-	//printf("listsize %d\n", test_mylstsize(data->ar));
+	printf("listsize %d\n", test_mylstsize(data->ar));
 
 	return (0);
 }
@@ -148,7 +147,8 @@ int test_parser(char *line, t_data *data)
 	}
 	if (count == 0)
 	{
-		data->ar->args = ft_split(str, ' ');
+		data->ar = test_mylstnew(ft_split(str, ' '));
+		data->ar->type = 0;
 	}
 	else
 	{

@@ -1,15 +1,21 @@
 cmake_minimum_required(VERSION 3.17)
 project(shell C)
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS -ltermcap)
-include_directories(shell includes libft)
+set(CMAKE_C_STANDARD 11)
+#set(CMAKE_C_FLAGS -ltermcap)
 
-add_executable(shell main.c
+include_directories(includes)
+include_directories(libft/includes)
+
+link_directories(libft)
+
+add_executable(shell
+
+        main.c
 
         includes/minishell.h
         includes/parseader.h
-
+        libft/includes/libft.h
 
         processor/readline.c
         processor/terminal_management.c
@@ -39,6 +45,3 @@ add_executable(shell main.c
         parser/validators.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
-
-
-

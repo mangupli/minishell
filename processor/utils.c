@@ -62,3 +62,14 @@ t_list_env *sort_list(t_list_env *src)
 	}
 	return (new_root);
 }
+
+void 	free_2d_array(char **array)
+{
+	int i;
+
+	i = -1;
+	while (array[++i])
+		free(array[i]);
+	free(array);
+	array = NULL;
+}

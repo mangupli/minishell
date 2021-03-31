@@ -145,6 +145,7 @@ t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
 int			find_fdin(t_data *data);
 int			find_fdout(t_data *data);
+void		free_2d_array(char **array);
 
 /*
  * Parser functions

@@ -4,26 +4,26 @@ static void renew_data(t_data *data)
 {
 	//free args
 	int i;
-	t_args *tmp;
+	//t_args *tmp;
 
-	tmp = data->ar;
-	while (tmp)
+	//tmp = data->ar;
+	while (data->ar)
 	{
-		if (tmp->args)
+		if (data->ar->args)
 		{
 			i = -1;
-			while (tmp->args[++i])
-				free(tmp->args[i]);
-			tmp->args = (char **)ft_calloc(1, sizeof(char **));
+			while (data->ar->args[++i])
+				free(data->ar->args[i]);
+			data->ar->args = (char **)ft_calloc(1, sizeof(char **));
 		}
-		tmp->type = 0;
-		tmp = tmp->next;
+		data->ar->type = 0;
+		data->ar = data->ar->next;
 	}
 
 
 	//do we need to reset original fd?
-	//dup2(data->orig_fd[0], 0);
-	//dup2(data->orig_fd[1], 1);
+	dup2(data->orig_fd[0], 0);
+	dup2(data->orig_fd[1], 1);
 }
 
 
