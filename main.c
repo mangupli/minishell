@@ -3,22 +3,30 @@
 static void renew_data(t_data *data)
 {
 	//free args
-	int i;
-	//t_args *tmp;
 
-	//tmp = data->ar;
+	/*
 	while (data->ar)
 	{
 		if (data->ar->args)
 		{
-			i = -1;
-			while (data->ar->args[++i])
-				free(data->ar->args[i]);
+			free_2d_array(data->ar->args);
 			data->ar->args = (char **)ft_calloc(1, sizeof(char **));
 		}
 		data->ar->type = 0;
 		data->ar = data->ar->next;
 	}
+	 */
+
+	t_args *tmp;
+
+	while (data->ar)
+	{
+		tmp = data->ar->next;
+		free_2d_array(data->ar->args);
+		free(data->ar);
+		data->ar = tmp;
+	}
+
 
 
 	//do we need to reset original fd?
@@ -47,9 +55,11 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->file[1] = -1;
 
 	//write function for creating new element of list
+	/*
 	data->ar = (t_args*)malloc(sizeof(t_args));
 	data->ar->args = NULL;
 	data->ar->type = 0;
+	 */
 }
 
 int			main(int argc, char **argv, char **env)
@@ -82,5 +92,6 @@ int			main(int argc, char **argv, char **env)
 		}
 		free(line);
 	}
+	renew_data(&data);
 	return (0);
 }

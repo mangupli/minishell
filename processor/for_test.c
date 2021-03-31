@@ -74,6 +74,8 @@ int get_args_list(char *str, t_data *data, int count)
 			test_mylstadd_back(&root, node);
 			start = i + 1;
 			j++;
+			free(newstr);
+			newstr = NULL;
 		}
 	}
 
@@ -83,6 +85,8 @@ int get_args_list(char *str, t_data *data, int count)
 	node->type = 0;
 	test_mylstadd_back(&root, node);
 	data->ar = root;
+	free(newstr);
+	newstr = NULL;
 
 	printf("listsize %d\n", test_mylstsize(data->ar));
 
@@ -154,5 +158,6 @@ int test_parser(char *line, t_data *data)
 	{
 		get_args_list(str, data, count);
 	}
+	free(str);
 	return (ret);
 }

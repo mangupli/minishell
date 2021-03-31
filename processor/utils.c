@@ -69,7 +69,10 @@ void 	free_2d_array(char **array)
 
 	i = -1;
 	while (array[++i])
+	{
 		free(array[i]);
+		array[i] = NULL;
+	}
 	free(array);
 	array = NULL;
 }
