@@ -24,7 +24,6 @@ static void renew_data(t_data *data)
 	dup2(data->orig_fd[1], 1);
 }
 
-
 static void init_shell(t_data *data, int argc, char **argv, char **env)
 {
 	data->prompt = "superbash> ";
@@ -59,17 +58,24 @@ int			main(int argc, char **argv, char **env)
 	{
 		if (line[0] != '\0')
 		{
+
 			count = 0;
 			while (*(line + count))
 			{
-
-				count += test_parser(line + count, &data);
+				count += test_parser(line + count, count, &data); // строку сначала давай в парсер виталика, а не line+count
 				printf("count %d\n", count);
-				execution(&data);
+
 				add_history(line, &data.hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.
 
-				//тут нужно ресетить дату
+				if (count == -1)
+				{
+					// renew_data(&data); // нужно ли?
+					break;
+				}
+				else
+					execution(&data);
+
 				renew_data(&data);
 			}
 		}

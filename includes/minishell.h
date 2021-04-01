@@ -162,7 +162,7 @@ int			ultimate_validator(char *line);
  * for test functions
  */
 
-int		test_parser(char *line, t_data *data);
+int		test_parser(char *line, int count, t_data *data);
 
 
 

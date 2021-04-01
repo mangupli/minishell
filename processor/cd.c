@@ -1,7 +1,6 @@
 #include "minishell.h"
-#include "parseader.h"
 
-void new_pwd_env(t_list_env *envs, char *new_pwd)
+static void new_pwd_env(t_list_env *envs, char *new_pwd)
 {
 	t_list_env *pwd;
 	t_list_env *oldpwd;
@@ -16,7 +15,6 @@ void new_pwd_env(t_list_env *envs, char *new_pwd)
 	}
 	pwd->content = new_pwd;
 }
-
 
 /*
 ** Is there always OLDPWD and what if it goes unset?

@@ -71,9 +71,9 @@ int get_args_list(char *str, t_data *data, int count)
 	return (0);
 }
 
-int test_parser(char *line, t_data *data)
+int test_parser(char *line, int count, t_data *data)
 {
-	int count;
+	int cnt;
 	int ret;
 	int i;
 	int end;
@@ -86,9 +86,17 @@ int test_parser(char *line, t_data *data)
 	{
 		if (line[i] == ';')
 		{
-			ret = i + 1;
-			end =  ret - 1;
-			break;
+			if (line[i + 1] == ';')
+			{
+				display_error("minishell", "syntax error", "unexpected token");
+				return (-1);
+			}
+			else
+			{
+				ret = i + 1;
+				end = ret - 1;
+				break;
+			}
 		}
 	}
 	if (ret == 0)
