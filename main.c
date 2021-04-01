@@ -43,13 +43,6 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->orig_fd[1] = dup(1);
 	data->file[0] = -1;
 	data->file[1] = -1;
-
-	//write function for creating new element of list
-	/*
-	data->ar = (t_args*)malloc(sizeof(t_args));
-	data->ar->args = NULL;
-	data->ar->type = 0;
-	 */
 }
 
 int			main(int argc, char **argv, char **env)
