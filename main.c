@@ -90,8 +90,8 @@ int			main(int argc, char **argv, char **env)
 				renew_data(&data);
 			}
 		}
+		renew_data(&data);
 		free(line);
 	}
-	renew_data(&data);
 	return (0);
 }

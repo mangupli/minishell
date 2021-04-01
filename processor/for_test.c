@@ -54,11 +54,11 @@ int get_args_list(char *str, t_data *data, int count)
 	char *newstr;
 	char **args;
 	int start;
-	t_args *root;
+	//t_args *root;
 	t_args *node;
 	int j;
 
-	root = NULL;
+	data->ar = NULL;
 
 	i = -1;
 	j = 0;
@@ -71,9 +71,10 @@ int get_args_list(char *str, t_data *data, int count)
 			args = ft_split(newstr, ' ');
 			node = test_mylstnew(args);
 			node->type = '|';
-			test_mylstadd_back(&root, node);
+			test_mylstadd_back(&data->ar, node);
 			start = i + 1;
 			j++;
+
 			free(newstr);
 			newstr = NULL;
 		}
@@ -83,11 +84,10 @@ int get_args_list(char *str, t_data *data, int count)
 	args = ft_split(newstr, ' ');
 	node = test_mylstnew(args);
 	node->type = 0;
-	test_mylstadd_back(&root, node);
-	data->ar = root;
+	test_mylstadd_back(&data->ar, node);
+
 	free(newstr);
 	newstr = NULL;
-
 	printf("listsize %d\n", test_mylstsize(data->ar));
 
 	return (0);
@@ -149,15 +149,19 @@ int test_parser(char *line, t_data *data)
 		if (line[i] == '|')
 			count++;
 	}
+	/*
 	if (count == 0)
 	{
 		data->ar = test_mylstnew(ft_split(str, ' '));
-		data->ar->type = 0;
 	}
+
+
 	else
 	{
+		*/
 		get_args_list(str, data, count);
-	}
+	//}
+
 	free(str);
 	return (ret);
 }

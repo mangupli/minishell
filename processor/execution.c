@@ -73,9 +73,12 @@ int  execution(t_data *data)
 			data->fd[0] = find_fdin(data);
 			data->fd[1] = find_fdout(data);
 
+			/*
 			printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 			printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
 			printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
+			 */
+
 			dup2(data->fd[0], 0);
 			close(data->fd[0]);
 			dup2(data->fd[1], 1);
