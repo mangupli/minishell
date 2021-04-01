@@ -13,40 +13,19 @@ int		test_mylstsize(t_args *lst)
 	return (i);
 }
 
-t_args *test_mylstnew(char **args)
-{
-	t_args *new;
-
-	new = (t_args *)malloc(sizeof(t_args));
-	if (NULL == new)
-		return (NULL);
-	new->args = args;
-	new->type = 0;
-	new->next = NULL;
-	return (new);
-}
-
-t_args	*test_mylstlast(t_args *lst)
-{
-	if (lst)
-		while (lst->next)
-			lst = lst->next;
-	return (lst);
-}
-
-void	test_mylstadd_back(t_args **lst, t_args *new)
-{
-	t_args	*tmp;
-
-	if (lst)
-	{
-		tmp = *lst;
-		if (*lst == NULL)
-			*lst = new;
-		else
-			test_mylstlast(tmp)->next = new;
-	}
-}
+/*
+** Creates the list of type t_args.
+** Arguments :
+** (1)string to the end of the line or to the ';'
+** (2)the pointer to the lode that should be added
+** (3)number of '|' in the string
+**
+** How to add node on the list:
+** We need two pointers (args *) - one for the head, one for the node ->
+** t_args *head = NULL; -> first, set head to NULL
+** t_args *node = arglstnew(char **args, char type); -> this creates new node
+** args_lstadd_back(&head, node); -> adds node to the end of the head list
+*/
 
 int get_args_list(char *str, t_data *data, int count)
 {
@@ -54,7 +33,6 @@ int get_args_list(char *str, t_data *data, int count)
 	char *newstr;
 	char **args;
 	int start;
-	//t_args *root;
 	t_args *node;
 	int j;
 
@@ -69,9 +47,8 @@ int get_args_list(char *str, t_data *data, int count)
 		{
 			newstr = ft_substr(str, start, i - start);
 			args = ft_split(newstr, ' ');
-			node = test_mylstnew(args);
-			node->type = '|';
-			test_mylstadd_back(&data->ar, node);
+			node = arglstnew(args, '|');
+			args_lstadd_back(&data->ar, node);
 			start = i + 1;
 			j++;
 
@@ -82,38 +59,16 @@ int get_args_list(char *str, t_data *data, int count)
 
 	newstr = ft_substr(str, start, ft_strlen(str) - start);
 	args = ft_split(newstr, ' ');
-	node = test_mylstnew(args);
+	node = arglstnew(args, 0);
 	node->type = 0;
-	test_mylstadd_back(&data->ar, node);
+	args_lstadd_back(&data->ar, node);
 
 	free(newstr);
 	newstr = NULL;
+
 	printf("listsize %d\n", test_mylstsize(data->ar));
 
 	return (0);
-}
-
-
-char **test_parse_args(char *line, int start, int end)
-{
-	char *str;
-	char **array;
-
-	str = ft_substr(line, start, end - start);
-	array = ft_split(str, ' ');
-	return (array);
-}
-
-t_args *test_get_t_arg(char *str)
-{
-	t_args *new;
-
-	new = (t_args *)malloc(sizeof(t_args));
-
-	new->args = NULL;
-	new->type = 0;
-	new->next = NULL;
-	return (new);
 }
 
 int test_parser(char *line, t_data *data)
@@ -149,19 +104,7 @@ int test_parser(char *line, t_data *data)
 		if (line[i] == '|')
 			count++;
 	}
-	/*
-	if (count == 0)
-	{
-		data->ar = test_mylstnew(ft_split(str, ' '));
-	}
-
-
-	else
-	{
-		*/
-		get_args_list(str, data, count);
-	//}
-
+	get_args_list(str, data, count);
 	free(str);
 	return (ret);
 }

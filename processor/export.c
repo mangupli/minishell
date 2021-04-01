@@ -50,7 +50,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	t_list_env *new;
 	int found;
 
-	new = ft_mylstnew(str);
+	new = envlstnew(str);
 	found = find_envvar(envs, new->name);
 	if (found)
 	{
@@ -60,7 +60,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	{
 		found = check_symbols(new->name);
 		if (!found)
-			ft_mylstadd_back(envs, new);
+			env_lst_addback(envs, new);
 		else
 		{
 			display_error("minishell", "export", "not a valid identifier");

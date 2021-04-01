@@ -24,8 +24,8 @@ t_list_env	*get_envlist(char **env)
 	new_list = NULL;
 	while (env[++i])
 	{
-		new_elem = ft_mylstnew(env[i]);
-		ft_mylstadd_back(&new_list, new_elem);
+		new_elem = envlstnew(env[i]);
+		env_lst_addback(&new_list, new_elem);
 	}
 	i = find_envvar(&new_list, "OLDPWD");
 	if (!i)

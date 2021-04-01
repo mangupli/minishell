@@ -39,7 +39,7 @@ t_list_env	*ft_mylstlast(t_list_env *lst)
 	return (lst);
 }
 
-void	ft_mylstadd_back(t_list_env **lst, t_list_env *new)
+void	env_lst_addback(t_list_env **lst, t_list_env *new)
 {
 	t_list_env	*tmp;
 
@@ -53,7 +53,16 @@ void	ft_mylstadd_back(t_list_env **lst, t_list_env *new)
 	}
 }
 
-t_list_env	*ft_mylstnew(char *content)
+/*
+** Created new node in the list of type t_list_env
+** Arguments :
+** (1) string that needs to be parsed, for example "PAGER=less"
+**
+** Function will create new node in the list with next parameters:
+** name = "PAGER", content = "less", has equal = 1
+*/
+
+t_list_env	*envlstnew(char *string)
 {
 	t_list_env *new;
 	char *str;
@@ -61,9 +70,9 @@ t_list_env	*ft_mylstnew(char *content)
 	new = (t_list_env *)malloc(sizeof(t_list_env));
 	if (NULL == new)
 		return (NULL);
-	str = ft_strchr(content, '=');
-	new->name = ft_substr(content, 0, str - content);
-	new->content = ft_substr(content, str - content + 1, ft_strlen(content));
+	str = ft_strchr(string, '=');
+	new->name = ft_substr(string, 0, str - string);
+	new->content = ft_substr(string, str - string + 1, ft_strlen(string));
 	if (str)
 		new->has_equal = 1;
 	else
@@ -72,7 +81,16 @@ t_list_env	*ft_mylstnew(char *content)
 	return (new);
 }
 
-t_list_env	*ft_mylstnew1(char *name, char *content, char has_equal)
+/*
+** Created new node in the list of type t_list_env when name and content
+** of environmental variable are already known.
+** Arguments :
+** (1) name
+** (2) content
+** (3) 0 or 1
+*/
+
+t_list_env	*envlistnew1(char *name, char *content, char has_equal)
 {
 	t_list_env *new;
 

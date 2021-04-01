@@ -17,17 +17,7 @@ static void renew_data(t_data *data)
 	}
 	 */
 
-	t_args *tmp;
-
-	while (data->ar)
-	{
-		tmp = data->ar->next;
-		free_2d_array(data->ar->args);
-		free(data->ar);
-		data->ar = tmp;
-	}
-
-
+	args_clearlist(&data->ar);
 
 	//do we need to reset original fd?
 	dup2(data->orig_fd[0], 0);
@@ -71,6 +61,7 @@ int			main(int argc, char **argv, char **env)
 
 	init_shell(&data, argc, argv, env);
 
+	//line = "pwd ; echo liza; ls -la";
 	while ((line = ft_readline(&data)) != NULL)
 	{
 		if (line[0] != '\0')
@@ -81,7 +72,6 @@ int			main(int argc, char **argv, char **env)
 
 				count += test_parser(line + count, &data);
 				printf("count %d\n", count);
-
 				execution(&data);
 				add_history(line, &data.hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.

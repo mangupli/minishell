@@ -51,23 +51,24 @@ int  execution(t_data *data)
 {
 	pid_t pid;
 	int ret;
+	t_args *tmp;
 
-	while (data->ar)
+	tmp = data->ar;
+	while (tmp)
 	{
 		//debugging args
 		int z = -1;
-		while(data->ar->args[++z])
-			printf("args[%d]:%s\n", z, data->ar->args[z]);
+		while(tmp->args[++z])
+			printf("args[%d]:%s\n", z, tmp->args[z]);
 		//end debug
 
-		ret = exec_my_function(data->ar->args, data);
+		ret = exec_my_function(tmp->args, data);
 		if (ret)
 		{
-			data->ar = data->ar->next;
-			printf("NEXT data->ar %p\n", data->ar);
+			tmp = tmp->next;
 			continue ;
 		}
-		ret = find_function_path(data->ar->args[0], data->envlist, data);
+		ret = find_function_path(tmp->args[0], data->envlist, data);
 		if (ret)
 		{
 			data->fd[0] = find_fdin(data);
@@ -95,10 +96,9 @@ int  execution(t_data *data)
 		}
 		else
 		{
-			display_error("minishell", "command not found", data->ar->args[0]);
+			display_error("minishell", "command not found", tmp->args[0]);
 		}
-		data->ar = data->ar->next;
-		printf("NEXT data->ar %p\n", data->ar);
+		tmp = tmp->next;
 	}
 	return (0);
 }

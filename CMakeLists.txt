@@ -30,9 +30,10 @@ add_executable(shell
         processor/export.c
         processor/env.c
         processor/envir_var.c
-        processor/listjob.c
+        processor/envslist_utils.c
         processor/unset.c
         processor/find_fd.c
+        processor/argslist_utils.c
 
         processor/for_test.c
 

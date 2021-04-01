@@ -26,8 +26,8 @@ t_list_env *strdup_list(t_list_env **src)
 	new = NULL;
 	while (tmp)
 	{
-		node = ft_mylstnew1(tmp->name, tmp->content, tmp->has_equal);
-		ft_mylstadd_back(&new, node);
+		node = envlistnew1(tmp->name, tmp->content, tmp->has_equal);
+		env_lst_addback(&new, node);
 		tmp = tmp->next;
 	}
 	return (new);

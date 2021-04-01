@@ -137,10 +137,6 @@ int			find_envvar(t_list_env **envs, char *name);
 int			check_symbols(char *name);
 void		add_export_var(t_data *data);
 int			ft_mylstsize(t_list_env *lst);
-t_list_env	*ft_mylstnew(char *content);
-t_list_env	*ft_mylstnew1(char *name, char *content, char has_equal);
-void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
-void 		add_var_to_list(t_list_env **envs, char *str);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
 int			find_fdin(t_data *data);
@@ -152,6 +148,14 @@ void		free_2d_array(char **array);
  */
 
 t_list_env	*get_envlist(char **env);
+t_args		*arglstnew(char **args, char type);
+void		args_lstadd_back(t_args **lst, t_args *new);
+void		args_clearlist(t_args **ar);
+t_list_env	*envlstnew(char *string);
+t_list_env	*envlistnew1(char *name, char *content, char has_equal);
+void		env_lst_addback(t_list_env **lst, t_list_env *new);
+void 		add_var_to_list(t_list_env **envs, char *str);
+
 
 int			ultimate_validator(char *line);
 /*
