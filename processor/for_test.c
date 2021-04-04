@@ -73,7 +73,6 @@ int get_args_list(char *str, t_data *data, int count)
 
 int test_parser(char *line, int count, t_data *data)
 {
-	int cnt;
 	int ret;
 	int i;
 	int end;
