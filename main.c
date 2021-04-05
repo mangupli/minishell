@@ -18,21 +18,8 @@ void reset_fd(t_data *data)
 static void renew_data(t_data *data)
 {
 	//free args
-
-	/*
-	while (data->ar)
-	{
-		if (data->ar->args)
-		{
-			free_2d_array(data->ar->args);
-			data->ar->args = (char **)ft_calloc(1, sizeof(char **));
-		}
-		data->ar->type = 0;
-		data->ar = data->ar->next;
-	}
-	 */
-
 	args_clearlist(&data->ar);
+
 	reset_fd(data);
 }
 
@@ -64,7 +51,6 @@ int			main(int argc, char **argv, char **env)
 	init_shell(&data, argc, argv, env);
 
 	//line = "ps aux | grep root";
-
 	while ((line = ft_readline(&data)) != NULL)
 	{
 		if (line[0] != '\0')

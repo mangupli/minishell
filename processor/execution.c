@@ -41,10 +41,25 @@ static void parent_process(t_data *data)
 	//exit(status);
 }
 
-static void child_process(t_data *data, char **args)
+static void child_process(t_data *data, t_args *ar)
 {
-	envlist_to_array(data);
-	execve(args[0], args, data->envp);
+	int ret;
+
+	ret = exec_my_function(ar->args, data);
+	if (ret)
+		exit(0);
+	ret = find_function_path(ar, data->envlist);
+	if (ret)
+	{
+		envlist_to_array(data);
+		execve(ar->args[0], ar->args, data->envp);
+	}
+	else
+	{
+		display_error("minishell", "command not found", ar->args[0]);
+		exit(127);
+	}
+
 }
 
 int  execution(t_data *data)
@@ -53,6 +68,8 @@ int  execution(t_data *data)
 	int ret;
 	t_args *tmp;
 
+	if (!ft_strcmp(data->ar->args[0], "exit"))
+		ft_exit(0);
 	tmp = data->ar;
 	while (tmp)
 	{
@@ -62,44 +79,31 @@ int  execution(t_data *data)
 			printf("args[%d]:%s\n", z, tmp->args[z]);
 		//end debug
 
-		ret = exec_my_function(tmp->args, data);
-		if (ret)
+		data->fd[0] = find_fdin(data);
+		data->fd[1] = find_fdout(data, tmp->type);
+
+	/*
+		printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
+		printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
+		printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
+	*/
+
+		dup2(data->fd[0], 0);
+		close(data->fd[0]);
+		dup2(data->fd[1], 1);
+		close(data->fd[1]);
+		pid = fork();
+		if (pid == 0) //child
 		{
-			tmp = tmp->next;
-			continue ;
+			child_process(data, tmp);
 		}
-		ret = find_function_path(tmp, data->envlist);
-		if (ret)
+		else //parent
 		{
-			data->fd[0] = find_fdin(data);
-			data->fd[1] = find_fdout(data, tmp->type);
-
-
-			printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
-			printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
-			printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-
-
-			dup2(data->fd[0], 0);
-			close(data->fd[0]);
-			dup2(data->fd[1], 1);
-			close(data->fd[1]);
-			pid = fork();
-			if (pid == 0) //child
-			{
-				child_process(data, tmp->args);
-			}
-			else //parent
-			{
-				parent_process(data);
-			}
+			parent_process(data);
 		}
-		else
-		{
-			display_error("minishell", "command not found", tmp->args[0]);
-		}
+
 		tmp = tmp->next;
-		//reset_fd(data);
+		reset_fd(data);
 	}
 	return (0);
 }
