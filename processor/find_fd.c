@@ -19,13 +19,13 @@ int		find_fdin(t_data *data)
 	return (fd);
 }
 
-int		find_fdout(t_data *data)
+int		find_fdout(t_data *data, char type)
 {
 	int fd;
 	int ret;
 
 	fd = 0;
-	if (data->ar->type == '|')
+	if (type == '|')
 	{
 		ret = pipe(data->pipe_fd);
 		if (ret == -1)
