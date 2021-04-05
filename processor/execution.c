@@ -13,10 +13,7 @@ static int exec_my_function(char **args, t_data *data)
 	if (!ft_strcmp(args[0], "exit"))
 		ft_exit(0);
 	else if (!ft_strcmp(args[0], "cd"))
-	{
-		printf("here\n");
 		return (func_in_return(data, args, shell_cd));
-	}
 	else if (!ft_strcmp(args[0], "export"))
 		return (func_in_return(data, args, shell_export));
 	else if (!ft_strcmp(args[0], "unset"))
@@ -55,7 +52,14 @@ static void child_process(t_data *data, t_args *ar)
 	if (ret)
 	{
 		envlist_to_array(data);
+
+		//debugging args
+		int z = 0;
 		printf("execve->[%s]\n", ar->args[0]);
+		while(ar->args[++z])
+			printf("args[%d]:%s\n", z, ar->args[z]);
+		//end debug
+
 		execve(ar->args[0], ar->args, data->envp);
 	}
 	else
@@ -71,17 +75,17 @@ int  execution(t_data *data)
 	int ret;
 	t_args *tmp;
 
-	if (!ft_strcmp(data->ar->args[0], "exit"))
-		ft_exit(0);
+
 	tmp = data->ar;
 	while (tmp)
 	{
-		//debugging args
-		int z = -1;
-		printf("after parser\n");
-		while(tmp->args[++z])
-			printf("args[%d]:%s\n", z, tmp->args[z]);
-		//end debug
+		if (tmp->type == 0)
+		{
+			ret = exec_my_function(tmp->args, data);
+			if (ret)
+				return (0);
+		}
+
 
 		data->fd[0] = find_fdin(data);
 		data->fd[1] = find_fdout(data, tmp->type);
