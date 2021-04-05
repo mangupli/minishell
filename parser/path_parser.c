@@ -20,7 +20,7 @@ char	**path_parser(t_list_env *envs)
 	return (NULL);
 }
 
-int find_function_path(char *func, t_list_env *envs, t_data *data)
+int find_function_path(t_args *ar, t_list_env *envs)
 {
 	char **paths;
 	int i;
@@ -34,13 +34,13 @@ int find_function_path(char *func, t_list_env *envs, t_data *data)
 	while(paths[++i])
 	{
 		buf = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(buf, func);
+		full_path = ft_strjoin(buf, ar->args[0]);
 		fd = open(full_path, O_RDONLY);
 		if (fd > 0)
 		{
 			close(fd);
-			free(data->ar->args[0]);
-			data->ar->args[0] = ft_strdup(full_path);
+			free(ar->args[0]);
+			ar->args[0] = ft_strdup(full_path);
 			free(full_path);
 			free(buf);
 			free_2d_array(paths);

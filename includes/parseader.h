@@ -36,7 +36,7 @@ t_env	*add_env(t_env *envs, char *name, char *content);
 int 	envs_count(t_env *envs);
 int		twinks_validator(char *line);
 int		quotes_validator(char *line);
-int		find_function_path(char *func, t_list_env *envs, t_data *data);
+
 int		get_count(char *line);
 int		is_end_arg(char *line, int i, int double_quotes, int single_quotes);
 int		get_string(char *line, char start, char stop, t_args *args);

@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "parseader.h"
 
 static int func_in_return(t_data *data, void (*f)(t_data *))
 {
@@ -42,10 +41,10 @@ static void parent_process(t_data *data)
 	//exit(status);
 }
 
-static void child_process(t_data *data)
+static void child_process(t_data *data, char **args)
 {
 	envlist_to_array(data);
-	execve(data->ar->args[0], data->ar->args, data->envp);
+	execve(args[0], args, data->envp);
 }
 
 int  execution(t_data *data)
@@ -69,7 +68,7 @@ int  execution(t_data *data)
 			tmp = tmp->next;
 			continue ;
 		}
-		ret = find_function_path(tmp->args[0], data->envlist, data);
+		ret = find_function_path(tmp, data->envlist);
 		if (ret)
 		{
 			data->fd[0] = find_fdin(data);
@@ -88,7 +87,7 @@ int  execution(t_data *data)
 			pid = fork();
 			if (pid == 0) //child
 			{
-				child_process(data);
+				child_process(data, tmp->args);
 			}
 			else //parent
 			{
