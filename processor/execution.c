@@ -74,7 +74,10 @@ int  execution(t_data *data)
 		{
 			data->fd[0] = find_fdin(data);
 			data->fd[1] = find_fdout(data, tmp->type);
+<<<<<<< HEAD
 
+=======
+>>>>>>> redir
 
 			printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 			printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);

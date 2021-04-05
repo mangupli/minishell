@@ -88,7 +88,10 @@ int			main(int argc, char **argv, char **env)
 				renew_data(&data);
 			}
 		}
+<<<<<<< HEAD
 		//renew_data(&data);
+=======
+>>>>>>> redir
 		free(line);
 	}
 	return (0);
