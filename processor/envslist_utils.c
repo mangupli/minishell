@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		ft_mylstsize(t_list_env *lst)
+int		envlstsize(t_list_env *lst)
 {
 	int i;
 

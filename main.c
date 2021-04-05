@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+void reset_fd(t_data *data)
+{
+	//do we need to reset original fd?
+	dup2(data->orig_fd[0], 0);
+	dup2(data->orig_fd[1], 1);
+
+	if (data->file[0] >= 0)
+		close(data->file[0]);
+	data->file[0] = -1;
+	if (data->file[1] >= 0)
+		close(data->file[1]);
+	data->file[1] = -1;
+}
+
+
 static void renew_data(t_data *data)
 {
 	//free args
@@ -18,10 +33,7 @@ static void renew_data(t_data *data)
 	 */
 
 	args_clearlist(&data->ar);
-
-	//do we need to reset original fd?
-	dup2(data->orig_fd[0], 0);
-	dup2(data->orig_fd[1], 1);
+	reset_fd(data);
 }
 
 static void init_shell(t_data *data, int argc, char **argv, char **env)
@@ -30,8 +42,6 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->hist.len = 0;
 	data->hist.list = NULL;
 	data->hist.maxlen = HISTORY_MAX_LEN;
-	data->echo = NULL;
-	data->func.echo_n = 0;
 	if (argc != 1)
 	{
 		display_error("minishell", argv[1], "cannot execute this file");
@@ -42,13 +52,13 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->orig_fd[1] = dup(1);
 	data->file[0] = -1;
 	data->file[1] = -1;
+	data->envp = NULL;
 }
 
 int			main(int argc, char **argv, char **env)
 {
 	char *line;
 	t_data	data;
-	int i;
 	int count;
 
 	init_shell(&data, argc, argv, env);
@@ -75,7 +85,6 @@ int			main(int argc, char **argv, char **env)
 				}
 				else
 					execution(&data);
-
 				renew_data(&data);
 			}
 		}

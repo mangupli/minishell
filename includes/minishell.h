@@ -70,9 +70,8 @@ typedef struct	s_data
 	t_hist		hist;
 	const char	*prompt;
 	t_args		*ar;
-	t_func		func;
-	char		*echo;
 	t_list_env  *envlist;
+	char		**envp;
 	int			orig_fd[2];
 	int 		pipe_fd[2];
 	int 		fd[2];
@@ -136,18 +135,20 @@ t_list_env	*find_env_pointer(t_list_env *envs, char *name);
 int			find_envvar(t_list_env **envs, char *name);
 int			check_symbols(char *name);
 void		add_export_var(t_data *data);
-int			ft_mylstsize(t_list_env *lst);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
 int			find_fdin(t_data *data);
 int			find_fdout(t_data *data);
 void		free_2d_array(char **array);
+void 		envlist_to_array(t_data *data);
+void		reset_fd(t_data *data);
 
 /*
  * Parser functions
  */
 
 t_list_env	*get_envlist(char **env);
+int			envlstsize(t_list_env *lst);
 t_args		*arglstnew(char **args, char type);
 void		args_lstadd_back(t_args **lst, t_args *new);
 void		args_clearlist(t_args **ar);
@@ -157,7 +158,6 @@ void		env_lst_addback(t_list_env **lst, t_list_env *new);
 void 		add_var_to_list(t_list_env **envs, char *str);
 
 
-int			ultimate_validator(char *line);
 /*
  * for test functions
  */

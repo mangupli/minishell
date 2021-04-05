@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		test_mylstsize(t_args *lst)
+int		argslstsize(t_args *lst)
 {
 	int i;
 
@@ -62,11 +62,10 @@ int get_args_list(char *str, t_data *data, int count)
 	node = arglstnew(args, 0);
 	node->type = 0;
 	args_lstadd_back(&data->ar, node);
-
 	free(newstr);
 	newstr = NULL;
 
-	printf("listsize %d\n", test_mylstsize(data->ar));
+	printf("argslist size %d\n", argslstsize(data->ar));
 
 	return (0);
 }

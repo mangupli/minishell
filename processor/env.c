@@ -1,5 +1,61 @@
 #include "minishell.h"
 
+static char		*get_envstring(t_list_env *var)
+{
+	char *str;
+	char *tmp;
+
+	str = NULL;
+	tmp = NULL;
+	if (var)
+	{
+		str = ft_strjoin(tmp, var->name);
+		if (str == NULL)
+			return (NULL);
+		if (var->has_equal == 1)
+		{
+			tmp = ft_strjoin(str, "=");
+			if (str == NULL)
+				return (NULL);
+			free(str);
+			str = NULL;
+			if (var->content)
+			{
+				str = ft_strjoin(tmp, var->content);
+				if (str == NULL)
+					return (NULL);
+				free(tmp);
+				tmp = NULL;
+			}
+		}
+	}
+	return (str);
+}
+
+
+void			envlist_to_array(t_data *data)
+{
+	char **envp;
+	t_list_env *tmp;
+	int i;
+
+	if (data->envp)
+		free_2d_array(data->envp);
+	i = envlstsize(data->envlist);
+	envp = (char **)malloc(sizeof(char *) * (i + 1));
+	if (envp == NULL)
+		return ;
+	tmp = data->envlist;
+	i = -1;
+	while (envp[++i])
+	{
+		envp[i] = get_envstring(tmp);
+		tmp = tmp->next;
+	}
+	envp[i] = NULL;
+	data->envp = envp;
+}
+
 static void print_env(t_list_env *envs)
 {
 	t_list_env *tmp;
