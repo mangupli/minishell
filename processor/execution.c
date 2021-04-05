@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static int func_in_return(t_data *data, void (*f)(t_data *))
+static int func_in_return(t_data *data, char **args, void (*f)(t_data *, char **))
 {
-	f(data);
+	f(data, args);
 	return (1);
 }
 
@@ -13,20 +13,23 @@ static int exec_my_function(char **args, t_data *data)
 	if (!ft_strcmp(args[0], "exit"))
 		ft_exit(0);
 	else if (!ft_strcmp(args[0], "cd"))
-		return (func_in_return(data, shell_cd));
+	{
+		printf("here\n");
+		return (func_in_return(data, args, shell_cd));
+	}
 	else if (!ft_strcmp(args[0], "export"))
-		return (func_in_return(data, shell_export));
+		return (func_in_return(data, args, shell_export));
 	else if (!ft_strcmp(args[0], "unset"))
-		return (func_in_return(data, shell_unset));
+		return (func_in_return(data, args, shell_unset));
 	i = -1;
 	while (args[++i])
 		args[i] = ft_str_to_lower(args[i]);
 	if (!ft_strcmp(args[0], "echo"))
-		return (func_in_return(data, shell_echo));
+		return (func_in_return(data, args, shell_echo));
 	else if (!ft_strcmp(args[0], "pwd"))
-		return (func_in_return(data, shell_pwd));
+		return (func_in_return(data, args, shell_pwd));
 	else if (!ft_strcmp(args[0], "env"))
-		return (func_in_return(data, shell_env));
+		return (func_in_return(data, args, shell_env));
 	return (0);
 }
 
@@ -52,6 +55,7 @@ static void child_process(t_data *data, t_args *ar)
 	if (ret)
 	{
 		envlist_to_array(data);
+		printf("execve->[%s]\n", ar->args[0]);
 		execve(ar->args[0], ar->args, data->envp);
 	}
 	else
@@ -59,7 +63,6 @@ static void child_process(t_data *data, t_args *ar)
 		display_error("minishell", "command not found", ar->args[0]);
 		exit(127);
 	}
-
 }
 
 int  execution(t_data *data)
@@ -75,6 +78,7 @@ int  execution(t_data *data)
 	{
 		//debugging args
 		int z = -1;
+		printf("after parser\n");
 		while(tmp->args[++z])
 			printf("args[%d]:%s\n", z, tmp->args[z]);
 		//end debug

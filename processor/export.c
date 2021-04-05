@@ -68,26 +68,26 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	}
 }
 
-void		add_export_var(t_data *data)
+void		add_export_var(t_data *data, char **args)
 {
 	int i;
 
 	i = 1;
-	while (data->ar->args[i])
+	while (args[i])
 	{
-		add_var_to_list(&data->envlist, data->ar->args[i]);
+		add_var_to_list(&data->envlist, args[i]);
 		i++;
 	}
 }
 
-void		shell_export(t_data *data)
+void		shell_export(t_data *data, char **args)
 {
-	if (!data->ar->args[1])
+	if (!args[1])
 	{
 		print_export(data->envlist);
 	}
 	else
 	{
-		add_export_var(data);
+		add_export_var(data, args);
 	}
 }

@@ -51,8 +51,10 @@ int			main(int argc, char **argv, char **env)
 	init_shell(&data, argc, argv, env);
 
 	//line = "ps aux | grep root";
+
 	while ((line = ft_readline(&data)) != NULL)
 	{
+
 		if (line[0] != '\0')
 		{
 

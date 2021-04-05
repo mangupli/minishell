@@ -1,10 +1,11 @@
 #include "minishell.h"
 
-void shell_pwd(t_data *data)
+void shell_pwd(t_data *data, char **args)
 {
 	char *pwd;
 
 	(void)data;
+	(void)args;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{

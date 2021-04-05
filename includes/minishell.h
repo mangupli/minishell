@@ -123,18 +123,18 @@ struct termios orig_termios; /* In order to restore at exit.*/
 
 void 		display_error(char *commandname, char *errname, char *str);
 int 		execution(t_data *data);
-void		shell_echo(t_data *data);
-void		shell_pwd(t_data *data);
-void		shell_cd(t_data *data);
-void		shell_export(t_data *data);
-void		shell_env(t_data *data);
-void		shell_unset(t_data *data);
+void		shell_echo(t_data *data, char **args);
+void		shell_pwd(t_data *data, char **args);
+void		shell_cd(t_data *data, char **args);
+void		shell_export(t_data *data, char **args);
+void		shell_env(t_data *data, char **args);
+void		shell_unset(t_data *data, char **args);
 void		ft_exit(int errcode);
 char		*find_env_content(t_list_env *envs, char *name);
 t_list_env	*find_env_pointer(t_list_env *envs, char *name);
 int			find_envvar(t_list_env **envs, char *name);
 int			check_symbols(char *name);
-void		add_export_var(t_data *data);
+void		add_export_var(t_data *data, char **args);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
 int			find_fdin(t_data *data);

@@ -4,8 +4,8 @@ project(shell C)
 set(CMAKE_C_STANDARD 11)
 #set(CMAKE_C_FLAGS -ltermcap)
 
-include_directories(includes)
-include_directories(libft/includes)
+include_directories( ./includes)
+include_directories( ./libft/includes)
 
 link_directories(libft)
 
