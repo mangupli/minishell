@@ -44,8 +44,8 @@ static void parent_process(t_data *data)
 
 static void child_process(t_data *data)
 {
-	//envlist_to_array(data);
-	execve(data->ar->args[0], data->ar->args, 0);
+	envlist_to_array(data);
+	execve(data->ar->args[0], data->ar->args, data->envp);
 }
 
 int  execution(t_data *data)
@@ -74,10 +74,7 @@ int  execution(t_data *data)
 		{
 			data->fd[0] = find_fdin(data);
 			data->fd[1] = find_fdout(data, tmp->type);
-<<<<<<< HEAD
 
-=======
->>>>>>> redir
 
 			printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 			printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
