@@ -73,7 +73,7 @@ int  execution(t_data *data)
 		if (ret)
 		{
 			data->fd[0] = find_fdin(data);
-			data->fd[1] = find_fdout(data);
+			data->fd[1] = find_fdout(data, tmp->type);
 
 
 			printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
@@ -100,7 +100,7 @@ int  execution(t_data *data)
 			display_error("minishell", "command not found", tmp->args[0]);
 		}
 		tmp = tmp->next;
-		reset_fd(data);
+		//reset_fd(data);
 	}
 	return (0);
 }
