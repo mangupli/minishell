@@ -9,7 +9,6 @@ add_executable(shell main.c
 
         includes/minishell.h
         includes/parseader.h
-        includes/parser_head.h
 
 
         processor/readline.c
@@ -25,7 +24,6 @@ add_executable(shell main.c
         processor/export.c
         processor/env.c
         processor/envir_var.c
-        processor/listjob.c
         processor/unset.c
 
 
