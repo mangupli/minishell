@@ -74,7 +74,6 @@ int  execution(t_data *data)
 	int ret;
 	t_args *tmp;
 
-
 	tmp = data->ar;
 	while (tmp)
 	{
@@ -84,8 +83,6 @@ int  execution(t_data *data)
 			if (ret)
 				return (0);
 		}
-
-
 		data->fd[0] = find_fdin(data);
 		data->fd[1] = find_fdout(data, tmp->type);
 
@@ -108,7 +105,6 @@ int  execution(t_data *data)
 		{
 			parent_process(data);
 		}
-
 		tmp = tmp->next;
 		reset_fd(data);
 	}
