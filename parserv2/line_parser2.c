@@ -18,8 +18,8 @@ char **new_split(char *str)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		strs[j] = (char *)malloc(ft_strlen_to_space(str, i));
-		i += str_fill(str, strs[j], i);
+		strs[j] = (char *)malloc(ft_strlen_to_space(str, i) + 1);
+		i = str_fill(str, strs[j], i);
 		j++;
 	}
 	strs[j] = NULL;
@@ -70,11 +70,26 @@ int ft_strlen_to_space(char *str, int i)
 			double_quotes++;
 		if (str[i] == '\'')
 			single_quotes++;
-		if (str[i] == ' ' && single_quotes % 2 && !(double_quotes % 2) &&\
+		if (str[i] == ' ' && single_quotes % 2 && double_quotes % 2 && \
 			i > 0 && str[i - 1] != '\\')
 			return (len);
 		i++;
 		len++;
 	}
 	return (len);
+}
+
+void	get_type(char c, t_args *args)
+{
+	if (c == '|')
+	{
+		args->type = '|';
+		return ;
+	}
+	if (c == ';')
+	{
+		args->type = ';';
+		return ;
+	}
+	args->type = 0;
 }

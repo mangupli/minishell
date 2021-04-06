@@ -6,12 +6,11 @@
 #include "parseader.h"
 
 t_args *line_parser(char *line)
-//ВХОД В ФУНКЦИЮ
-// TODO сначала прогнать линию через quotes_validator, twinks_validator,
-//  затем уже парсить
 {
 	t_args	*args;
 
+	if (quotes_validator(line) == -1 || twinks_validator(line) == -1)
+		return (NULL);
 	args = (t_args *)malloc(sizeof(t_args) * (get_count(line) + 1));
 	args_fill(line, args);
 	return (args);
@@ -68,6 +67,12 @@ void	args_fill(char *line, t_args *args)
 			j++;
 		}
 		i++;
+		if (is_end_line(line, i))
+		{
+			get_string(line, start, ft_strlen(line), &args[j]);
+			j++;
+			break ;
+		}
 	}
 	args[j].args = NULL;
 }
@@ -108,25 +113,10 @@ int	count_args(char *str)
 			double_quotes++;
 		if (str[i] == '\'')
 			single_quotes++;
-		if (str[i] == ' ' && !(single_quotes % 2) && !(double_quotes % 2) &&\
+		if (str[i] == ' ' && !(single_quotes % 2) && !(double_quotes % 2) && \
 			i > 0 && str[i - 1] != '\\')
 			count++;
 		i++;
 	}
 	return (count);
-}
-
-void	get_type(char c, t_args *args)
-{
-	if (c == '|')
-	{
-		args->type = '|';
-		return ;
-	}
-	if (c == ';')
-	{
-		args->type = ';';
-		return ;
-	}
-	args->type = 0;
 }
