@@ -1,7 +1,6 @@
 #include "minishell.h"
-#include "parseader.h"
 
-void new_pwd_env(t_list_env *envs, char *new_pwd)
+static void new_pwd_env(t_list_env *envs, char *new_pwd)
 {
 	t_list_env *pwd;
 	t_list_env *oldpwd;
@@ -17,19 +16,18 @@ void new_pwd_env(t_list_env *envs, char *new_pwd)
 	pwd->content = new_pwd;
 }
 
-
 /*
 ** Is there always OLDPWD and what if it goes unset?
 */
 
-void 	shell_cd(t_data *data)
+void 	shell_cd(t_data *data, char **args)
 {
 	char *new_pwd;
 	char *home;
 	int ret;
 
-	if (!data->args[1] || !ft_strcmp(data->args[1], "~") ||
-		!ft_strcmp(data->args[1], "--"))
+	if (!args[1] || !ft_strcmp(args[1], "~") ||
+		!ft_strcmp(args[1], "--"))
 	{
 		home = find_env_content(data->envlist, "HOME");
 		ret = chdir(home); // try with Null
@@ -38,9 +36,9 @@ void 	shell_cd(t_data *data)
 	}
 	else
 	{
-		ret = chdir(data->args[1]);
+		ret = chdir(args[1]);
 		if (ret == -1)
-			display_error("cd", data->args[1], "No such file or directory");
+			display_error("cd", args[1], "No such file or directory");
 	}
 	new_pwd = getcwd(NULL, 0);
 	new_pwd_env(data->envlist, new_pwd);

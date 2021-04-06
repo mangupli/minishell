@@ -26,8 +26,8 @@ t_list_env *strdup_list(t_list_env **src)
 	new = NULL;
 	while (tmp)
 	{
-		node = ft_mylstnew1(tmp->name, tmp->content, tmp->has_equal);
-		ft_mylstadd_back(&new, node);
+		node = envlistnew1(tmp->name, tmp->content, tmp->has_equal);
+		env_lst_addback(&new, node);
 		tmp = tmp->next;
 	}
 	return (new);
@@ -61,4 +61,18 @@ t_list_env *sort_list(t_list_env *src)
 		}
 	}
 	return (new_root);
+}
+
+void 	free_2d_array(char **array)
+{
+	int i;
+
+	i = -1;
+	while (array[++i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+	}
+	free(array);
+	array = NULL;
 }

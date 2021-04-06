@@ -11,6 +11,7 @@ void 	ft_exit(int errcode)
 ** 1 - argument with executable
 ** 3 - syntax error
 ** 9 - Malloc failed
+** 10 - pipe return -1
 */
 
 void		display_error(char *commandname, char *errname, char *str)

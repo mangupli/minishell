@@ -40,14 +40,14 @@ void 		delete_var_from_list(t_list_env **envs, char *name)
 	}
 }
 
-void		shell_unset(t_data *data)
+void		shell_unset(t_data *data, char **args)
 {
 	int i;
 
 	i = 1;
-	while (data->args[i])
+	while (args[i])
 	{
-		delete_var_from_list(&data->envlist, data->args[i]);
+		delete_var_from_list(&data->envlist, args[i]);
 		i++;
 	}
 }

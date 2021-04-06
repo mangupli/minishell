@@ -11,7 +11,6 @@
 # include	<sys/ioctl.h>
 # include	"../libft/includes/libft.h"
 
-
 /*
 ** int ifd ------------> Terminal stdin file descriptor.
 ** int ofd ------------> Terminal stdout file descriptor.
@@ -24,6 +23,13 @@
 ** size_t cols --------> Number of columns in terminal.
 ** int list --------> The list index we are currently editing.
 */
+
+typedef struct		s_args
+{
+	char			**args;
+	char			type;
+	struct s_args	*next;
+}					t_args;
 
 typedef struct s_state
 {
@@ -63,11 +69,12 @@ typedef struct	s_data
 {
 	t_hist		hist;
 	const char	*prompt;
-	char		**args;
-	t_func		func;
-	char		*echo;
+	t_args		*ar;
 	t_list_env  *envlist;
-	int			fd[2];
+	char		**envp;
+	int			orig_fd[2];
+	int 		pipe_fd[2];
+	int 		fd[2];
 	int 		file[2];
 }				t_data;
 
@@ -116,32 +123,46 @@ struct termios orig_termios; /* In order to restore at exit.*/
 
 void 		display_error(char *commandname, char *errname, char *str);
 int 		execution(t_data *data);
-void		shell_echo(t_data *data);
-void		shell_pwd(t_data *data);
-void		shell_cd(t_data *data);
-void		shell_export(t_data *data);
-void		shell_env(t_data *data);
-void		shell_unset(t_data *data);
+void		shell_echo(t_data *data, char **args);
+void		shell_pwd(t_data *data, char **args);
+void		shell_cd(t_data *data, char **args);
+void		shell_export(t_data *data, char **args);
+void		shell_env(t_data *data, char **args);
+void		shell_unset(t_data *data, char **args);
 void		ft_exit(int errcode);
 char		*find_env_content(t_list_env *envs, char *name);
 t_list_env	*find_env_pointer(t_list_env *envs, char *name);
 int			find_envvar(t_list_env **envs, char *name);
 int			check_symbols(char *name);
-void		add_export_var(t_data *data);
-int			ft_mylstsize(t_list_env *lst);
-t_list_env	*ft_mylstnew(char *content);
-t_list_env	*ft_mylstnew1(char *name, char *content, char has_equal);
-void		ft_mylstadd_back(t_list_env **lst, t_list_env *new);
-void 		add_var_to_list(t_list_env **envs, char *str);
+void		add_export_var(t_data *data, char **args);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
+int			find_fdin(t_data *data);
+int			find_fdout(t_data *data, char type);
+void		free_2d_array(char **array);
+void 		envlist_to_array(t_data *data);
+void		reset_fd(t_data *data);
 
 /*
  * Parser functions
  */
 
 t_list_env	*get_envlist(char **env);
-int			ultimate_validator(char *line);
+int			envlstsize(t_list_env *lst);
+t_args		*arglstnew(char **args, char type);
+void		args_lstadd_back(t_args **lst, t_args *new);
+void		args_clearlist(t_args **ar);
+t_list_env	*envlstnew(char *string);
+t_list_env	*envlistnew1(char *name, char *content, char has_equal);
+void		env_lst_addback(t_list_env **lst, t_list_env *new);
+void 		add_var_to_list(t_list_env **envs, char *str);
+int			find_function_path(t_args *ar, t_list_env *envs);
+
+/*
+ * for test functions
+ */
+
+int		test_parser(char *line, int count, t_data *data);
 
 
 
