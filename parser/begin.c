@@ -1,5 +1,5 @@
 
-#include "parser_head.h"
+#include "parseader.h"
 
 
 void pars_data_init(char *line, t_par *pars)
@@ -114,10 +114,4 @@ int main()
 	begin("\ntest gth|  ", 0, &data);
 	begin("\ntest without  \n", 0, &data);*/
 	begin("a", 0, &data);
-}
-
-//TODO DELETE THIS SHIT
-void		display_error(char *commandname, char *errname, char *str)
-{
-	printf("%s %s %s\n", commandname, errname, str);
 }
