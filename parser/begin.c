@@ -1,4 +1,4 @@
-
+#include "minishell.h"
 #include "parseader.h"
 
 
@@ -68,50 +68,4 @@ int begin(char *line, int i, t_data *data)
 	if (pars.next >= pars.len)
 		return (0);
 	return (pars.next);
-}
-
-void main2()
-{
-	/*char *line = "HELLO ; 'WORLD\\; IM;' ;TEAPOT \";5433 ;you ;hot \";dog ;hahahah;"
-			  "takie dela; skoro buhata \"; daaaa\"; ku';'  ";
-	t_data data;
-	int i = 0;*//*
-
-	printf("%s\n------------\n", line);
-	i = -1;
-	while (1 <= (i = begin(line, i + 1, &data)))
-	{
-		;
-	}
-	line = "<<>>< hello <>ganry'>><'ds><d john > vong <<endy > petr \">><<\" zx";
-
-	printf("%d == 6\n", data.pars.rc);
-	printf("%d == 7\n", data.pars.rrc);
-	printf("%d == 10\n", data.pars.rrl[3]);*//*
-	begin("hel|lo| pr|ivet < gay ; rex > sobaka >> dra>go>n", 0, &data);
-	while (data.pars.locs[i] != -1)
-	{
-		printf("%d\n", data.pars.locs[i]);
-		i++;
-	}*/
-	t_data data;
-/*	begin("test||gth\n--------\n", 0, &data);
-	begin("test|gth\n--------\n", 0, &data);
-	begin("test>gth\n--------\n", 0, &data);
-	begin("test>>gth\n--------\n", 0, &data);
-	begin("test>>>gth\n--------\n", 0, &data);
-	begin("test<gth\n--------\n", 0, &data);
-	begin("test<<gth\n--------\n", 0, &data);
-	begin("test;gth\n--------\n", 0, &data);
-	begin("test;;gth\n--------\n", 0, &data);
-	begin("test|     |gth\n--------\n", 0, &data);
-	begin("test>     >gth\n--------\n", 0, &data);
-	begin("test;     ;gth\n--------\n", 0, &data);
-	begin("test>>gth\n--------\n", 0, &data);
-	begin("test> >gth\n--------\n", 0, &data);
-	begin("test<    <gth\n--------\n", 0, &data);
-	begin("test gth;  ", 0, &data);
-	begin("\ntest gth|  ", 0, &data);
-	begin("\ntest without  \n", 0, &data);*/
-	begin("a", 0, &data);
 }

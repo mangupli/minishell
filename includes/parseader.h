@@ -29,9 +29,11 @@ typedef struct 	s_env
 	char		has_equal;
 }				t_env;
 
-char	**path_parser(t_list_env *envs);
+char	**path_parser(t_list_env *envs); // ITS YOUR FUNCS
+int		get_curr_location(t_args *ar, t_list_env *envs);
 
 
+int		begin(char *line, int i, t_data *data);
 void	pars_data_init(char *line, t_par *par);
 int		start_validators(char *line, t_par *pars);
 int		quotes_counter(char *line, t_par *pars);
@@ -69,7 +71,7 @@ bool im_alone_redirect(char *line, int len);
 //порядок
 //проверка на пустую строку или из одного элемента, но если это ; то что-то сделать
 //если первая итерация
-	//проверка на |     |
+	//SOLVED проверка на |     |  и тд
 	// pars_data_init(t_par *pars);
 	//start_validators(char *line, t_par *pars)
 	//quotes_counter(char *line, t_par *pars);

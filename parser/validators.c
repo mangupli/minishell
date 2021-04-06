@@ -25,7 +25,7 @@ int	validations(char *line, t_par *pars) // TODO free
 		}
 		i++;
 	}
-	free(pars->locs);
+	//free(pars->locs); TODO UNCOMMENTED
 	return (0);
 }
 
