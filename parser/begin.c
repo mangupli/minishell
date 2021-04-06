@@ -70,7 +70,7 @@ int begin(char *line, int i, t_data *data)
 	return (pars.next);
 }
 
-int main()
+void main2()
 {
 	/*char *line = "HELLO ; 'WORLD\\; IM;' ;TEAPOT \";5433 ;you ;hot \";dog ;hahahah;"
 			  "takie dela; skoro buhata \"; daaaa\"; ku';'  ";

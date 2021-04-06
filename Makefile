@@ -26,7 +26,8 @@ env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c\
 \
 for_test.c
 
-SRCS_PARSER = path_parser.c
+SRCS_PARSER = path_parser.c begin.c helpers.c locations.c quotes.c \
+strings.c validators.c
 
 
 # Object files #
