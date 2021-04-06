@@ -28,7 +28,6 @@ int		get_curr_location(t_args *ar, t_list_env *envs)
 	return (0);
 }
 
-
 char	**path_parser(t_list_env *envs)
 {
 	t_list_env *tmp;
@@ -55,24 +54,9 @@ int find_function_path(t_args *ar, t_list_env *envs)
 	char *full_path;
 	char *buf;
 
-	if (ar->args[0][0] == '/')
+	paths = path_parser(envs);
+	if (paths)
 	{
-		fd = open(ar->args[0], O_RDONLY);
-		if (fd > 0)
-		{
-			close(fd);
-			return (1);
-		}
-	}
-	else if (ar->args[0][0] == '.')
-	{
-		i = get_curr_location(ar, envs);
-		if (i)
-			return (1);
-	}
-	else
-	{
-		paths = path_parser(envs);
 		i = -1;
 		while (paths[++i])
 		{

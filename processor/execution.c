@@ -48,24 +48,23 @@ static void child_process(t_data *data, t_args *ar)
 	ret = exec_my_function(ar->args, data);
 	if (ret)
 		exit(0);
-	ret = find_function_path(ar, data->envlist);
-	if (ret)
-	{
-		envlist_to_array(data);
+	if (!ft_strchr(ar->args[0], '/'))
+		find_function_path(ar, data->envlist);
 
-		//debugging args
-		int z = 0;
-		printf("execve->[%s]\n", ar->args[0]);
-		while(ar->args[++z])
-			printf("args[%d]:%s\n", z, ar->args[z]);
-		//end debug
+	envlist_to_array(data);
 
-		execve(ar->args[0], ar->args, data->envp);
-	}
-	else
+	//debugging args
+	int z = 0;
+	printf("execve->[%s]\n", ar->args[0]);
+	while(ar->args[++z])
+		printf("args[%d]:%s\n", z, ar->args[z]);
+	//end debug
+
+	ret = execve(ar->args[0], ar->args, data->envp);
+	if (ret == -1)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
-		exit(127);
+		ft_exit(127); // but what errno returns?
 	}
 }
 
