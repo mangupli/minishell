@@ -37,8 +37,19 @@ static void parent_process(t_data *data)
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
 	waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+	{
+		//printf("exit status %d\n", status);
+		status = WEXITSTATUS(status);
+		printf("exit code = %d\n", status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		printf("signal status %d\n", status);
+		status = status / 256;
+		printf("status / 256 %d\n", status);
+	}
 	//printf("status %d\n", status);
-	//exit(status);
 }
 
 static void child_process(t_data *data, t_args *ar)

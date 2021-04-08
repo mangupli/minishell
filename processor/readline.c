@@ -135,7 +135,7 @@ static int enable_mode(int fd)
 {
 	struct termios raw;
 
-	if (tcgetattr(fd,&orig_termios) == -1)
+	if (tcgetattr(fd, &orig_termios) == -1)
 	{
 		errno = ENOTTY;
 		return (-1);
