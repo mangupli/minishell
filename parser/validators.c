@@ -1,81 +1,100 @@
-#include "minishell.h"
 #include "parseader.h"
 
-int quotes_validator(char *line)
+int	validations(char *line, t_par *pars) // TODO free
 {
-	int		i;
-	int		double_quotes;
-	int		single_quotes;
+	int i;
+	int next;
 
-	i = 0;
-	double_quotes = 0;
-	single_quotes = 0;
-	while (line[i] != '\0')
+	locations_compile(pars);
+	if (has_twinks_redirects(pars))
 	{
-		if ((line[i] == '\'' && i > 0 && line[i - 1] != '\\') || \
-				(!i && line[i] == '\''))
-			single_quotes++;
-		if ((line[i] == '"' && i > 0 && line[i - 1] != '\\') || \
-				(!i && line[i] == '"'))
-			double_quotes++;
-		i++;
-	}
-	if (single_quotes % 2 || double_quotes % 2)
-	{
-		display_error("minishell", "syntax error", "unexpected token");
+		free(pars->locs);
 		return (-1);
 	}
-	return (0);
-}
-
-int ft_strlen_to_pipe_or_comma(char *line, int i)
-{
-	int len;
-
-	len = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == ';' || line[i] == '|')
-			break ;
-		i++;
-		len++;
-	}
-	return (len + 1);
-}
-
-int	twinks_validator(char *line)
-{
-	int		i;
-	int		len;
-
 	i = 0;
-	len = ft_strlen(line);
-	while (line[i] != '\0')
+	while (pars->locs[i] != -1 && (pars->ppc || pars->rc || pars->rrc))
 	{
-		if ((line[i] == '|' && i + 1 <= len && line[i + 1] == '|') || \
-			(line[i] == ';' && i + 1 <= len && line[i + 1] == ';') || \
-			(i + 2 <= len && line[i] == '>' && line[i + 1] == '>' && \
-			line[i + 2] == '>') || (line[i] == '<' && i + 1 <= len && \
-			line[i + 1] == '<') || (line[i] == '|' && i == 0))
+		if (pars->locs[i + 1] == -1)
+			next = pars->len;
+		else
+			next = pars->locs[i + 1];
+		if (between_only_spaces_or_twinks(line, pars->locs[i], next, pars->len))
 		{
-			if ((i > 0 && line[i - 1] != '\\') || (i == 0))
-			{
-				printf("%s", line);
-				display_error("minishell", "syntax error", "unexpected token");
-				printf("\n");
-				return (-1);
-			}
+			free(pars->locs);
+			return (-1);
 		}
 		i++;
 	}
+	//free(pars->locs); TODO UNCOMMENTED
 	return (0);
 }
 
-int		is_end_arg(char *line, int i, int double_quotes, int single_quotes)
+void	sorted_array(t_par *pars)
 {
-	if ((line[i] == '|' || line[i] == ';') && i > 0 && \
-			line[i - 1] != '\\' && ft_strlen(line) - 1 > i && \
-			!(double_quotes % 2) && !(single_quotes % 2))
-		return (1);
-	return (0);
+	int i;
+	int j;
+	int tmp;
+
+	i = 0;
+	while (i < (pars->scc + pars->ppc + pars->rc + pars->rrc))
+	{
+		j = i + 1;
+		while (j < (pars->scc + pars->ppc + pars->rc + pars->rrc))
+		{
+			if (pars->locs[i] > pars->locs[j])
+			{
+				tmp = pars->locs[i];
+				pars->locs[i] = pars->locs[j];
+				pars->locs[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	fill_locs_array(t_par *pars, int *src, int i, int stop)
+{
+	int j;
+
+	j = 0;
+	while (j < stop)
+	{
+		pars->locs[i] = src[j];
+		j++;
+		i++;
+	}
+	return (i);
+}
+
+bool	has_twinks_redirects(t_par *pars) // TODO проверить работоспособность 
+{
+	int i;
+
+	i = 0;
+	while (i + 2 < pars->rc)
+	{
+		if ((pars->rl[i + 2] - pars->rl[i + 1]) == 1 && \
+			(pars->rl[i + 1] - pars->rl[i]) == 1)
+			return (True);
+		i++;
+	}
+	return (False);
+}
+
+bool	between_only_spaces_or_twinks(char *line, int start, int stop, int len)
+{
+	if (stop - start == 1 && line[start] != '>')
+		return (True);
+	if ((line[start] == '>' && line[stop] == '>' && stop - start == 1) || \
+				 (stop == len && line[start] == ';'))
+		return (False);
+	start++;
+	while (start < stop)
+	{
+		if (line[start] != ' ')
+			return (False);
+		start++;
+	}
+	return (True);
 }

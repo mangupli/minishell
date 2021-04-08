@@ -24,6 +24,40 @@
 ** int list --------> The list index we are currently editing.
 */
 
+
+typedef struct s_par
+{
+	int		dqc; //double quotes count
+	int		sqc; // single quotes count
+	int		*dql; // double quotes locations
+	int 	*sql; // single quotes locations
+	int		ppc; // pipes count
+	int		*ppl; // pipes locations
+	int		scc; // semicolon count
+	int		*sccl; // semicolon locations
+	int		rc; // redirects count
+	int 	*rl; // redirects locations
+	int 	rrc; // reverse redirects count
+	int 	*rrl; // reverse redirects locations
+	int		*locs; // all symbols
+
+	//helpers
+	int		dqi; //double quotes location index
+	int		sqi; //single quotes location index
+	int		tmpdq; //double quotes temp count
+	int 	tmpsq; //single quotes temp count
+	int		tmpi; //temp location index
+	int		len; // string length
+	int		tmpp; // temp pipes index locations
+	int		tmps; // temp semicolon index locations
+	int		tmpr; // temp redirects index locations
+	int		tmprr; // temp reverse redirects index locations
+
+	int 	next; //??
+	int 	prev_dest; //?
+}				t_par;
+
+
 typedef struct		s_args
 {
 	char			**args;
@@ -76,6 +110,7 @@ typedef struct	s_data
 	int 		pipe_fd[2];
 	int 		fd[2];
 	int 		file[2];
+	t_par		pars;
 }				t_data;
 
 /*
