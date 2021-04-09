@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+int g_status = 0;
+int g_lastpid = 0;
+
 void reset_fd(t_data *data)
 {
 	//do we need to reset original fd?
@@ -47,7 +50,7 @@ void minishell(t_data *data)
 	char *line;
 	int count;
 
-	//line = "ps aux | grep root";
+	//line = "echo $PWD";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (line[0] != '\0')

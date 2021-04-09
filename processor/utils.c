@@ -1,5 +1,10 @@
 #include "minishell.h"
-#include "parseader.h"
+
+void		ft_free(void *ptr)
+{
+	free(ptr);
+	ptr = NULL;
+}
 
 int check_symbols(char *name)
 {

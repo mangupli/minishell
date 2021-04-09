@@ -8,8 +8,6 @@ static int func_in_return(t_data *data, char **args, void (*f)(t_data *, char **
 
 static int exec_my_function(char **args, t_data *data)
 {
-	int i;
-
 	if (!ft_strcmp(args[0], "exit"))
 		ft_exit(0);
 	else if (!ft_strcmp(args[0], "cd"))
@@ -18,9 +16,7 @@ static int exec_my_function(char **args, t_data *data)
 		return (func_in_return(data, args, shell_export));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (func_in_return(data, args, shell_unset));
-	i = -1;
-	while (args[++i])
-		args[i] = ft_str_to_lower(args[i]);
+	args[0] = ft_str_to_lower(args[0]);
 	if (!ft_strcmp(args[0], "echo"))
 		return (func_in_return(data, args, shell_echo));
 	else if (!ft_strcmp(args[0], "pwd"))
@@ -32,24 +28,21 @@ static int exec_my_function(char **args, t_data *data)
 
 static void parent_process(t_data *data)
 {
-	int status;
-
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
-	waitpid(-1, &status, 0);
+	waitpid(-1, &g_status, 0);
 
-	if (WIFEXITED(status))
+	if (WIFEXITED(g_status))
 	{
 		//printf("exit status %d\n", status);
-		status = WEXITSTATUS(status);
-		printf("exit code = %d\n", status);
+		g_status = WEXITSTATUS(g_status);
+		printf("exit code = %d\n", g_status);
 	}
-	else if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(g_status))
 	{
-		status = status | 128;
-		printf("\nexit code = %d\n", status);
+		g_status = g_status | 128;
+		printf("\nexit code = %d\n", g_status);
 	}
-	//printf("status %d\n", status);
 }
 
 static void child_process(t_data *data, t_args *ar)
@@ -68,14 +61,19 @@ static void child_process(t_data *data, t_args *ar)
 	int z = 0;
 	printf("execve->[%s]\n", ar->args[0]);
 	while(ar->args[++z])
-		printf("args[%d]:%s\n", z, ar->args[z]);
+		printf("args[%d]->[%s]\n", z, ar->args[z]);
 	//end debug
 
 	ret = execve(ar->args[0], ar->args, data->envp);
-	if (ret == -1)
+	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
 		ft_exit(127); // but what errno returns?
+	}
+	else
+	{
+		display_error("minishell", ar->args[0], "permission denied");
+		ft_exit(126);
 	}
 }
 
@@ -114,6 +112,7 @@ int  execution(t_data *data)
 		}
 		else //parent
 		{
+			g_lastpid = pid;
 			parent_process(data);
 		}
 		tmp = tmp->next;

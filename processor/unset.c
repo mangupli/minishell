@@ -29,7 +29,10 @@ void 		delete_var_from_list(t_list_env **envs, char *name)
 
 	found = check_symbols(name);
 	if (found)
+	{
+		g_status = 1;
 		display_error("minishell", "export", "not a valid identifier");
+	}
 	else
 	{
 		found = find_envvar(envs, name);

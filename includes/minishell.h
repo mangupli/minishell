@@ -26,6 +26,8 @@
 ** int list --------> The list index we are currently editing.
 */
 
+extern int g_status;
+extern int g_lastpid;
 
 typedef struct s_par
 {
@@ -179,6 +181,7 @@ int			find_fdout(t_data *data, char type);
 void		free_2d_array(char **array);
 void 		envlist_to_array(t_data *data);
 void		reset_fd(t_data *data);
+void		ft_free(void *ptr);
 
 /*
  * Parser functions

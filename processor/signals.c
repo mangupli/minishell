@@ -15,5 +15,4 @@ static void	signal_handler(int sig)
 void set_signals(t_data *data)
 {
 	signal(SIGINT, signal_handler);
-
 }

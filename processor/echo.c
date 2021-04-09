@@ -27,5 +27,6 @@ void 	shell_echo(t_data *data, char **args)
 		}
 		if (!flag)
 			ft_putstr_fd("\n", 1);
+		g_status = 0;
 	}
 }

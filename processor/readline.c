@@ -95,6 +95,7 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		else if (c == CTRL_C)
 		{
 			errno = EAGAIN;
+			g_status = 1;
 			buf[0] = '\0';
 			return (0);
 		}
