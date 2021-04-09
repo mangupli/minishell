@@ -37,6 +37,7 @@ static void parent_process(t_data *data)
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
 	waitpid(-1, &status, 0);
+
 	if (WIFEXITED(status))
 	{
 		//printf("exit status %d\n", status);
@@ -81,9 +82,9 @@ static void child_process(t_data *data, t_args *ar)
 
 int  execution(t_data *data)
 {
-	pid_t pid;
 	int ret;
 	t_args *tmp;
+	pid_t pid;
 
 	tmp = data->ar;
 	while (tmp)

@@ -42,29 +42,23 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->envp = NULL;
 }
 
-int			main(int argc, char **argv, char **env)
+void minishell(t_data *data)
 {
 	char *line;
-	t_data	data;
 	int count;
 
-	init_shell(&data, argc, argv, env);
-
 	//line = "ps aux | grep root";
-
-	while ((line = ft_readline(&data)) != NULL)
+	while ((line = ft_readline(data)) != NULL)
 	{
-
 		if (line[0] != '\0')
 		{
-
 			count = 0;
 			while (*(line + count))
 			{
-				count += test_parser(line + count, count, &data); // строку сначала давай в парсер виталика, а не line+count
+				count += test_parser(line + count, count, data); // строку сначала давай в парсер виталика, а не line+count
 				printf("count %d\n", count);
 
-				add_history(line, &data.hist); // Add to the list.
+				add_history(line, &data->hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.
 
 				if (count == -1)
@@ -73,11 +67,21 @@ int			main(int argc, char **argv, char **env)
 					break;
 				}
 				else
-					execution(&data);
-				renew_data(&data);
+					execution(data);
+				renew_data(data);
 			}
 		}
 		free(line);
 	}
+}
+
+int			main(int argc, char **argv, char **env)
+{
+	t_data	data;
+
+	init_shell(&data, argc, argv, env);
+	set_signals(&data);
+	minishell(&data);
+
 	return (0);
 }

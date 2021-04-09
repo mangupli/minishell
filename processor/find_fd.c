@@ -14,7 +14,7 @@ int		find_fdin(t_data *data)
 		fd = dup(data->orig_fd[0]);
 	}
 	if (data->pipe_fd[0])
-		close(data->pipe_fd[0]);
+		close(data->pipe_fd[0]); // оставь здесь
 	data->pipe_fd[0] = 0;
 	return (fd);
 }

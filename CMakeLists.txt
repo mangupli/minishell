@@ -25,7 +25,8 @@ add_executable(shell main.c
         processor/env.c
         processor/envir_var.c
         processor/unset.c
-
+        processor/find_fd.c
+        processor/signals.c
 
         parser/begin.c
         parser/helpers.c
