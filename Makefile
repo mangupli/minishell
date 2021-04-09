@@ -22,7 +22,8 @@ SRCS_MAIN = main.c
 
 SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
 history.c exit.c execution.c echo.c pwd.c cd.c utils.c export.c \
-env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c\
+env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c \
+signals.c \
 \
 for_test.c
 

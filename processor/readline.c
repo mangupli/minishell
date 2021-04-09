@@ -95,7 +95,8 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		else if (c == CTRL_C)
 		{
 			errno = EAGAIN;
-			return (-1);
+			buf[0] = '\0';
+			return (0);
 		}
 		else if (c == BACKSPACE)
 			backspace_edit(&a);
@@ -135,7 +136,7 @@ static int enable_mode(int fd)
 {
 	struct termios raw;
 
-	if (tcgetattr(fd,&orig_termios) == -1)
+	if (tcgetattr(fd, &orig_termios) == -1)
 	{
 		errno = ENOTTY;
 		return (-1);
@@ -178,8 +179,8 @@ static int rawline(char *buf, t_data *data)
 		return (-1);
 	count = edit(STDIN_FILENO, STDOUT_FILENO, buf, data);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
-	printf("\n");
-	return count;
+	ft_putstr_fd("\n", 1);
+	return (count);
 }
 
 char	*ft_readline(t_data *data)

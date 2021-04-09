@@ -10,6 +10,8 @@
 # include	<errno.h>
 # include	<sys/ioctl.h>
 # include	"../libft/includes/libft.h"
+#include	<signal.h>
+
 
 /*
 ** int ifd ------------> Terminal stdin file descriptor.
@@ -192,6 +194,8 @@ t_list_env	*envlistnew1(char *name, char *content, char has_equal);
 void		env_lst_addback(t_list_env **lst, t_list_env *new);
 void 		add_var_to_list(t_list_env **envs, char *str);
 int			find_function_path(t_args *ar, t_list_env *envs);
+void 		set_signals(t_data *data);
+void		minishell(t_data *data);
 
 /*
  * for test functions
