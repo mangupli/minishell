@@ -46,9 +46,8 @@ static void parent_process(t_data *data)
 	}
 	else if (WIFSIGNALED(status))
 	{
-		printf("signal status %d\n", status);
-		status = status / 256;
-		printf("status / 256 %d\n", status);
+		status = status | 128;
+		printf("\nexit code = %d\n", status);
 	}
 	//printf("status %d\n", status);
 }

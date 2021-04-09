@@ -2,14 +2,15 @@
 
 static void	signal_handler(int sig)
 {
-	int status;
+	int ret;
+
 	if (sig == SIGINT)
 	{
-		status = waitpid(-1, 0, 0);
-		printf("\nstatus %d\n", status);
+		ret = waitpid(-1, 0, WNOHANG);
+		if (ret)
+			kill(1, sig);
 	}
 }
-
 
 void set_signals(t_data *data)
 {

@@ -10,6 +10,8 @@
 # include	<errno.h>
 # include	<sys/ioctl.h>
 # include	"../libft/includes/libft.h"
+#include	<signal.h>
+
 
 /*
 ** int ifd ------------> Terminal stdin file descriptor.
