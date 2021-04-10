@@ -90,5 +90,6 @@ void				ft_putendl(char *s);
 int					ft_numlen(long nb);
 void				*ft_realloc(void *ptr, size_t newsize);
 char				*ft_strdup(const char *s1);
+int					ft_str_is_numeric(char *str);
 
 #endif

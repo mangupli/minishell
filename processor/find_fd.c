@@ -29,7 +29,7 @@ int		find_fdout(t_data *data, char type)
 	{
 		ret = pipe(data->pipe_fd);
 		if (ret == -1)
-			ft_exit(10);
+			ft_exit(10, data);
 		fd = dup(data->pipe_fd[1]);
 	}
 	else

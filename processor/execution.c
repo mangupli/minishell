@@ -9,7 +9,7 @@ static int func_in_return(t_data *data, char **args, void (*f)(t_data *, char **
 static int exec_my_function(char **args, t_data *data)
 {
 	if (!ft_strcmp(args[0], "exit"))
-		ft_exit(0);
+		return (shell_exit(args, 0, data));
 	else if (!ft_strcmp(args[0], "cd"))
 		return (func_in_return(data, args, shell_cd));
 	else if (!ft_strcmp(args[0], "export"))
@@ -70,12 +70,12 @@ static void child_process(t_data *data, t_args *ar)
 	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
-		ft_exit(127); // but what errno returns?
+		ft_exit(127, data); // but what errno returns?
 	}
 	else
 	{
 		display_error("minishell", ar->args[0], "permission denied");
-		ft_exit(126);
+		ft_exit(126, data);
 	}
 }
 

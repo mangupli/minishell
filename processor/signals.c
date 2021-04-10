@@ -5,6 +5,7 @@ static void	signal_handler(int sig)
 	int ret;
 
 	ret = waitpid(-1, 0, WNOHANG);
+	printf("waitpid call\n");
 	if (ret)
 		kill(1, sig);
 }
