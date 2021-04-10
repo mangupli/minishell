@@ -35,7 +35,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	if (argc != 1)
 	{
 		display_error("minishell", argv[1], "cannot execute this file");
-		ft_exit(1);
+		ft_exit(127);
 	}
 	data->envlist = get_envlist(env);
 	data->orig_fd[0] = dup(0);
@@ -50,7 +50,7 @@ void minishell(t_data *data)
 	char *line;
 	int count;
 
-	//line = "echo $PWD";
+	//line = "      ";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (line[0] != '\0')
@@ -59,7 +59,6 @@ void minishell(t_data *data)
 			while (*(line + count))
 			{
 				count += test_parser(line + count, count, data); // строку сначала давай в парсер виталика, а не line+count
-				printf("count %d\n", count);
 
 				add_history(line, &data->hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.
@@ -74,7 +73,7 @@ void minishell(t_data *data)
 				renew_data(data);
 			}
 		}
-		free(line);
+	free(line);
 	}
 }
 

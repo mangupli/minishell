@@ -103,7 +103,7 @@ void dollar(t_data *data)
 	tmp = data->ar;
 	while (tmp)
 	{
-		if (tmp->args)
+		if (tmp->args && tmp->args[0])
 		{
 			i = 0;
 			while (tmp->args[++i])
@@ -158,10 +158,11 @@ int test_parser(char *line, int count, t_data *data)
 		if (line[i] == '|')
 			count++;
 	}
+
 	get_args_list(str, data, count);
 	free(str);
-
 	dollar(data);
+
 
 	return (ret);
 }

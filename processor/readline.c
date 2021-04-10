@@ -105,8 +105,11 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		{
 			data->hist.len--;
 			free(data->hist.list[data->hist.len]);
+			ft_putstr_fd("exit", 1);
 			return (-1);
 		}
+		else if (c == CTRL_BACKSLASH)
+			continue ;
 		else if (c == ESC)
 		{
 			ret = read(a.ifd, keys, 2);

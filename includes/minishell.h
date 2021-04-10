@@ -147,7 +147,8 @@ enum KEY_ACTION{
 	CTRL_T = 20,        /* Ctrl-t */
 	CTRL_U = 21,        /* Ctrl+u */
 	CTRL_W = 23,        /* Ctrl+w */
-	ESC = 27,           /* Escape */
+	ESC = 27,
+	CTRL_BACKSLASH = 28,/* Escape */
 	BACKSPACE =  127    /* Backspace */
 };
 

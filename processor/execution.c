@@ -42,6 +42,8 @@ static void parent_process(t_data *data)
 	{
 		g_status = g_status | 128;
 		printf("\nexit code = %d\n", g_status);
+		if (g_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
 	}
 }
 
@@ -86,37 +88,39 @@ int  execution(t_data *data)
 	tmp = data->ar;
 	while (tmp)
 	{
-		if (tmp->type == 0)
+		if (tmp->args && tmp->args[0])
 		{
-			ret = exec_my_function(tmp->args, data);
-			if (ret)
-				return (0);
-		}
-		data->fd[0] = find_fdin(data);
-		data->fd[1] = find_fdout(data, tmp->type);
+			if (tmp->type == 0)
+			{
+				ret = exec_my_function(tmp->args, data);
+				if (ret)
+					return (0);
+			}
+			data->fd[0] = find_fdin(data);
+			data->fd[1] = find_fdout(data, tmp->type);
 
-	/*
-		printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
-		printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
-		printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-	*/
+			/*
+					printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
+					printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
+					printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
+			*/
 
-		dup2(data->fd[0], 0);
-		close(data->fd[0]);
-		dup2(data->fd[1], 1);
-		close(data->fd[1]);
-		pid = fork();
-		if (pid == 0) //child
-		{
-			child_process(data, tmp);
-		}
-		else //parent
-		{
-			g_lastpid = pid;
-			parent_process(data);
+			dup2(data->fd[0], 0);
+			close(data->fd[0]);
+			dup2(data->fd[1], 1);
+			close(data->fd[1]);
+			pid = fork();
+			if (pid == 0) //child
+			{
+				child_process(data, tmp);
+			} else //parent
+			{
+				g_lastpid = pid;
+				parent_process(data);
+			}
+			reset_fd(data);
 		}
 		tmp = tmp->next;
-		reset_fd(data);
 	}
 	return (0);
 }
