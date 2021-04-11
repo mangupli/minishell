@@ -57,7 +57,7 @@ typedef struct s_par
 	int		tmpr; // temp redirects index locations
 	int		tmprr; // temp reverse redirects index locations
 
-	int 	next; //??
+	int 	next; // next iteration
 	int 	prev_dest; //?
 }				t_par;
 

@@ -56,9 +56,11 @@ bool	has_twinks_redirects(t_par *pars);
 
 
 char	*split_on_semicolon(char *line, int i, t_par *pars);
-
-
 int		get_end(int i, t_par *pars);
+
+
+int		str_has_pipe(t_par *pars);
+
 
 // helpers
 bool behind_has_backslash(char *line, char current, char *set, int i);
@@ -77,17 +79,18 @@ bool im_alone_redirect(char *line, int len);
 	//quotes_counter(char *line, t_par *pars);
 	//quotes_locations(char *line, t_par *pars);
 	//counter(char *line, t_par *pars);
-	//allocate_locations(t_par *pars);
-	//locations(char *line, t_par *pars);
+	//
+	//locations(char *line, t_par *pars); --> allocate_locations(t_par *pars);
 	//validations(char *line, t_par *pars)
 	// SOLVED перед вызовом сделать проверку, что хотя бы какие-то локации символов есть
 	//прежде чем сплитить до первого ; и узнавать их положение нужно проверить,
 	// если она вообще, если нет, то пропускать
-// SOLVED нужна проверка на наличие аргументов после редиректов типа >>EOF    <EOF +++ solved
-// SOLVED плюс нужна проверка на дубли ;; || >>> <<
+	// SOLVED нужна проверка на наличие аргументов после редиректов типа >>EOF    <EOF +++
+	// SOLVED плюс нужна проверка на дубли ;; || >>> <<
 
 
 //char **split_by_semicolon(char *line, t_par *pars)
 
+//bool	str_has_pipe(t_par *pars);
 
 #endif
