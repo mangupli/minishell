@@ -28,13 +28,15 @@ static int exec_my_function(char **args, t_data *data)
 
 static void parent_process(t_data *data)
 {
+	int ret;
+
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
-	waitpid(-1, &g_status, 0);
-
+	ret = waitpid(-1, &g_status, 0);
+	if (ret == -1)
+		ft_exit(-1, data);
 	if (WIFEXITED(g_status))
 	{
-		//printf("exit status %d\n", status);
 		g_status = WEXITSTATUS(g_status);
 		printf("exit code = %d\n", g_status);
 	}
@@ -53,9 +55,13 @@ static void child_process(t_data *data, t_args *ar)
 
 	ret = exec_my_function(ar->args, data);
 	if (ret)
-		exit(0);
+		exit(g_status);
 	if (!ft_strchr(ar->args[0], '/'))
-		find_function_path(ar, data->envlist);
+	{
+		ret = find_function_path(ar, data->envlist);
+		if (ret == -1)
+			ft_exit(-1, data);
+	}
 
 	envlist_to_array(data);
 
@@ -66,17 +72,62 @@ static void child_process(t_data *data, t_args *ar)
 		printf("args[%d]->[%s]\n", z, ar->args[z]);
 	//end debug
 
-	ret = execve(ar->args[0], ar->args, data->envp);
+	execve(ar->args[0], ar->args, data->envp);
 	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
-		ft_exit(127, data); // but what errno returns?
+		ft_exit(127, data);
 	}
-	else
+	else if (errno == 13)
 	{
 		display_error("minishell", ar->args[0], "permission denied");
 		ft_exit(126, data);
 	}
+	else
+		ft_exit(-1, data);
+}
+
+static void find_fd(t_data *data, char type)
+{
+
+	data->fd[0] = find_fdin(data);
+	data->fd[1] = find_fdout(data, type);
+
+/*
+	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
+	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
+	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
+*/
+
+	dup2(data->fd[0], 0);
+	close(data->fd[0]);
+	dup2(data->fd[1], 1);
+	close(data->fd[1]);
+
+}
+
+static int processes(t_data *data, t_args *tmp)
+{
+	pid_t pid;
+
+	//find_fd(data, tmp->type);
+	pid = fork();
+	if (pid == 0)
+	{
+		child_process(data, tmp);
+	}
+	else if (pid > 0)
+	{
+		g_lastpid = pid;
+		parent_process(data);
+	}
+	else
+	{
+		display_error("minishell", NULL, strerror(errno));
+		return (-1);
+	}
+	reset_fd(data);
+	return (0);
 }
 
 int  execution(t_data *data)
@@ -84,6 +135,7 @@ int  execution(t_data *data)
 	int ret;
 	t_args *tmp;
 	pid_t pid;
+
 
 	tmp = data->ar;
 	while (tmp)
@@ -96,29 +148,9 @@ int  execution(t_data *data)
 				if (ret)
 					return (0);
 			}
-			data->fd[0] = find_fdin(data);
-			data->fd[1] = find_fdout(data, tmp->type);
-
-			/*
-					printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
-					printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
-					printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-			*/
-
-			dup2(data->fd[0], 0);
-			close(data->fd[0]);
-			dup2(data->fd[1], 1);
-			close(data->fd[1]);
-			pid = fork();
-			if (pid == 0) //child
-			{
-				child_process(data, tmp);
-			} else //parent
-			{
-				g_lastpid = pid;
-				parent_process(data);
-			}
-			reset_fd(data);
+			ret = processes(data, tmp);
+			if (ret == -1)
+				return (-1);
 		}
 		tmp = tmp->next;
 	}

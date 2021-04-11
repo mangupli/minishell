@@ -5,13 +5,19 @@ static void	signal_handler(int sig)
 	int ret;
 
 	ret = waitpid(-1, 0, WNOHANG);
-	printf("waitpid call\n");
+	if (ret == -1)
+	{
+		display_error("minishell", NULL, strerror(errno));
+		exit(-1);
+	}
 	if (ret)
 		kill(1, sig);
 }
 
 void set_signals(t_data *data)
 {
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		ft_exit(-1, data);
+	if (signal(SIGQUIT, signal_handler) == SIG_ERR)
+		ft_exit(-1, data);
 }
