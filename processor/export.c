@@ -63,6 +63,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 			env_lst_addback(envs, new);
 		else
 		{
+			g_status = 1;
 			display_error("minishell", "export", "not a valid identifier");
 		}
 	}

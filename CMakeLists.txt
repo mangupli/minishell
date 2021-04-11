@@ -27,6 +27,10 @@ add_executable(shell main.c
         processor/unset.c
         processor/find_fd.c
         processor/signals.c
+        processor/envslist_utils.c
+        processor/argslist_utils.c
+        parser/path_parser.c
+        processor/for_test.c
 
         parser/begin.c
         parser/helpers.c

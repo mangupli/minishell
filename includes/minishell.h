@@ -26,6 +26,8 @@
 ** int list --------> The list index we are currently editing.
 */
 
+extern int g_status;
+extern int g_lastpid;
 
 typedef struct s_par
 {
@@ -145,7 +147,8 @@ enum KEY_ACTION{
 	CTRL_T = 20,        /* Ctrl-t */
 	CTRL_U = 21,        /* Ctrl+u */
 	CTRL_W = 23,        /* Ctrl+w */
-	ESC = 27,           /* Escape */
+	ESC = 27,
+	CTRL_BACKSLASH = 28,/* Escape */
 	BACKSPACE =  127    /* Backspace */
 };
 
@@ -166,7 +169,8 @@ void		shell_cd(t_data *data, char **args);
 void		shell_export(t_data *data, char **args);
 void		shell_env(t_data *data, char **args);
 void		shell_unset(t_data *data, char **args);
-void		ft_exit(int errcode);
+void		ft_exit(int errcode, t_data *data);
+int 		shell_exit(char **args, int errcode, t_data *data);
 char		*find_env_content(t_list_env *envs, char *name);
 t_list_env	*find_env_pointer(t_list_env *envs, char *name);
 int			find_envvar(t_list_env **envs, char *name);
@@ -179,6 +183,8 @@ int			find_fdout(t_data *data, char type);
 void		free_2d_array(char **array);
 void 		envlist_to_array(t_data *data);
 void		reset_fd(t_data *data);
+void		ft_free(void *ptr);
+void		close_file_fd(t_data *data);
 
 /*
  * Parser functions

@@ -32,14 +32,24 @@ void 	shell_cd(t_data *data, char **args)
 		home = find_env_content(data->envlist, "HOME");
 		ret = chdir(home); // try with Null
 		if (ret == -1)
+		{
+			g_status = 1;
 			display_error("cd", NULL, "HOME not set");
+			return ;
+		}
 	}
 	else
 	{
 		ret = chdir(args[1]);
 		if (ret == -1)
-			display_error("cd", args[1], "No such file or directory");
+		{
+			g_status = 1;
+			display_error("cd", args[1],
+						  "No such file or directory");
+			return;
+		}
 	}
 	new_pwd = getcwd(NULL, 0);
 	new_pwd_env(data->envlist, new_pwd);
+	g_status = 0;
 }

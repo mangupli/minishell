@@ -70,6 +70,54 @@ int get_args_list(char *str, t_data *data, int count)
 	return (0);
 }
 
+void change_dollar(t_data *data, char **arg)
+{
+	char *env;
+	char *content;
+
+
+	env = ft_substr(*arg, 1, ft_strlen(*arg) - 1);
+	ft_free(*arg);
+	if (!ft_strcmp(env, "?"))
+	{
+		content = ft_itoa(g_status);
+		*arg = content;
+	}
+	else
+	{
+		content = find_env_content(data->envlist, env);
+		if (content)
+			*arg = ft_strdup(content);
+		else
+			*arg = ft_strdup("");
+	}
+	if (env)
+		ft_free(env);
+}
+
+void dollar(t_data *data)
+{
+	t_args *tmp;
+	int i;
+
+	tmp = data->ar;
+	while (tmp)
+	{
+		if (tmp->args && tmp->args[0])
+		{
+			i = 0;
+			while (tmp->args[++i])
+			{
+				if (tmp->args[i][0] == '$')
+				{
+					change_dollar(data, &tmp->args[i]);
+				}
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 int test_parser(char *line, int count, t_data *data)
 {
 	int ret;
@@ -110,7 +158,11 @@ int test_parser(char *line, int count, t_data *data)
 		if (line[i] == '|')
 			count++;
 	}
+
 	get_args_list(str, data, count);
 	free(str);
+	dollar(data);
+
+
 	return (ret);
 }
