@@ -53,8 +53,9 @@ void minishell(t_data *data)
 {
 	char *line;
 	int count;
+	int ret;
 
-	//line = "echo $?";
+	//line = "ps aux | grep rot | grep sbin";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (line[0] != '\0')
