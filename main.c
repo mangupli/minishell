@@ -11,7 +11,6 @@ void	close_file_fd(t_data *data)
 		close(data->file[1]);
 }
 
-
 void reset_fd(t_data *data)
 {
 	//do we need to reset original fd?
@@ -63,14 +62,19 @@ void minishell(t_data *data)
 			count = 0;
 			while (*(line + count))
 			{
-				count += test_parser(line + count, count, data); // строку сначала давай в парсер виталика, а не line+count
+				count += test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
+
+				//debug parser
+				printf("argslist size %d\n", argslstsize(data->ar));
+				//end debug
 
 				add_history(line, &data->hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.
 
 				if (count == -1)
 				{
-					// renew_data(&data); // нужно ли?
+					// renew_data(&data); // TODO: нужно ли?
+					g_status = 258; // TODO: может виталик присвоить его?
 					break;
 				}
 				else

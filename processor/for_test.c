@@ -1,16 +1,59 @@
 #include "minishell.h"
 
+
+int redir_type = 0;
 /*
 ** Help to debug, type == 1 -> our function
 */
 
 void print_arguments(char **args, char type)
 {
+	if (!type)
+		printf("execve->");
+	else
+		printf("my_func->");
+	printf("[%s]\n", args[0]);
 	int z = 0;
-	printf("execve->[%s]\n", args[0]);
 	while(args[++z])
 		printf("args[%d]->[%s]\n", z, args[z]);
-	//end debug
+}
+
+/*
+** 1 = >
+** 2 = >>
+** 4 = <
+*/
+
+int find_redir(char **args)
+{
+	int i;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (!ft_strcmp(args[i], ">"))
+			redir_type |= 1;
+		if (!ft_strcmp(args[i], ">>"))
+			redir_type |= 2;
+		if (!ft_strcmp(args[i], "<"))
+			redir_type |= 4;
+	}
+	if (redir_type > 0)
+		return (1);
+	return (0);
+}
+
+void	set_redir(t_args *args)
+{
+	t_args *tmp;
+	int ret;
+
+	tmp = args;
+	while (tmp)
+	{
+		ret = find_redir(tmp->args);
+		tmp = tmp->next;
+	}
 }
 
 
@@ -28,7 +71,7 @@ void print_arguments(char **args, char type)
 ** args_lstadd_back(&head, node); -> adds node to the end of the head list
 */
 
-int get_args_list(char *str, t_data *data, int count)
+int get_args_list(char *str, t_data *data, int pipes)
 {
 	int i;
 	char *newstr;
@@ -42,7 +85,7 @@ int get_args_list(char *str, t_data *data, int count)
 	i = -1;
 	j = 0;
 	start = 0;
-	while (str[++i] && j <= count)
+	while (str[++i] && j <= pipes)
 	{
 		if (str[i] == '|')
 		{
@@ -53,8 +96,7 @@ int get_args_list(char *str, t_data *data, int count)
 			start = i + 1;
 			j++;
 
-			free(newstr);
-			newstr = NULL;
+			ft_free(newstr);
 		}
 	}
 
@@ -63,10 +105,11 @@ int get_args_list(char *str, t_data *data, int count)
 	node = arglstnew(args, 0);
 	node->type = 0;
 	args_lstadd_back(&data->ar, node);
-	free(newstr);
-	newstr = NULL;
+	ft_free(newstr);
 
-	printf("argslist size %d\n", argslstsize(data->ar));
+	set_redir(data->ar);
+
+
 
 	return (0);
 }
