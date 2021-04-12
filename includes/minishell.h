@@ -207,15 +207,12 @@ void		env_lst_addback(t_list_env **lst, t_list_env *new);
 void 		add_var_to_list(t_list_env **envs, char *str);
 int			find_function_path(t_args *ar, t_list_env *envs);
 
-
 /*
  * for test|debug functions
  */
 
 int		test_parser(char *line, int count, t_data *data);
 void	print_arguments(char **args, char type);
-
-
 
 /*
  * Readline functions
