@@ -44,6 +44,8 @@ typedef struct s_par
 	int 	rrc; // reverse redirects count
 	int 	*rrl; // reverse redirects locations
 	int		*locs; // all symbols
+	int     sc; // spaces count
+	int     *sl; // spaces locations
 
 	//helpers
 	int		dqi; //double quotes location index
@@ -185,30 +187,33 @@ void 		envlist_to_array(t_data *data);
 void		reset_fd(t_data *data);
 void		ft_free(void *ptr);
 void		close_file_fd(t_data *data);
+void		minishell(t_data *data);
+void 		set_signals(t_data *data);
 
 /*
  * Parser functions
  */
 
-t_list_env	*get_envlist(char **env);
-int			envlstsize(t_list_env *lst);
 t_args		*arglstnew(char **args, char type);
 void		args_lstadd_back(t_args **lst, t_args *new);
 void		args_clearlist(t_args **ar);
 int			argslstsize(t_args *lst);
+int			argslstsize(t_args *lst);
+t_list_env	*get_envlist(char **env);
+int			envlstsize(t_list_env *lst);
 t_list_env	*envlstnew(char *string);
 t_list_env	*envlistnew1(char *name, char *content, char has_equal);
 void		env_lst_addback(t_list_env **lst, t_list_env *new);
 void 		add_var_to_list(t_list_env **envs, char *str);
 int			find_function_path(t_args *ar, t_list_env *envs);
-void 		set_signals(t_data *data);
-void		minishell(t_data *data);
+
 
 /*
- * for test functions
+ * for test|debug functions
  */
 
 int		test_parser(char *line, int count, t_data *data);
+void	print_arguments(char **args, char type);
 
 
 

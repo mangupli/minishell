@@ -70,12 +70,7 @@ static void child_process(t_data *data, t_args *ar)
 			ft_exit(-1, data);
 	}
 
-	//debugging args
-	int z = 0;
-	printf("execve->[%s]\n", ar->args[0]);
-	while(ar->args[++z])
-		printf("args[%d]->[%s]\n", z, ar->args[z]);
-	//end debug
+	print_arguments(ar->args, 0)
 
 	envlist_to_array(data);
 	execve(ar->args[0], ar->args, data->envp);
@@ -106,12 +101,10 @@ static void find_fd(t_data *data, char type)
 	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
 */
 
-
 	dup2(data->fd[0], 0);
 	close(data->fd[0]);
 	dup2(data->fd[1], 1);
 	close(data->fd[1]);
-
 }
 
 static int processes(t_data *data, t_args *tmp)
