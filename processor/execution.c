@@ -70,7 +70,7 @@ static void child_process(t_data *data, t_args *ar)
 			ft_exit(-1, data);
 	}
 
-	print_arguments(ar->args, 0)
+	print_arguments(ar->args, 0);
 
 	envlist_to_array(data);
 	execve(ar->args[0], ar->args, data->envp);
