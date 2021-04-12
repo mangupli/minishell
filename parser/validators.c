@@ -7,10 +7,7 @@ int	validations(char *line, t_par *pars) // TODO free
 
 	locations_compile(pars);
 	if (has_twinks_redirects(pars))
-	{
-		free(pars->locs);
 		return (-1);
-	}
 	i = 0;
 	while (pars->locs[i] != -1 && (pars->ppc || pars->rc || pars->rrc))
 	{
@@ -19,13 +16,9 @@ int	validations(char *line, t_par *pars) // TODO free
 		else
 			next = pars->locs[i + 1];
 		if (between_only_spaces_or_twinks(line, pars->locs[i], next, pars->len))
-		{
-			free(pars->locs);
 			return (-1);
-		}
 		i++;
 	}
-	//free(pars->locs); TODO UNCOMMENTED
 	return (0);
 }
 

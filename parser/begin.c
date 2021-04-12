@@ -56,6 +56,7 @@ int start_validators(char *line, t_par *pars)
 int begin(char *line, int i, t_data *data)
 {
 	t_par pars;
+	char *str;
 
 	if (!i)
 	{
@@ -63,9 +64,10 @@ int begin(char *line, int i, t_data *data)
 		printf("%d\n", start_validators(line, &data->pars)); //TODO проверка на валидность
 	}
 	pars = data->pars;
-	printf("%s",line);
-	split_on_semicolon(line, i, &pars);
+	str = split_on_semicolon(line, i, &pars);
+	printf("%s\n",str);
 	if (pars.next >= pars.len)
 		return (0);
+	//?? pipes processors?
 	return (pars.next);
 }

@@ -37,6 +37,7 @@ add_executable(shell main.c
         parser/quotes.c
         parser/locations.c
         parser/strings.c
-        parser/validators.c)
+        parser/validators.c
+        parser/pipes.c)
 
 target_link_libraries(shell /Users/mspyke/projects/minishell/shell/libft/libft.a)
