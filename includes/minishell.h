@@ -195,6 +195,7 @@ int			envlstsize(t_list_env *lst);
 t_args		*arglstnew(char **args, char type);
 void		args_lstadd_back(t_args **lst, t_args *new);
 void		args_clearlist(t_args **ar);
+int			argslstsize(t_args *lst);
 t_list_env	*envlstnew(char *string);
 t_list_env	*envlistnew1(char *name, char *content, char has_equal);
 void		env_lst_addback(t_list_env **lst, t_list_env *new);

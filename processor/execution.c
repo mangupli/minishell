@@ -6,10 +6,14 @@ static int func_in_return(t_data *data, char **args, void (*f)(t_data *, char **
 	return (1);
 }
 
-static int exec_my_function(char **args, t_data *data)
+static int exec_my_function(char **args, char type, t_data *data)
 {
 	if (!ft_strcmp(args[0], "exit"))
+	{
+		if (argslstsize(data->ar) > 1)
+			return (1);
 		return (shell_exit(args, 0, data));
+	}
 	else if (!ft_strcmp(args[0], "cd"))
 		return (func_in_return(data, args, shell_cd));
 	else if (!ft_strcmp(args[0], "export"))
@@ -55,7 +59,7 @@ static void child_process(t_data *data, t_args *ar)
 	int ret;
 
 
-	ret = exec_my_function(ar->args, data);
+	ret = exec_my_function(ar->args, ar->type, data);
 	if (ret)
 		exit(g_status);
 	if (!ft_strchr(ar->args[0], '/'))
@@ -96,11 +100,11 @@ static void find_fd(t_data *data, char type)
 	data->fd[0] = find_fdin(data);
 	data->fd[1] = find_fdout(data, type);
 
-
+/*
 	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
 	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-
+*/
 
 
 	dup2(data->fd[0], 0);
@@ -147,7 +151,7 @@ int  execution(t_data *data)
 		{
 			if (tmp->type == 0)
 			{
-				ret = exec_my_function(tmp->args, data);
+				ret = exec_my_function(tmp->args, tmp->type, data);
 				if (ret)
 					return (0);
 			}
