@@ -13,7 +13,7 @@ int		find_fdin(t_data *data)
 	{
 		fd = dup(data->orig_fd[0]);
 	}
-	if (data->pipe_fd[0])
+	if (data->pipe_fd[0] != 0)
 		close(data->pipe_fd[0]); // оставь здесь
 	data->pipe_fd[0] = 0;
 	return (fd);
@@ -28,8 +28,9 @@ int		find_fdout(t_data *data, char type)
 	if (type == '|')
 	{
 		ret = pipe(data->pipe_fd);
+
 		if (ret == -1)
-			ft_exit(10, data);
+			ft_exit(-1, data);
 		fd = dup(data->pipe_fd[1]);
 	}
 	else

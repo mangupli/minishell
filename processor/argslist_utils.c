@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+int		argslstsize(t_args *lst)
+{
+	int i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
 void args_clearlist(t_args **ar)
 {
 	t_args *tmp;

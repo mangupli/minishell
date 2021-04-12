@@ -6,10 +6,14 @@ static int func_in_return(t_data *data, char **args, void (*f)(t_data *, char **
 	return (1);
 }
 
-static int exec_my_function(char **args, t_data *data)
+static int exec_my_function(char **args, char type, t_data *data)
 {
 	if (!ft_strcmp(args[0], "exit"))
+	{
+		if (argslstsize(data->ar) > 1)
+			return (1);
 		return (shell_exit(args, 0, data));
+	}
 	else if (!ft_strcmp(args[0], "cd"))
 		return (func_in_return(data, args, shell_cd));
 	else if (!ft_strcmp(args[0], "export"))
@@ -47,32 +51,30 @@ static void parent_process(t_data *data)
 		if (g_status == 131)
 			ft_putstr_fd("Quit: 3\n", 2);
 	}
+	errno = 0;
 }
 
 static void child_process(t_data *data, t_args *ar)
 {
 	int ret;
 
-	ret = exec_my_function(ar->args, data);
+
+	ret = exec_my_function(ar->args, ar->type, data);
 	if (ret)
 		exit(g_status);
 	if (!ft_strchr(ar->args[0], '/'))
 	{
 		ret = find_function_path(ar, data->envlist);
+
 		if (ret == -1)
 			ft_exit(-1, data);
 	}
 
+	print_arguments(ar->args, 0)
+
 	envlist_to_array(data);
-
-	//debugging args
-	int z = 0;
-	printf("execve->[%s]\n", ar->args[0]);
-	while(ar->args[++z])
-		printf("args[%d]->[%s]\n", z, ar->args[z]);
-	//end debug
-
 	execve(ar->args[0], ar->args, data->envp);
+
 	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
@@ -103,14 +105,13 @@ static void find_fd(t_data *data, char type)
 	close(data->fd[0]);
 	dup2(data->fd[1], 1);
 	close(data->fd[1]);
-
 }
 
 static int processes(t_data *data, t_args *tmp)
 {
 	pid_t pid;
 
-	//find_fd(data, tmp->type);
+	find_fd(data, tmp->type);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -126,7 +127,6 @@ static int processes(t_data *data, t_args *tmp)
 		display_error("minishell", NULL, strerror(errno));
 		return (-1);
 	}
-	reset_fd(data);
 	return (0);
 }
 
@@ -144,13 +144,14 @@ int  execution(t_data *data)
 		{
 			if (tmp->type == 0)
 			{
-				ret = exec_my_function(tmp->args, data);
+				ret = exec_my_function(tmp->args, tmp->type, data);
 				if (ret)
 					return (0);
 			}
 			ret = processes(data, tmp);
 			if (ret == -1)
 				return (-1);
+			reset_fd(data);
 		}
 		tmp = tmp->next;
 	}

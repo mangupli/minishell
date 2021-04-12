@@ -1,17 +1,18 @@
 #include "minishell.h"
 
-int		argslstsize(t_args *lst)
-{
-	int i;
+/*
+** Help to debug, type == 1 -> our function
+*/
 
-	i = 0;
-	while (lst)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
+void print_arguments(char **args, char type)
+{
+	int z = 0;
+	printf("execve->[%s]\n", args[0]);
+	while(args[++z])
+		printf("args[%d]->[%s]\n", z, args[z]);
+	//end debug
 }
+
 
 /*
 ** Creates the list of type t_args.
