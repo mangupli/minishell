@@ -115,7 +115,7 @@ typedef struct	s_data
 	int			orig_fd[2];
 	int 		pipe_fd[2];
 	int 		fd[2];
-	int 		file[2];
+	int			file[2];
 	t_par		pars;
 }				t_data;
 

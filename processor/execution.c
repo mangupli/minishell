@@ -61,7 +61,12 @@ static void child_process(t_data *data, t_args *ar)
 
 	ret = exec_my_function(ar->args, ar->type, data);
 	if (ret)
+	{
+		//debug arguments
+		print_arguments(ar->args, 1);
+		//end debug arguments
 		exit(g_status);
+	}
 	if (!ft_strchr(ar->args[0], '/'))
 	{
 		ret = find_function_path(ar, data->envlist);
@@ -70,7 +75,9 @@ static void child_process(t_data *data, t_args *ar)
 			ft_exit(-1, data);
 	}
 
+//debug arguments
 	print_arguments(ar->args, 0);
+//end debug arguments
 
 	envlist_to_array(data);
 	execve(ar->args[0], ar->args, data->envp);
@@ -134,8 +141,6 @@ int  execution(t_data *data)
 {
 	int ret;
 	t_args *tmp;
-	pid_t pid;
-
 
 	tmp = data->ar;
 	while (tmp)
@@ -146,7 +151,12 @@ int  execution(t_data *data)
 			{
 				ret = exec_my_function(tmp->args, tmp->type, data);
 				if (ret)
+				{
+					//debug arguments
+					print_arguments(tmp->args, 1);
+					//end debug arguments
 					return (0);
+				}
 			}
 			ret = processes(data, tmp);
 			if (ret == -1)
