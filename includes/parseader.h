@@ -59,7 +59,7 @@ char	*split_on_semicolon(char *line, int i, t_par *pars);
 int		get_end(int i, t_par *pars);
 
 
-int		str_has_pipe(t_par *pars);
+int		str_has_pipe(t_par *pars, int ind, int start);
 
 
 // helpers
