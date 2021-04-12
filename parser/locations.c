@@ -31,9 +31,10 @@ void	locations(char *line, t_par *pars)
 
 	i = 0;
 	allocate_locations(pars);
-	while (line[i] != '\0' && (pars->scc || pars->ppc || pars->rc || pars->rrc))
+	while (line[i] != '\0' && (pars->sc || pars->scc || pars->ppc || \
+			pars->rc || pars->rrc))
 	{
-		if (!behind_has_backslash(line, line[i], "|;><", i) && \
+		if (!behind_has_backslash(line, line[i], "|;>< ", i) && \
 				!(im_in_quotes(i, pars->sqc, pars->sql)) && \
 				!(im_in_quotes(i, pars->dqc, pars->dql)))
 		{
@@ -45,6 +46,8 @@ void	locations(char *line, t_par *pars)
 				redirects_locations(i, pars);
 			if (line[i] == '<')
 				reverse_redirects_locations(i, pars);
+			if (line[i] == ' ')
+				spaces_locations(i, pars);
 		}
 		i++;
 	}

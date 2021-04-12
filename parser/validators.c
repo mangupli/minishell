@@ -60,7 +60,7 @@ int	fill_locs_array(t_par *pars, int *src, int i, int stop)
 	return (i);
 }
 
-bool	has_twinks_redirects(t_par *pars) // TODO проверить работоспособность 
+bool	has_twinks_redirects(t_par *pars)
 {
 	int i;
 

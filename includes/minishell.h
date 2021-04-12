@@ -58,9 +58,10 @@ typedef struct s_par
 	int		tmps; // temp semicolon index locations
 	int		tmpr; // temp redirects index locations
 	int		tmprr; // temp reverse redirects index locations
+	int 	sci; // temp space index locations
 
 	int 	next; // next iteration
-	int 	prev_dest; //?
+	 //
 }				t_par;
 
 

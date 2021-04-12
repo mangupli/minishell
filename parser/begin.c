@@ -16,6 +16,9 @@ void pars_data_init(char *line, t_par *pars)
 	pars->rl = NULL;
 	pars->rrc = 0;
 	pars->rrl = NULL;
+	pars->sc = 0;
+	pars->sl = NULL;
+	pars->sci = 0;
 	pars->dqi = 0;
 	pars->sqi = 0;
 	pars->tmpdq = 0;
@@ -28,7 +31,6 @@ void pars_data_init(char *line, t_par *pars)
 	pars->tmprr = 0;
 	pars->next = 0; // dont forget, its next enter
 	pars->locs = NULL;
-	pars->prev_dest = 0; // TODO ???
 }
 
 int start_validators(char *line, t_par *pars)
@@ -50,6 +52,8 @@ int start_validators(char *line, t_par *pars)
 		if (validations(line, pars) == -1)
 			return (-1); //TODO проверка на валидность
 	}
+	if (pars->sc)
+		spaces_worker(pars);
 	return (0);
 }
 
@@ -65,7 +69,8 @@ int begin(char *line, int i, t_data *data)
 	}
 	pars = data->pars;
 	str = split_on_semicolon(line, i, &pars);
-	printf("%s\n",str);
+	space_splitter(&pars, "f", i);
+	printf("%s\n%d\n",str, pars.len);
 	if (pars.next >= pars.len)
 		return (0);
 	//?? pipes processors?

@@ -3,7 +3,8 @@
 
 bool behind_has_backslash(char *line, char current, char *set, int i)
 {
-	if (ft_strrchr(set, current) && ((i > 0 && line[i - 1] != '\\') || !i))
+	if (ft_strrchr(set, current) && ((i > 0 && line[i - 1] != '\\') || !i \
+			|| line[i] == ' '))
 		return (False);
 	return (True);
 }

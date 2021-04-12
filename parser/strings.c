@@ -42,7 +42,7 @@ void	counter(char *line, t_par *pars)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (!behind_has_backslash(line, line[i], "|;><", i) && \
+		if (!behind_has_backslash(line, line[i], "|;>< ", i) && \
 				!(im_in_quotes(i, pars->sqc, pars->sql)) && \
 				!(im_in_quotes(i, pars->dqc, pars->dql)))
 		{
@@ -54,6 +54,8 @@ void	counter(char *line, t_par *pars)
 				pars->rc++;
 			if (line[i] == '<')
 				pars->rrc++;
+			if (line[i] == ' ')
+				pars->sc++;
 		}
 		i++;
 	}
@@ -69,6 +71,8 @@ void	allocate_locations(t_par *pars) //TODO free 2
 		pars->rl = (int *)malloc(sizeof(int) * pars->rc);
 	if (pars->rrc)
 		pars->rrl = (int *)malloc(sizeof(int) * pars->rrc);
+	if (pars->sc)
+		pars->sl = (int *)malloc(sizeof(int) * pars->sc);
 	if (pars->scc || pars->ppc || pars->rc || pars->rrc)
 		pars->locs = (int *)malloc(sizeof(int) * (pars->scc + pars->ppc + \
 											 pars->rc + pars->rrc + 1));
