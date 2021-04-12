@@ -60,6 +60,7 @@ static int try_fd(char *full_path, t_args *ar)
 			return (-1);
 		return (1);
 	}
+	errno = 0;
 	return (0);
 }
 
@@ -74,16 +75,19 @@ static int try_path(char **paths, t_args *ar)
 	while (paths[++i])
 	{
 		buf = ft_strjoin(paths[i], "/");
+
 		if (buf == NULL)
 			return (-1);
 		full_path = ft_strjoin(buf, ar->args[0]);
 		if (full_path == NULL)
 			return (-1);
 		ret = try_fd(full_path, ar);
+
 		free(buf);
 		free(full_path);
 		if (ret != 0)
 			return (ret);
+
 	}
 	return (0);
 }
@@ -96,8 +100,11 @@ int find_function_path(t_args *ar, t_list_env *envs)
 	paths = path_parser(envs);
 	if (paths)
 	{
+
 		ret = try_path(paths, ar);
+
 		free_2d_array(paths);
+
 		if (ret == -1)
 			return (ret);
 	}

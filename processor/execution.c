@@ -47,11 +47,13 @@ static void parent_process(t_data *data)
 		if (g_status == 131)
 			ft_putstr_fd("Quit: 3\n", 2);
 	}
+	errno = 0;
 }
 
 static void child_process(t_data *data, t_args *ar)
 {
 	int ret;
+
 
 	ret = exec_my_function(ar->args, data);
 	if (ret)
@@ -59,11 +61,10 @@ static void child_process(t_data *data, t_args *ar)
 	if (!ft_strchr(ar->args[0], '/'))
 	{
 		ret = find_function_path(ar, data->envlist);
+
 		if (ret == -1)
 			ft_exit(-1, data);
 	}
-
-	envlist_to_array(data);
 
 	//debugging args
 	int z = 0;
@@ -72,7 +73,9 @@ static void child_process(t_data *data, t_args *ar)
 		printf("args[%d]->[%s]\n", z, ar->args[z]);
 	//end debug
 
+	envlist_to_array(data);
 	execve(ar->args[0], ar->args, data->envp);
+
 	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
@@ -93,11 +96,12 @@ static void find_fd(t_data *data, char type)
 	data->fd[0] = find_fdin(data);
 	data->fd[1] = find_fdout(data, type);
 
-/*
+
 	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
 	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-*/
+
+
 
 	dup2(data->fd[0], 0);
 	close(data->fd[0]);
@@ -110,7 +114,7 @@ static int processes(t_data *data, t_args *tmp)
 {
 	pid_t pid;
 
-	//find_fd(data, tmp->type);
+	find_fd(data, tmp->type);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -126,7 +130,6 @@ static int processes(t_data *data, t_args *tmp)
 		display_error("minishell", NULL, strerror(errno));
 		return (-1);
 	}
-	reset_fd(data);
 	return (0);
 }
 
@@ -151,6 +154,7 @@ int  execution(t_data *data)
 			ret = processes(data, tmp);
 			if (ret == -1)
 				return (-1);
+			reset_fd(data);
 		}
 		tmp = tmp->next;
 	}

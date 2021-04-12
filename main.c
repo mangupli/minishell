@@ -24,9 +24,7 @@ void reset_fd(t_data *data)
 
 static void renew_data(t_data *data)
 {
-	//free args
 	args_clearlist(&data->ar);
-
 	reset_fd(data);
 }
 
@@ -44,6 +42,8 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->envlist = get_envlist(env);
 	data->orig_fd[0] = dup(0);
 	data->orig_fd[1] = dup(1);
+	data->pipe_fd[0] = 0;
+	data->pipe_fd[1] = 0;
 	data->file[0] = -1;
 	data->file[1] = -1;
 	data->envp = NULL;
@@ -55,7 +55,7 @@ void minishell(t_data *data)
 	int count;
 	int ret;
 
-	//line = "ps aux | grep rot | grep sbin";
+//	line = "ps aux | grep root | grep sbin";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (line[0] != '\0')
