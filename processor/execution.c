@@ -30,6 +30,24 @@ static int exec_my_function(char **args, char type, t_data *data)
 	return (0);
 }
 
+static int first_my_function(char **args, char type, t_data *data)
+{
+	if (!ft_strcmp(args[0], "exit"))
+	{
+		if (argslstsize(data->ar) > 1)
+			return (1);
+		return (shell_exit(args, 0, data));
+	}
+	else if (!ft_strcmp(args[0], "cd"))
+		return (func_in_return(data, args, shell_cd));
+	else if (!ft_strcmp(args[0], "export"))
+		return (func_in_return(data, args, shell_export));
+	else if (!ft_strcmp(args[0], "unset"))
+		return (func_in_return(data, args, shell_unset));
+	args[0] = ft_str_to_lower(args[0]);
+	return (0);
+}
+
 static void parent_process(t_data *data)
 {
 	int ret;
@@ -102,11 +120,11 @@ static void find_fd(t_data *data, t_args *ar)
 	data->fd[0] = find_fdin(data, ar);
 	data->fd[1] = find_fdout(data, ar);
 
-/*
+
 	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
 	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-*/
+	printf("ar->file_fd[0]:%d | ar->file_fd[1]:%d\n",ar->file[0], ar->file[1]);
 
 	dup2(data->fd[0], 0);
 	close(data->fd[0]);
@@ -147,9 +165,10 @@ int  execution(t_data *data)
 	{
 		if (tmp->args && tmp->args[0])
 		{
+
 			if (tmp->type == 0)
 			{
-				ret = exec_my_function(tmp->args, tmp->type, data);
+				ret = first_my_function(tmp->args, tmp->type, data);
 				if (ret)
 				{
 					//debug arguments
@@ -158,6 +177,7 @@ int  execution(t_data *data)
 					return (0);
 				}
 			}
+
 			ret = processes(data, tmp);
 			if (ret == -1)
 				return (-1);

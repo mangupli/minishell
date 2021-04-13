@@ -77,10 +77,10 @@ int	set_redir_fd(t_args *ar)
 	{
 		if (!ft_strcmp(ar->args[i], "<"))
 		{
-			if (ar->file[1] >= 0)
+			if (ar->file[0] >= 0)
 				close(ar->file[1]);
-			ar->file[1] = open(ar->args[i + 1], O_RDONLY);
-			if (ar->file[1] < 0)
+			ar->file[0] = open(ar->args[i + 1], O_RDONLY);
+			if (ar->file[0] < 0)
 			{
 				display_error("minishell", ar->args[i + 1],
 							  "No such file or directory");
@@ -90,10 +90,10 @@ int	set_redir_fd(t_args *ar)
 		}
 		else if (!ft_strcmp(ar->args[i], ">>"))
 		{
-			if (ar->file[0] >= 0)
-				close(ar->file[0]);
-			ar->file[0] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0744);
-			if (ar->file[0] < 0)
+			if (ar->file[1] >= 0)
+				close(ar->file[1]);
+			ar->file[1] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0744);
+			if (ar->file[1] < 0)
 			{
 				display_error("minishell", ar->args[i + 1],
 							  strerror(errno));
@@ -103,10 +103,10 @@ int	set_redir_fd(t_args *ar)
 		}
 		else if (!ft_strcmp(ar->args[i], ">"))
 		{
-			if (ar->file[0] >= 0)
-				close(ar->file[0]);
-			ar->file[0] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0744);
-			if (ar->file[0] < 0)
+			if (ar->file[1] >= 0)
+				close(ar->file[1]);
+			ar->file[1] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0744);
+			if (ar->file[1] < 0)
 			{
 				display_error("minishell", ar->args[i + 1],
 				  strerror(errno));
