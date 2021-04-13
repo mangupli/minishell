@@ -27,8 +27,9 @@ signals.c \
 \
 for_test.c
 
-SRCS_PARSER = path_parser.c begin.c helpers.c locations.c quotes.c \
-strings.c validators.c
+SRCS_PARSER = path_parser.c
+# begin.c helpers.c locations.c quotes.c \
+# strings.c validators.c
 
 
 # Object files #

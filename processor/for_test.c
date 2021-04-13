@@ -14,7 +14,7 @@ void print_arguments(char **args, char type)
 		printf("my_func->");
 	printf("[%s]\n", args[0]);
 	int z = 0;
-	while(args[++z])
+	while(args[++z] != NULL)
 		printf("args[%d]->[%s]\n", z, args[z]);
 }
 
@@ -24,7 +24,7 @@ void print_arguments(char **args, char type)
 ** 4 = <
 */
 
-int find_redir(char **args)
+void which_redir(char **args)
 {
 	int i;
 
@@ -38,24 +38,107 @@ int find_redir(char **args)
 		if (!ft_strcmp(args[i], "<"))
 			redir_type |= 4;
 	}
-	if (redir_type > 0)
-		return (1);
+}
+
+int find_redir(char **args)
+{
+	int i;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (!ft_strcmp(args[i], ">"))
+			return (i);
+		if (!ft_strcmp(args[i], ">>"))
+			return (i);
+		if (!ft_strcmp(args[i], "<"))
+			return (i);
+	}
 	return (0);
 }
 
-void	set_redir(t_args *args)
+void set_to_null_last_arguments(char **args, int start)
 {
-	t_args *tmp;
-	int ret;
-
-	tmp = args;
-	while (tmp)
+	while (args[start] != NULL)
 	{
-		ret = find_redir(tmp->args);
-		tmp = tmp->next;
+		ft_free((void **)(&args[start])); // doesnt work motherfucker
+//		free(args[start]);
+//		args[start] = NULL;
+		start++;
 	}
 }
 
+int	set_redir_fd(t_args *ar)
+{
+	int i;
+
+	i = -1;
+	while (ar->args[++i])
+	{
+		if (!ft_strcmp(ar->args[i], "<"))
+		{
+			if (ar->file[1] >= 0)
+				close(ar->file[1]);
+			ar->file[1] = open(ar->args[i + 1], O_RDONLY);
+			if (ar->file[1] < 0)
+			{
+				display_error("minishell", ar->args[i + 1],
+							  "No such file or directory");
+				g_status = 1;
+				return (-1);
+			}
+		}
+		else if (!ft_strcmp(ar->args[i], ">>"))
+		{
+			if (ar->file[0] >= 0)
+				close(ar->file[0]);
+			ar->file[0] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0744);
+			if (ar->file[0] < 0)
+			{
+				display_error("minishell", ar->args[i + 1],
+							  strerror(errno));
+				g_status = 1;
+				return (-1);
+			}
+		}
+		else if (!ft_strcmp(ar->args[i], ">"))
+		{
+			if (ar->file[0] >= 0)
+				close(ar->file[0]);
+			ar->file[0] = open(ar->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0744);
+			if (ar->file[0] < 0)
+			{
+				display_error("minishell", ar->args[i + 1],
+				  strerror(errno));
+				g_status = 1;
+				return (-1);
+			}
+		}
+	}
+	return (0);
+}
+
+int	set_redir(t_data *data, t_args **args)
+{
+	t_args *tmp;
+	int ret;
+	int start_redir;
+
+	tmp = *args;
+	while (tmp)
+	{
+		start_redir = find_redir(tmp->args);
+		if (start_redir)
+		{
+			ret = set_redir_fd(tmp);
+			if (ret == -1)
+				return (-1);
+			free_2d_array(tmp->args, start_redir);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 /*
 ** Creates the list of type t_args.
@@ -79,6 +162,7 @@ int get_args_list(char *str, t_data *data, int pipes)
 	int start;
 	t_args *node;
 	int j;
+	int ret;
 
 	data->ar = NULL;
 
@@ -96,20 +180,19 @@ int get_args_list(char *str, t_data *data, int pipes)
 			start = i + 1;
 			j++;
 
-			ft_free(newstr);
+			ft_free((void **)&newstr);
 		}
 	}
 
 	newstr = ft_substr(str, start, ft_strlen(str) - start);
 	args = ft_split(newstr, ' ');
 	node = arglstnew(args, 0);
-	node->type = 0;
 	args_lstadd_back(&data->ar, node);
-	ft_free(newstr);
+	ft_free((void **)&newstr);
 
-	set_redir(data->ar);
-
-
+	ret = set_redir(data, &data->ar);
+	if (ret)
+		return (-1);
 
 	return (0);
 }
@@ -121,7 +204,7 @@ void change_dollar(t_data *data, char **arg)
 
 
 	env = ft_substr(*arg, 1, ft_strlen(*arg) - 1);
-	ft_free(*arg);
+	ft_free((void **)&(*arg));
 	if (!ft_strcmp(env, "?"))
 	{
 		content = ft_itoa(g_status);
@@ -136,7 +219,7 @@ void change_dollar(t_data *data, char **arg)
 			*arg = ft_strdup("");
 	}
 	if (env)
-		ft_free(env);
+		ft_free((void **)&env);
 }
 
 void dollar(t_data *data)
@@ -168,6 +251,7 @@ int test_parser(char *line, int count, t_data *data)
 	int i;
 	int end;
 	char *str;
+	int status;
 
 	ret = 0;
 	i = -1;
@@ -203,10 +287,10 @@ int test_parser(char *line, int count, t_data *data)
 			count++;
 	}
 
-	get_args_list(str, data, count);
+	status = get_args_list(str, data, count);
 	free(str);
+	if (status)
+		return (-1);
 	dollar(data);
-
-
 	return (ret);
 }

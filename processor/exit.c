@@ -2,7 +2,7 @@
 
 void 	ft_exit(int errcode, t_data *data)
 {
-	close_file_fd(data);
+	close_all_redir_fd(data);
 	close(data->orig_fd[0]);
 	close(data->orig_fd[1]);
 	if (errcode == -1 && errno)

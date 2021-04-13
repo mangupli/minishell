@@ -3,28 +3,50 @@
 int g_status = 0;
 int g_lastpid = 0;
 
-void	close_file_fd(t_data *data)
+
+void close_2_fd(int *fd)
 {
-	if (data->file[0] >= 0)
-		close(data->file[0]);
-	if (data->file[1] >= 0)
-		close(data->file[1]);
+	if (fd[0] >= 0)
+		close(fd[0]);
+	if (fd[1] >= 0)
+		close(fd[1]);
 }
 
-void reset_fd(t_data *data)
+void	close_all_redir_fd(t_data *data)
 {
-	//do we need to reset original fd?
+	t_args *tmp;
+
+	tmp = data->ar;
+	while (tmp)
+	{
+		close_2_fd(tmp->file);
+		/*
+		if (tmp->file[0] >= 0)
+			close(tmp->file[0]);
+		if (tmp->file[1] >= 0)
+			close(tmp->file[1]);
+		 */
+		tmp = tmp->next;
+	}
+}
+
+void reset_fd(t_data *data, int *file_fd)
+{
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
-	close_file_fd(data);
-	data->file[1] = -1;
-	data->file[0] = -1;
+	close_2_fd(file_fd);
 }
+
+/*
+** There is a need for close_all_redir_fd(), in case parser returns -1
+** -> it means something might be fucked up while opening files.
+** But maybe it is unnecessary - think about it
+*/
 
 static void renew_data(t_data *data)
 {
+	close_all_redir_fd(data);
 	args_clearlist(&data->ar);
-	reset_fd(data);
 }
 
 static void init_shell(t_data *data, int argc, char **argv, char **env)
@@ -43,8 +65,6 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->orig_fd[1] = dup(1);
 	data->pipe_fd[0] = 0;
 	data->pipe_fd[1] = 0;
-	data->file[0] = -1;
-	data->file[1] = -1;
 	data->envp = NULL;
 }
 
@@ -54,15 +74,16 @@ void minishell(t_data *data)
 	int count;
 	int ret;
 
-//	line = "ps aux | grep root | grep sbin";
-	while ((line = ft_readline(data)) != NULL)
-	{
+	line = "echo lalal > file5";
+	ret = 0;
+	//while ((line = ft_readline(data)) != NULL)
+	//{
 		if (line[0] != '\0')
 		{
 			count = 0;
 			while (*(line + count))
 			{
-				count += test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
+				ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
 
 				//debug parser
 				printf("argslist size %d\n", argslstsize(data->ar));
@@ -71,19 +92,20 @@ void minishell(t_data *data)
 				add_history(line, &data->hist); // Add to the list.
 				save_history("list.txt"); // Save the list on disk.
 
-				if (count == -1)
+				if (ret == -1)
 				{
-					// renew_data(&data); // TODO: нужно ли?
+					renew_data(data); // TODO: нужно ли?
 					g_status = 258; // TODO: может виталик присвоить его?
 					break;
 				}
 				else
 					execution(data);
+				count += ret;
 				renew_data(data);
 			}
 		}
-		free(line);
-	}
+	//	free(line);
+	//}
 }
 
 int			main(int argc, char **argv, char **env)

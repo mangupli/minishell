@@ -69,6 +69,7 @@ typedef struct		s_args
 {
 	char			**args;
 	char			type;
+	int				file[2];
 	struct s_args	*next;
 }					t_args;
 
@@ -116,7 +117,6 @@ typedef struct	s_data
 	int			orig_fd[2];
 	int 		pipe_fd[2];
 	int 		fd[2];
-	int			file[2];
 	t_par		pars;
 }				t_data;
 
@@ -181,15 +181,16 @@ int			check_symbols(char *name);
 void		add_export_var(t_data *data, char **args);
 t_list_env *sort_list(t_list_env *src);
 void		change_content(t_list_env **envs, t_list_env *new);
-int			find_fdin(t_data *data);
-int			find_fdout(t_data *data, char type);
-void		free_2d_array(char **array);
+int			find_fdin(t_data *data, t_args *ar);
+int			find_fdout(t_data *data, t_args *ar);
+void		free_2d_array(char **array, int start);
 void 		envlist_to_array(t_data *data);
-void		reset_fd(t_data *data);
-void		ft_free(void *ptr);
-void		close_file_fd(t_data *data);
+void		reset_fd(t_data *data, int *file_fd);
+void		ft_free(void **ptr);
+void		close_all_redir_fd(t_data *data);
 void		minishell(t_data *data);
 void 		set_signals(t_data *data);
+void		close_2_fd(int *fd);
 
 /*
  * Parser functions
@@ -198,7 +199,6 @@ void 		set_signals(t_data *data);
 t_args		*arglstnew(char **args, char type);
 void		args_lstadd_back(t_args **lst, t_args *new);
 void		args_clearlist(t_args **ar);
-int			argslstsize(t_args *lst);
 int			argslstsize(t_args *lst);
 t_list_env	*get_envlist(char **env);
 int			envlstsize(t_list_env *lst);

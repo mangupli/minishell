@@ -22,7 +22,7 @@ void args_clearlist(t_args **ar)
 		while (*ar)
 		{
 			tmp = (*ar)->next;
-			free_2d_array((*ar)->args);
+			free_2d_array((*ar)->args, 0);
 			free(*ar);
 			*ar = tmp;
 		}
@@ -44,6 +44,8 @@ t_args *arglstnew(char **args, char type)
 	if (NULL == new)
 		return (NULL);
 	new->args = args;
+	new->file[0] = -1;
+	new->file[1] = -1;
 	new->type = type;
 	new->next = NULL;
 	return (new);

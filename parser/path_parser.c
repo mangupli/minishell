@@ -103,7 +103,7 @@ int find_function_path(t_args *ar, t_list_env *envs)
 
 		ret = try_path(paths, ar);
 
-		free_2d_array(paths);
+		free_2d_array(paths, 0);
 
 		if (ret == -1)
 			return (ret);

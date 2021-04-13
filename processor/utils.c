@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void		ft_free(void *ptr)
+void	ft_free(void **ptr)
 {
-	free(ptr);
-	ptr = NULL;
+	free(*ptr);
+	*ptr = NULL;
 }
 
 int check_symbols(char *name)
@@ -68,16 +68,19 @@ t_list_env *sort_list(t_list_env *src)
 	return (new_root);
 }
 
-void 	free_2d_array(char **array)
+void 	free_2d_array(char **array, int start)
 {
 	int i;
 
-	i = -1;
-	while (array[++i])
+	i = start;
+	while (array[i] != NULL)
 	{
-		free(array[i]);
-		array[i] = NULL;
+		ft_free((void **)&array[i]);
+		i++;
 	}
-	free(array);
-	array = NULL;
+	if (!start)
+	{
+		free(array);
+		array = NULL;
+	}
 }

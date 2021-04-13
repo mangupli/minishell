@@ -96,11 +96,11 @@ static void child_process(t_data *data, t_args *ar)
 		ft_exit(-1, data);
 }
 
-static void find_fd(t_data *data, char type)
+static void find_fd(t_data *data, t_args *ar)
 {
 
-	data->fd[0] = find_fdin(data);
-	data->fd[1] = find_fdout(data, type);
+	data->fd[0] = find_fdin(data, ar);
+	data->fd[1] = find_fdout(data, ar);
 
 /*
 	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
@@ -118,7 +118,7 @@ static int processes(t_data *data, t_args *tmp)
 {
 	pid_t pid;
 
-	find_fd(data, tmp->type);
+	find_fd(data, tmp);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -161,7 +161,7 @@ int  execution(t_data *data)
 			ret = processes(data, tmp);
 			if (ret == -1)
 				return (-1);
-			reset_fd(data);
+			reset_fd(data, tmp->file);
 		}
 		tmp = tmp->next;
 	}

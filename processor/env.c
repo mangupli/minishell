@@ -40,7 +40,7 @@ void			envlist_to_array(t_data *data)
 	int i;
 
 	if (data->envp)
-		free_2d_array(data->envp);
+		free_2d_array(data->envp, 0);
 	i = envlstsize(data->envlist);
 	envp = (char **)malloc(sizeof(char *) * (i + 1));
 	if (envp == NULL)
