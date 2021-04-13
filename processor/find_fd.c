@@ -26,7 +26,6 @@ int		find_fdout(t_data *data, t_args *ar)
 	if (ar->type == '|')
 	{
 		ret = pipe(data->pipe_fd);
-
 		if (ret == -1)
 			ft_exit(-1, data);
 		fd = dup(data->pipe_fd[1]);

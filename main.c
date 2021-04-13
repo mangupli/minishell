@@ -74,10 +74,10 @@ void minishell(t_data *data)
 	int count;
 	int ret;
 
-	line = "echo lalal > file5";
+	//line = "echo lalal > file5";
 	ret = 0;
-	//while ((line = ft_readline(data)) != NULL)
-	//{
+	while ((line = ft_readline(data)) != NULL)
+	{
 		if (line[0] != '\0')
 		{
 			count = 0;
@@ -104,8 +104,8 @@ void minishell(t_data *data)
 				renew_data(data);
 			}
 		}
-	//	free(line);
-	//}
+		free(line);
+	}
 }
 
 int			main(int argc, char **argv, char **env)

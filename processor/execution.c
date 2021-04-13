@@ -79,8 +79,8 @@ static void child_process(t_data *data, t_args *ar)
 	print_arguments(ar->args, 0);
 //end debug arguments
 
-	envlist_to_array(data);
-	execve(ar->args[0], ar->args, data->envp);
+	//envlist_to_array(data);
+	execve(ar->args[0], ar->args, 0);
 
 	if (errno == 2)
 	{
