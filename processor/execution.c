@@ -120,11 +120,12 @@ static void find_fd(t_data *data, t_args *ar)
 	data->fd[0] = find_fdin(data, ar);
 	data->fd[1] = find_fdout(data, ar);
 
-
+/*
 	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
 	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
 	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
 	printf("ar->file_fd[0]:%d | ar->file_fd[1]:%d\n",ar->file[0], ar->file[1]);
+*/
 
 	dup2(data->fd[0], 0);
 	close(data->fd[0]);
