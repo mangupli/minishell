@@ -33,16 +33,17 @@ int add_history(char *line, t_hist *h)
 {
 	char *cpy;
 
-	if (h->list == NULL) {
+	if (h->list == NULL)
+	{
 		h->list = malloc(sizeof(char *) * h->maxlen);
 		if (h->list == NULL)
 			return (-1);
-		ft_memset(h->list, 0, (sizeof(char *) * h->maxlen));
+		ft_memset(h->list, 0, (sizeof(char *) * h->maxlen) + 1);
 	}
 	cpy = ft_strdup(line);
 	if (h->len == h->maxlen)
 	{
-		free(h->list[0]);
+		ft_free((void **)&h->list[0]);
 		ft_memmove(h->list, h->list + 1,
 			 sizeof(char *) * (h->maxlen - 1));
 		h->len--;
@@ -52,7 +53,45 @@ int add_history(char *line, t_hist *h)
 	return (0);
 }
 
-void save_history(char *file)
+void load_history(t_data *data)
 {
+	int fd;
+	char *line;
+	int ret;
 
+	fd = open("minishell_history.txt", O_RDONLY, 700);
+	if (fd < 0)
+		return ;
+	while ((ret = get_next_line(fd, &line)) > 0)
+	{
+		add_history(line, &data->hist);
+		free(line);
+	}
+	if (ret < 0)
+		return ;
+	free(line);
+	close(fd);
+}
+
+
+void save_history(t_data *data)
+{
+	int i;
+	int fd;
+	char **history;
+
+	history = data->hist.list;
+	fd = open("minishell_history.txt", O_RDWR | O_CREAT | O_TRUNC, 0700);
+	if (fd == -1)
+		display_error("minishell", NULL, strerror(errno));
+	else
+	{
+		i = -1;
+		while (history[++i])
+		{
+			ft_putstr_fd(history[i], fd);
+			ft_putstr_fd("\n", fd);
+		}
+		close(fd);
+	}
 }

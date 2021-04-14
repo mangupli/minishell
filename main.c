@@ -58,7 +58,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	if (argc != 1)
 	{
 		display_error("minishell", argv[1], "cannot execute this file");
-		ft_exit(127, data);
+		ft_exit(127, data, 0);
 	}
 	data->envlist = get_envlist(env);
 	data->orig_fd[0] = dup(0);
@@ -90,11 +90,10 @@ void minishell(t_data *data)
 				//end debug
 
 				add_history(line, &data->hist); // Add to the list.
-				save_history("list.txt"); // Save the list on disk.
 
 				if (ret == -1)
 				{
-					renew_data(data); // TODO: нужно ли?
+					renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
 					g_status = 258; // TODO: может виталик присвоить его?
 					break;
 				}
@@ -113,6 +112,7 @@ int			main(int argc, char **argv, char **env)
 	t_data	data;
 
 	init_shell(&data, argc, argv, env);
+	load_history(&data);
 	set_signals(&data);
 	minishell(&data);
 

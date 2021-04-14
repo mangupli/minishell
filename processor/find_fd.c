@@ -27,7 +27,7 @@ int		find_fdout(t_data *data, t_args *ar)
 	{
 		ret = pipe(data->pipe_fd);
 		if (ret == -1)
-			ft_exit(-1, data);
+			ft_exit(-1, data, 1);
 		fd = dup(data->pipe_fd[1]);
 	}
 	if (ar->file[1] >= 0)

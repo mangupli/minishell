@@ -32,13 +32,13 @@ int		find_line(char **stack, char **line)
 	char *ptr_n;
 	char *tmp_stack;
 
-	ptr_n = ft_strchr(*stack, '\n');
+	ptr_n = gnl_strchr(*stack, '\n');
 	if (ptr_n)
 	{
 		*ptr_n = '\0';
 		tmp_stack = *stack;
-		*line = ft_strdup(tmp_stack);
-		*stack = ft_strdup(++ptr_n);
+		*line = gnl_strdup(tmp_stack);
+		*stack = gnl_strdup(++ptr_n);
 		free(tmp_stack);
 		return (1);
 	}
@@ -75,9 +75,9 @@ int		read_file(int fd, char **stack, char *buf, char **line)
 	{
 		buf[ret] = '\0';
 		if (!*stack)
-			*stack = ft_strdup("");
+			*stack = gnl_strdup("");
 		tmp_stack = *stack;
-		*stack = ft_strjoin(tmp_stack, buf);
+		*stack = gnl_strjoin(tmp_stack, buf);
 		free(tmp_stack);
 		if (find_line(stack, line))
 			new_line = 1;
@@ -130,7 +130,7 @@ int		get_next_line(int fd, char **line)
 	if (ret != 0 || stack == NULL || stack[0] == '\0')
 	{
 		if (!ret)
-			*line = ft_strdup("");
+			*line = gnl_strdup("");
 		return (ret);
 	}
 	*line = stack;

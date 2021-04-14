@@ -18,6 +18,8 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include "libasm.h"
+# include "get_next_line.h"
+
 
 typedef struct		s_list
 {

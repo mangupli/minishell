@@ -79,7 +79,7 @@ int get_cols(int ifd, int ofd)
 			return (80);
 		/* Restore position. */
 		if (cols > start) {
-			snprintf(seq,32,"\x1b[%dD",cols-start); //rewrite with our functions
+			snprintf(seq, 32, "\x1b[%dD", cols-start); //TODO: rewrite with our functions
 			write(ofd,seq,strlen(seq));
 		}
 		return (cols);

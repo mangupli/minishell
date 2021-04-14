@@ -56,7 +56,7 @@ static void parent_process(t_data *data)
 	dup2(data->orig_fd[1], 1);
 	ret = waitpid(-1, &g_status, 0);
 	if (ret == -1)
-		ft_exit(-1, data);
+		ft_exit(-1, data, 1);
 	if (WIFEXITED(g_status))
 	{
 		g_status = WEXITSTATUS(g_status);
@@ -90,7 +90,7 @@ static void child_process(t_data *data, t_args *ar)
 		ret = find_function_path(ar, data->envlist);
 
 		if (ret == -1)
-			ft_exit(-1, data);
+			ft_exit(-1, data, 0);
 	}
 
 //debug arguments
@@ -103,15 +103,15 @@ static void child_process(t_data *data, t_args *ar)
 	if (errno == 2)
 	{
 		display_error("minishell", "command not found", ar->args[0]);
-		ft_exit(127, data);
+		ft_exit(127, data, 0);
 	}
 	else if (errno == 13)
 	{
 		display_error("minishell", ar->args[0], "permission denied");
-		ft_exit(126, data);
+		ft_exit(126, data, 0);
 	}
 	else
-		ft_exit(-1, data);
+		ft_exit(-1, data, 0);
 }
 
 static void find_fd(t_data *data, t_args *ar)

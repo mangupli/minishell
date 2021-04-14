@@ -155,10 +155,10 @@ enum KEY_ACTION{
 	BACKSPACE =  127    /* Backspace */
 };
 
-# define HISTORY_MAX_LEN 100
+# define HISTORY_MAX_LEN 500
 # define MAX_LINE 4096
 
-struct termios orig_termios; /* In order to restore at exit.*/
+struct termios orig_termios; /* In order to restore at exit.*/ // TODO: make it a part of a global stucture
 
 /*
  * Logic functions
@@ -172,7 +172,7 @@ void		shell_cd(t_data *data, char **args);
 void		shell_export(t_data *data, char **args);
 void		shell_env(t_data *data, char **args);
 void		shell_unset(t_data *data, char **args);
-void		ft_exit(int errcode, t_data *data);
+void		ft_exit(int errcode, t_data *data, char hist);
 int 		shell_exit(char **args, int errcode, t_data *data);
 char		*find_env_content(t_list_env *envs, char *name);
 t_list_env	*find_env_pointer(t_list_env *envs, char *name);
@@ -184,7 +184,7 @@ void		change_content(t_list_env **envs, t_list_env *new);
 int			find_fdin(t_data *data, t_args *ar);
 int			find_fdout(t_data *data, t_args *ar);
 void		free_2d_array(char **array, int start);
-void 		envlist_to_array(t_data *data);
+void 		envlist_to_array(t_data *data); // TODO: no need ? also what about char **envp in t_data? is it needed?
 void		reset_fd(t_data *data, int *file_fd);
 void		ft_free(void **ptr);
 void		close_all_redir_fd(t_data *data);
@@ -225,7 +225,8 @@ void		refresh_line(t_state *a);
 int			get_cols(int ifd, int ofd);
 void		refresh_line(t_state *a);
 int			get_cursor_pos(int ifd, int ofd);
-void		save_history(char *file);
+void		save_history(t_data *data);
+void		load_history(t_data *data);
 void		edit_history_next(t_state *a, t_data *data, int dir);
 
 #endif

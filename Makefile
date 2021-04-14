@@ -8,6 +8,8 @@ PARSER_DIR = ./parser/
 PROCESS_DIR = ./processor/
 OBJS_DIR = ./objs/
 
+LIBFT_DIR := ./libft/
+
 INC_DIR = ./includes/
 
 PROCESS_INC = $(INC_DIR)minishell.h
@@ -19,6 +21,7 @@ LINK_INC = -I $(INC_DIR)
 NAME = minishell
 
 SRCS_MAIN = main.c
+LIBFT = libft.a
 
 SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
 history.c exit.c execution.c echo.c pwd.c cd.c utils.c export.c \
@@ -40,10 +43,13 @@ OBJS_PARSER = $(SRCS_PARSER:.c=.o)
 OBJS_DIR = ./objs/
 OBJS = $(addprefix  $(OBJS_DIR), $(OBJS_PROCCESS) $(OBJS_PARSER) $(OBJS_MAIN))
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
 	gcc $(OBJS) libft/libft.a -ltermcap -o $@
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 $(OBJS_DIR)%.o : $(PROCESS_DIR)%.c $(PROCESS_INC)
 	@mkdir -p $(OBJS_DIR)

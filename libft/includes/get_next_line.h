@@ -23,11 +23,11 @@
 # endif
 
 int			get_next_line(int fd, char **line);
-char		*ft_strjoin(char const *s1, char const *s2);
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
-size_t		ft_strlen(const char *s);
-size_t		ft_strlcpy(char *dst, const char *src, size_t size);
-char		*ft_strdup(const char *s1);
-char		*ft_strchr(char *s, char c);
+char		*gnl_strjoin(char const *s1, char const *s2);
+size_t		gnl_strlcat(char *dst, const char *src, size_t size);
+size_t		gnl_strlen(const char *s);
+size_t		gnl_strlcpy(char *dst, const char *src, size_t size);
+char		*gnl_strdup(const char *s1);
+char		*gnl_strchr(char *s, char c);
 
 #endif

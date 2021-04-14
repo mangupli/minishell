@@ -17,7 +17,7 @@ static void	signal_handler(int sig)
 void set_signals(t_data *data)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		ft_exit(-1, data);
+		ft_exit(-1, data, 1);
 	if (signal(SIGQUIT, signal_handler) == SIG_ERR)
-		ft_exit(-1, data);
+		ft_exit(-1, data, 1);
 }
