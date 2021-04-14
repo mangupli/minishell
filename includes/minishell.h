@@ -12,20 +12,6 @@
 # include	"../libft/includes/libft.h"
 #include	<signal.h>
 
-
-/*
-** int ifd ------------> Terminal stdin file descriptor.
-** int ofd ------------> Terminal stdout file descriptor.
-** char *buf ----------> Edited line buffer.
-** size_t buflen ------> Edited line buffer size.
-** const char *prompt -> Prompt to display.
-** size_t plen --------> Prompt length.
-** size_t pos ---------> Current cursor position.
-** size_t len ---------> Current edited line length.
-** size_t cols --------> Number of columns in terminal.
-** int list --------> The list index we are currently editing.
-*/
-
 extern int g_status;
 extern int g_lastpid;
 
@@ -72,6 +58,19 @@ typedef struct		s_args
 	int				file[2];
 	struct s_args	*next;
 }					t_args;
+
+/*
+** int ifd ------------> Terminal stdin file descriptor.
+** int ofd ------------> Terminal stdout file descriptor.
+** char *buf ----------> Edited line buffer.
+** size_t buflen ------> Edited line buffer size.
+** const char *prompt -> Prompt to display.
+** size_t plen --------> Prompt length.
+** size_t pos ---------> Current cursor position.
+** size_t len ---------> Current edited line length.
+** size_t cols --------> Number of columns in terminal.
+** int list --------> The list index we are currently editing.
+*/
 
 typedef struct s_state
 {
