@@ -56,16 +56,18 @@ bool	between_only_spaces_or_twinks(char *line, int start, int stop, int len);
 bool	has_twinks_redirects(t_par *pars);
 
 
-void	spaces_worker(t_par *pars);
-void	delete_excess_spaces(t_par *pars);
+void	spaces_worker(t_par *pars, char *line);
+void	delete_excess_spaces(t_par *pars, int false_space);
 void	separation_trash(t_par *pars);
+void	back_separation_trash(char *line, t_par *pars);
 void	new_spaces_array(t_par *pars, int count);
 
 
 void	pipes_processors(t_data *data, char *str, int i);
 
 char	**space_splitter(t_par *pars, char *new_str, int i);
-bool	i_inside_array(int *array, int count, int i, int next);
+int		splits_count(int *array, int array_el_count, int i, int next);
+int		i_inside_array(int *array, int count, int i, int next);
 
 
 char	*split_on_semicolon(char *line, int i, t_par *pars);
@@ -100,6 +102,7 @@ bool im_alone_redirect(char *line, int len);
 	// если она вообще, если нет, то пропускать
 	// SOLVED нужна проверка на наличие аргументов после редиректов типа >>EOF    <EOF +++
 	// SOLVED плюс нужна проверка на дубли ;; || >>> <<
+	// SOLVED кейс на "                     |                      "
 	//spaces_worker(t_par *pars);
 
 

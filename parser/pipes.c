@@ -1,6 +1,11 @@
 #include "minishell.h"
 #include "parseader.h"
 
+void spaces_locations(int i, t_par *pars)
+{
+	pars->sl[pars->sci] = i;
+	pars->sci++;
+}
 
 void	pipes_processors(t_data *data, char *str, int i)
 {
@@ -30,13 +35,17 @@ int		str_has_pipe(t_par *pars, int ind, int start)
 char **space_splitter(t_par *pars, char *new_str, int i)
 {
 	int j;
+	int next;
+	char **splits;
 
 	j = 0;
-	if (i_inside_array(pars->sl, pars->sc, i, pars->next))
+	next = i_inside_array(pars->sl, pars->sc, i, pars->next);
+	splits = (char **)malloc(sizeof(char *) * (splits_count(pars->sl, \
+			pars->sc, i, pars->next) + 1)); // TODO проверить возможность сплитить вообще
+	while (next)
 	{
-		printf("ghjh\n");
+
+		next = i_inside_array(pars->sl, pars->sc, next, pars->next);
 	}
-	else
-		printf("HEY");
 	return NULL;
 }
