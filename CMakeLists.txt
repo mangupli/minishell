@@ -38,7 +38,7 @@ add_executable(shell main.c
         parser/locations.c
         parser/strings.c
         parser/validators.c
-        parser/pipes.c
+        parser/splitters.c
         parser/spaces.c
         parser/utils.c)
 

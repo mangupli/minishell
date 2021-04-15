@@ -65,13 +65,28 @@ int begin(char *line, int i, t_data *data)
 	if (!i)
 	{
 		pars_data_init(line, &data->pars);
-		printf("validations: %d\n", start_validators(line, &data->pars)); //TODO проверка на валидность
+		start_validators(line, &data->pars); //TODO проверка на валидность
 	}
 	pars = data->pars;
 	str = split_on_semicolon(line, i, &pars);
-	space_splitter(&pars, str, i);
+	printf("%s\n", str);
+	get_args(data, &pars, i, str);
+
 	if (pars.next >= pars.len)
 		return (0);
-	//?? pipes processors?
+	t_args *tmp;
+
+	tmp = data->ar;
+	while (tmp)
+	{
+		int x = 0;
+		while(tmp->args[x])
+		{
+			printf("its motherfucker arg [%d %s]\n", x, tmp->args[x]);
+			x++;
+		}
+		printf("[%c]\n", tmp->type);
+		tmp = tmp->next;
+	}
 	return (pars.next);
 }
