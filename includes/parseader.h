@@ -65,16 +65,18 @@ void	new_spaces_array(t_par *pars, int count);
 
 void	pipes_processors(t_data *data, char *str, int i);
 
+char	*split_on_semicolon(char *line, int i, t_par *pars);
+int		get_end(int i, t_par *pars);
+
 char	**space_splitter(t_par *pars, char *new_str, int i);
+int		get_str(char *new_str, char *splits, int ind, int next);
 int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
 
 
-char	*split_on_semicolon(char *line, int i, t_par *pars);
-int		get_end(int i, t_par *pars);
+void	get_args(t_data *data, t_par *pars, int i, char *str);
 
-
-int		str_has_pipe(t_par *pars, int ind, int start);
+int		str_has_pipe(t_par *pars, int ind, int start); // ????
 
 
 // helpers
@@ -105,8 +107,8 @@ bool im_alone_redirect(char *line, int len);
 	// SOLVED кейс на "                     |                      "
 	//spaces_worker(t_par *pars);
 
-
 //char **split_by_semicolon(char *line, t_par *pars)
-//pipes_processors(t_data *data, char *str, int i);
+//char	**space_splitter(t_par *pars, char *new_str, int i);
+//void	get_args(t_data *data, t_par *pars, int i, char *str);
 
 #endif

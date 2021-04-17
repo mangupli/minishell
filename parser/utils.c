@@ -28,5 +28,5 @@ int splits_count(int *array, int array_el_count, int i, int next)
 			count++;
 		j++;
 	}
-	return (count);
+	return (count + 2);
 }
