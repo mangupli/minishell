@@ -75,7 +75,7 @@ void minishell(t_data *data)
 	int count;
 	int ret;
 
-	line = "echo -n";
+	//line = "echo -n";
 	ret = 0;
 	while ((line = ft_readline(data)) != NULL)
 	{

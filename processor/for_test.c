@@ -354,6 +354,6 @@ int test_parser(char *line, int count, t_data *data)
 	if (status)
 		return (-1);
 	dollar(data);
-	find_echo_n(data);
+	find_echo_n(data); // TODO: вставить функцию в парсер виталика
 	return (ret);
 }
