@@ -62,10 +62,13 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 
 	a.ifd = stdin_fd;
 	a.ofd = stdout_fd;
+	if (data->add_to_prompt != NULL)
+		a.prompt = ft_strjoin(data->add_to_prompt, data->prompt);
+	else
+		a.prompt = data->prompt;
+	a.plen = ft_strlen(a.prompt);
 	a.buf = buf;
 	a.buflen = MAX_LINE;
-	a.prompt = data->prompt;
-	a.plen = ft_strlen(data->prompt);
 	a.pos = 0;
 	a.len = 0;
 	a.cols = get_cols(stdin_fd, stdout_fd);
@@ -78,7 +81,8 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 	/* The latest list entry is always our current buffer, that
 	 * initially is just an empty string. */
 	add_history("", &data->hist);
-	write(a.ofd, data->prompt, a.plen);
+
+	write(a.ofd, a.prompt, a.plen);
 	if (ret == -1)
 		return (-1);
 	while (1)

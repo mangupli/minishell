@@ -222,6 +222,68 @@ void change_dollar(t_data *data, char **arg)
 		ft_free((void **)&env);
 }
 
+static void handle_args(t_data *data, char **args, int i)
+{
+	char	*string;
+	char	*tmp;
+
+	string = NULL;
+	tmp = NULL;
+	while (args[i])
+	{
+		if (args[i + 1] != NULL)
+		{
+			tmp = ft_strjoin(string, args[i]);
+			if (string != NULL)
+				ft_free((void **)&string);
+			string = ft_strjoin(tmp, " ");
+			ft_free((void **)&tmp);
+		}
+		else
+		{
+			tmp = ft_strjoin(string, args[i]);
+			if (string != NULL)
+				ft_free((void **)&string);
+			string = tmp;
+		}
+		i++;
+	}
+	if (data->add_to_prompt != NULL)
+		ft_free((void **)&data->add_to_prompt);
+	data->add_to_prompt = string;
+}
+
+static void find_echo_n(t_data *data)
+{
+	t_args *tmp;
+	int i;
+
+	tmp = data->ar;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->args[0], "echo"))
+		{
+			if (!tmp->args[1])
+			{
+				tmp = tmp->next;
+				continue ;
+			}
+			if ((!ft_strcmp(tmp->args[1], "-n")))
+			{
+				g_echo_n = 1;
+				i = 0;
+				while (!ft_strcmp(tmp->args[++i], "-n"))
+				{
+					if (tmp->args[i + 1] == NULL)
+						return ;
+				}
+				handle_args(data, tmp->args, i);
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 void dollar(t_data *data)
 {
 	t_args *tmp;
@@ -252,6 +314,7 @@ int test_parser(char *line, int count, t_data *data)
 	int end;
 	char *str;
 	int status;
+
 
 	ret = 0;
 	i = -1;
@@ -286,11 +349,11 @@ int test_parser(char *line, int count, t_data *data)
 		if (line[i] == '|')
 			count++;
 	}
-
 	status = get_args_list(str, data, count);
 	free(str);
 	if (status)
 		return (-1);
 	dollar(data);
+	find_echo_n(data);
 	return (ret);
 }
