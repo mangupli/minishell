@@ -111,6 +111,8 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		{
 			data->hist.len--;
 			free(data->hist.list[data->hist.len]);
+			if (g_echo_n == 1)
+				ft_free((void **)&a.prompt);
 			ft_putstr_fd("exit", 1);
 			return (-1);
 		}
