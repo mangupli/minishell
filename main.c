@@ -2,7 +2,7 @@
 
 int g_status = 0;
 int g_lastpid = 0;
-
+char g_echo_n = 0;
 
 void close_2_fd(int *fd)
 {
@@ -66,6 +66,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->pipe_fd[0] = 0;
 	data->pipe_fd[1] = 0;
 	data->envp = NULL;
+	data->add_to_prompt = NULL;
 }
 
 void minishell(t_data *data)
@@ -74,10 +75,16 @@ void minishell(t_data *data)
 	int count;
 	int ret;
 
-	//line = "echo lalal > file5";
+	//line = "echo -n";
 	ret = 0;
 	while ((line = ft_readline(data)) != NULL)
 	{
+		if (g_echo_n == 1)
+		{
+			g_echo_n = 0;
+			if (data->add_to_prompt != NULL)
+				ft_free((void **)&data->add_to_prompt);
+		}
 		if (line[0] != '\0')
 		{
 			count = 0;
@@ -86,7 +93,7 @@ void minishell(t_data *data)
 				ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
 
 				//debug parser
-				printf("argslist size %d\n", argslstsize(data->ar));
+				//printf("argslist size %d\n", argslstsize(data->ar));
 				//end debug
 
 				add_history(line, &data->hist); // Add to the list.
@@ -99,6 +106,7 @@ void minishell(t_data *data)
 				}
 				else
 					execution(data);
+
 				count += ret;
 				renew_data(data);
 			}

@@ -12,8 +12,16 @@
 # include	"../libft/includes/libft.h"
 #include	<signal.h>
 
-extern int g_status;
-extern int g_lastpid;
+extern int	g_status;
+extern int	g_lastpid;
+extern char	g_echo_n;
+
+typedef struct s_glob
+{
+	int			status;
+	int			lastpid;
+	char		echo_n;
+}				t_glob;
 
 typedef struct s_par
 {
@@ -101,11 +109,6 @@ typedef struct 			s_list_env
 	struct s_list_env 	*next;
 }						t_list_env;
 
-typedef struct	s_func
-{
-	int 		echo_n;
-}				t_func;
-
 typedef struct	s_data
 {
 	t_hist		hist;
@@ -117,6 +120,7 @@ typedef struct	s_data
 	int 		pipe_fd[2];
 	int 		fd[2];
 	t_par		pars;
+	char		*add_to_prompt;
 }				t_data;
 
 /*

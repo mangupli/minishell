@@ -60,7 +60,7 @@ static void parent_process(t_data *data)
 	if (WIFEXITED(g_status))
 	{
 		g_status = WEXITSTATUS(g_status);
-		printf("exit code = %d\n", g_status);
+		//printf("exit code = %d\n", g_status);
 	}
 	else if (WIFSIGNALED(g_status))
 	{
@@ -81,7 +81,7 @@ static void child_process(t_data *data, t_args *ar)
 	if (ret)
 	{
 		//debug arguments
-		print_arguments(ar->args, 1);
+		//print_arguments(ar->args, 1);
 		//end debug arguments
 		exit(g_status);
 	}
@@ -178,7 +178,6 @@ int  execution(t_data *data)
 					return (0);
 				}
 			}
-
 			ret = processes(data, tmp);
 			if (ret == -1)
 				return (-1);
