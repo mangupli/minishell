@@ -63,20 +63,19 @@ void	back_separation_trash(char *line, t_par *pars);
 void	new_spaces_array(t_par *pars, int count);
 
 
-void	pipes_processors(t_data *data, char *str, int i);
-
-char	*split_on_semicolon(char *line, int i, t_par *pars);
+char	*split_on_semicolon(char *line, int i, t_par *pars); //  TODO скорее всего это не понадобится
 int		get_end(int i, t_par *pars);
 
-char	**space_splitter(t_par *pars, char *new_str, int i);
+char   **splitter(t_par *pars, char *line, int i, int location);
 int		get_str(char *new_str, char *splits, int ind, int next);
 int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
-
-
-void	get_args(t_data *data, t_par *pars, int i, char *str);
-
-int		str_has_pipe(t_par *pars, int ind, int start); // ????
+void	get_args(t_data *data, t_par *pars, int i, char *line);
+void 	args_normalizer(char **splits, t_data *data);
+char	*quotes_worker(char *string);
+char	get_dominator_quotes(char *string);
+int		len_without_quotes(char *string, char q);
+char	*del_single_quotes(char *string);
 
 
 // helpers
@@ -110,5 +109,6 @@ bool im_alone_redirect(char *line, int len);
 //char **split_by_semicolon(char *line, t_par *pars)
 //char	**space_splitter(t_par *pars, char *new_str, int i);
 //void	get_args(t_data *data, t_par *pars, int i, char *str);
+
 
 #endif

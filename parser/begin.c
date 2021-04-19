@@ -1,6 +1,11 @@
 #include "minishell.h"
 #include "parseader.h"
 
+void spaces_locations(int i, t_par *pars)
+{
+	pars->sl[pars->sci] = i;
+	pars->sci++;
+}
 
 void pars_data_init(char *line, t_par *pars)
 {
@@ -62,31 +67,31 @@ int begin(char *line, int i, t_data *data)
 	t_par pars;
 	char *str;
 
-	if (!i)
+	if (!i) // todo проверить, что в итерации есть текст, а не одни пробелы
 	{
 		pars_data_init(line, &data->pars);
 		start_validators(line, &data->pars); //TODO проверка на валидность
 	}
 	pars = data->pars;
-	str = split_on_semicolon(line, i, &pars);
-	printf("%s\n", str);
-	get_args(data, &pars, i, str);
+	pars.next = get_end(i, &pars);
+	get_args(data, &pars, i, line);
 
-	if (pars.next >= pars.len)
-		return (0);
+
 	t_args *tmp;
-
 	tmp = data->ar;
 	while (tmp)
 	{
 		int x = 0;
 		while(tmp->args[x])
 		{
-			printf("its motherfucker arg [%d %s]\n", x, tmp->args[x]);
+			printf("[%d][%s]\n", x, tmp->args[x]);
 			x++;
 		}
-		printf("[%c]\n", tmp->type);
+		printf("type=[%c]\n", tmp->type);
 		tmp = tmp->next;
 	}
+	printf("----\n");
+	if (pars.next >= pars.len)
+		return (0);
 	return (pars.next);
 }
