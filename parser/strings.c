@@ -75,7 +75,7 @@ void	allocate_locations(t_par *pars) //TODO free 2
 		pars->sl = (int *)malloc(sizeof(int) * pars->sc);
 	if (pars->scc || pars->ppc || pars->rc || pars->rrc)
 		pars->locs = (int *)malloc(sizeof(int) * (pars->scc + pars->ppc + \
-											 pars->rc + pars->rrc + 1));
+											pars->rc + pars->rrc + 1));
 }
 
 void	locations_compile(t_par *pars)

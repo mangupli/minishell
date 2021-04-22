@@ -54,14 +54,14 @@ void quotes_locations(char *line, t_par *pars) //TODO free 1
 char get_dominator_quotes(char *string)
 {
 	int i;
+	char q;
 
 	i = 0;
 	while (string[i] != '\0')
 	{
-		if (string[i] == '\'')
-			return ('\'');
-		else if (string[i] == '"')
-			return ('"');
+		q = type_quotes(string, i);
+		if (q)
+			return (q);
 		i++;
 	}
 	return (0);
@@ -83,7 +83,7 @@ int len_without_quotes(char *string, char q)
 	return (len);
 }
 
-char *del_single_quotes(char *string)
+char *del_quotes(char *string, char quotes)
 {
 	char *new_string;
 	int i;
@@ -91,10 +91,10 @@ char *del_single_quotes(char *string)
 
 	i = 0;
 	j = 0;
-	new_string = (char *)malloc(len_without_quotes(string, '\'')); // Todo маллоки
+	new_string = (char *)malloc(len_without_quotes(string, quotes)); // Todo маллоки
 	while (string[i] != '\0')
 	{
-		if (string[i] != '\'')
+		if (string[i] != quotes)
 		{
 			new_string[j] = string[i];
 			j++;

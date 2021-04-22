@@ -30,3 +30,29 @@ int splits_count(int *array, int array_el_count, int i, int next)
 	}
 	return (count + 2);
 }
+
+char *slash_replacer(char *string)
+{
+	char *new_string;
+	int i;
+	int j;
+	int f;
+
+	new_string = (char *)malloc(ft_strlen(string)); //TODO MALLOCS
+	i = 0;
+	j = 0;
+	f = 0;
+	while (string[i] != '\0')
+	{
+		if (string[i] == '\\' && !f)
+		{
+			i++;
+			f++;
+		}
+		new_string[j] = string[i];
+		i++;
+		j++;
+	}
+	new_string[j] = '\0';
+	return (new_string);
+}

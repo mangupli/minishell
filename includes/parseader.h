@@ -20,6 +20,7 @@
 # include	"../libft/includes/libft.h"
 # define True true
 # define False false
+# define ascii "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 
 
 typedef struct 	s_env
@@ -72,10 +73,20 @@ int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
 void	get_args(t_data *data, t_par *pars, int i, char *line);
 void 	args_normalizer(char **splits, t_data *data);
+
+char	*begin_env_replace(char *string, t_list_env *envs);
+char	type_quotes(char *string, int i);
+char	*env_worker(char *string, int i, t_list_env *envs);
+char	*get_env_key(char *key_begin);
+void	env_replacer(char *string, char *value, char *new_string, int key_len);
+
+char	*slash_replacer(char *string);
+char	*trash_replacer(char *string);
+
 char	*quotes_worker(char *string);
 char	get_dominator_quotes(char *string);
 int		len_without_quotes(char *string, char q);
-char	*del_single_quotes(char *string);
+char	*del_quotes(char *string, char quotes);
 
 
 // helpers

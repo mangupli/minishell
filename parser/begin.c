@@ -41,7 +41,8 @@ void pars_data_init(char *line, t_par *pars)
 int start_validators(char *line, t_par *pars)
 {
 	if (im_in_begin(line, ';') || im_in_begin(line, '|') || \
-		im_in_end(line, '|', pars->len) ||
+		im_in_end(line, '|', pars->len) || \
+		im_in_end(line, '\\', pars->len) || \
 		im_alone_redirect(line, pars->len))
 	{
 		display_error("minishell", "syntax error", "unexpected token");
@@ -77,7 +78,7 @@ int begin(char *line, int i, t_data *data)
 	get_args(data, &pars, i, line);
 
 
-	t_args *tmp;
+/*	t_args *tmp;
 	tmp = data->ar;
 	while (tmp)
 	{
@@ -85,12 +86,13 @@ int begin(char *line, int i, t_data *data)
 		while(tmp->args[x])
 		{
 			printf("[%d][%s]\n", x, tmp->args[x]);
+			free(tmp->args[x]);
 			x++;
 		}
 		printf("type=[%c]\n", tmp->type);
 		tmp = tmp->next;
 	}
-	printf("----\n");
+	printf("----\n");*/
 	if (pars.next >= pars.len)
 		return (0);
 	return (pars.next);
