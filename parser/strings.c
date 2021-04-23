@@ -89,3 +89,4 @@ void	locations_compile(t_par *pars)
 	sorted_array(pars);
 	pars->locs[pars->scc + pars->ppc + pars->rc + pars->rrc] = -1;
 }
+
