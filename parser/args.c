@@ -84,6 +84,9 @@ char *begin_env_replace(char *string, t_list_env *envs)
 
 char type_quotes(char *string, int i)
 {
+	int j;
+
+	j = 0;
 	if ((!i && string[i] == '\'') || \
 				(i && string[i] == '\'' && string[i - 1] != '\\'))
 		return '\'';

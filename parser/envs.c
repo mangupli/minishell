@@ -9,6 +9,8 @@ char *get_env_key(char *key_begin)
 	i = 0;
 	while (ft_strrchr(ascii, key_begin[i])  && key_begin[i] != '\0')
 		i++;
+	if (!i && key_begin[0] != '\0' && key_begin[0] == '?')
+		return (ft_strdup("?"));
 	if (!i)
 		return (NULL);
 	key = (char *)malloc(i + 1); // TODO маллоки
@@ -32,14 +34,18 @@ char *env_worker(char *string, int i, t_list_env *envs)
 	key = get_env_key(&string[i + 1]);
 	if (key == NULL)
 		return (ft_strdup(string));
-	value = find_env_content(envs, key);
+	if (ft_strcmp("?", key) == 0)
+		value = ft_itoa(g_status);
+	else
+		value = find_env_content(envs, key);
 	if (!value)
 		len = ft_strlen(string) + 1;
 	else
 		len = ft_strlen(string) + ft_strlen(value) + 1;
 	new_string = (char *)malloc(len); // TODO маллоки
 	env_replacer(string, value, new_string, ft_strlen(key));
-	//free(value); // TODO WHY MALLOC BUGS???
+	if (ft_strcmp("?", key) == 0)
+		free(value);
 	free(key);
 	return (new_string);
 }
@@ -70,20 +76,6 @@ void env_replacer(char *string, char *value, char *new_string, int key_len)
 		x++;
 	}
 	new_string[x] = '\0';
-}
-
-char	*find_env_content(t_list_env *envs, char *name) // TODO DELETE THIS FUNC
-{
-	t_list_env *tmp;
-
-	tmp = envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			return (tmp->content);
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 char *trash_replacer(char *string)

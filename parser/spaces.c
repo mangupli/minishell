@@ -91,7 +91,7 @@ void back_separation_trash(char *line, t_par *pars)
 	int i;
 	int j;
 
-	i = pars->sc;
+	i = pars->sc - 1;
 	while (i >= 0)
 	{
 		if (pars->sl[i] != -1)

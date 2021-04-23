@@ -71,14 +71,18 @@ int begin(char *line, int i, t_data *data)
 	if (!i) // todo проверить, что в итерации есть текст, а не одни пробелы
 	{
 		pars_data_init(line, &data->pars);
-		start_validators(line, &data->pars); //TODO проверка на валидность
+		if (start_validators(line, &data->pars) == -1)
+		{
+			printf("ERROOR\n");
+			return (-1);
+		}//TODO проверка на валидность
 	}
 	pars = data->pars;
 	pars.next = get_end(i, &pars);
 	get_args(data, &pars, i, line);
 
 
-/*	t_args *tmp;
+	t_args *tmp;
 	tmp = data->ar;
 	while (tmp)
 	{
@@ -92,7 +96,7 @@ int begin(char *line, int i, t_data *data)
 		printf("type=[%c]\n", tmp->type);
 		tmp = tmp->next;
 	}
-	printf("----\n");*/
+	printf("----\n");
 	if (pars.next >= pars.len)
 		return (0);
 	return (pars.next);
