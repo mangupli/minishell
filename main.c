@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parseader.h"
 
 int g_status = 0;
 int g_lastpid = 0;
@@ -69,14 +70,21 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->add_to_prompt = NULL;
 }
 
+/*
+** i = begin(line, 0, &data);
+** while (1 <= i)
+** {
+**		i = begin(line, i+1, &data);
+** }
+*/
+
 void minishell(t_data *data)
 {
 	char *line;
 	int count;
 	int ret;
 
-	//line = "echo -n";
-	ret = 0;
+	count = 0;
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (g_echo_n == 1)
@@ -87,27 +95,27 @@ void minishell(t_data *data)
 		}
 		if (line[0] != '\0')
 		{
-			count = 0;
-			while (*(line + count))
+			ret = begin(line, 0, data);
+			if (ret == -1)
 			{
-				ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
+				ft_putstr_fd("POSHEL NA HUI", 2);
+				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
+				g_status = 258; // TODO: может виталик присвоить его?
+				continue ;
+			}
+			add_history(line, &data->hist); // Add to the list.
+			execution(data);
+			renew_data(data);
 
+			while (ret > 0)
+			{
+				//ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
+				ret = begin(line, ret + 1, data);
 				//debug parser
 				//printf("argslist size %d\n", argslstsize(data->ar));
 				//end debug
-
 				add_history(line, &data->hist); // Add to the list.
-
-				if (ret == -1)
-				{
-					renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
-					g_status = 258; // TODO: может виталик присвоить его?
-					break;
-				}
-				else
-					execution(data);
-
-				count += ret;
+				execution(data);
 				renew_data(data);
 			}
 		}

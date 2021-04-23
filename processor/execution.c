@@ -81,7 +81,7 @@ static void child_process(t_data *data, t_args *ar)
 	if (ret)
 	{
 		//debug arguments
-		//print_arguments(ar->args, 1);
+		print_arguments(ar->args, 1);
 		//end debug arguments
 		exit(g_status);
 	}

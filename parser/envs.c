@@ -72,20 +72,6 @@ void env_replacer(char *string, char *value, char *new_string, int key_len)
 	new_string[x] = '\0';
 }
 
-char	*find_env_content(t_list_env *envs, char *name) // TODO DELETE THIS FUNC
-{
-	t_list_env *tmp;
-
-	tmp = envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			return (tmp->content);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 char *trash_replacer(char *string)
 {
 	int sq;

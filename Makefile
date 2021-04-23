@@ -24,15 +24,14 @@ SRCS_MAIN = main.c
 LIBFT = libft.a
 
 SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
-history.c exit.c execution.c echo.c pwd.c cd.c utils.c export.c \
+history.c exit.c execution.c echo.c pwd.c cd.c proc_utils.c export.c \
 env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c \
 signals.c \
 \
 for_test.c
 
-SRCS_PARSER = path_parser.c
-# begin.c helpers.c locations.c quotes.c \
-# strings.c validators.c
+SRCS_PARSER = path_parser.c args.c begin.c envs.c helpers.c locations.c quotes.c spaces.c splitters.c strings.c utils.c validators.c
+
 
 
 # Object files #

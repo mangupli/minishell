@@ -20,7 +20,7 @@ add_executable(shell main.c
         processor/echo.c
         processor/pwd.c
         processor/cd.c
-        processor/utils.c
+        processor/proc_utils.c
         processor/export.c
         processor/env.c
         processor/envir_var.c
