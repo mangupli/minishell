@@ -1,6 +1,6 @@
 #include "parseader.h"
 
-void spaces_worker(t_par *pars, char *line)
+void spaces_worker(t_par *pars, char *line, t_data *data)
 {
 	int i;
 	int count;
@@ -21,7 +21,7 @@ void spaces_worker(t_par *pars, char *line)
 			count++;
 		i++;
 	}
-	new_spaces_array(pars, count);
+	new_spaces_array(pars, count, data);
 }
 
 void delete_excess_spaces(t_par *pars, int false_space)
@@ -44,7 +44,7 @@ void delete_excess_spaces(t_par *pars, int false_space)
 	}
 }
 
-void new_spaces_array(t_par *pars, int count)
+void new_spaces_array(t_par *pars, int count, t_data *data)
 {
 	int	*new_array;
 	int	i;
@@ -52,7 +52,9 @@ void new_spaces_array(t_par *pars, int count)
 
 	i = 0;
 	j = 0;
-	new_array = (int *)malloc(sizeof(int) * count); // TODO защити
+	new_array = (int *)malloc(sizeof(int) * count);
+	if (new_array == NULL)
+		ft_exit(-1, data, 1);
 	while (i < pars->sc)
 	{
 		if (pars->sl[i] != -1)

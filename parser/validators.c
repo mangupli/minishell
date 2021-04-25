@@ -1,6 +1,6 @@
 #include "parseader.h"
 
-int	validations(char *line, t_par *pars) // TODO free
+int	validations(char *line, t_par *pars)
 {
 	int i;
 	int next;
@@ -9,7 +9,8 @@ int	validations(char *line, t_par *pars) // TODO free
 	if (has_twinks_redirects(pars))
 		return (-1);
 	i = 0;
-	while (pars->locs[i] != -1 && (pars->ppc || pars->rc || pars->rrc))
+	while (pars->locs[i] != -1 && (pars->ppc || pars->rc || pars->rrc || \
+			pars->scc))
 	{
 		if (pars->locs[i + 1] == -1)
 			next = pars->len;

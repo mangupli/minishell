@@ -33,28 +33,30 @@ void args_normalizer(char **splits, t_data *data)
 	while (splits[i] != NULL)
 	{
 		tmp = splits[i];
-		splits[i] = ft_strtrim(splits[i], " |"); // todo маллоки
+		splits[i] = ft_strtrim(splits[i], " |");
+		if (splits[i] == NULL)
+			ft_exit(-1, data, 1);
 		free(tmp);
-		splits[i] = begin_env_replace(splits[i], data->envlist);
-		splits[i] = trash_replacer(splits[i]);
-		splits[i] = quotes_worker(splits[i]);
+		splits[i] = begin_env_replace(splits[i], data->envlist, data);
+		splits[i] = quotes_worker(splits[i], data);
+		splits[i] = trash_replacer(splits[i], data);
 		i++;
 	}
 }
 
-char *quotes_worker(char *string)
+char *quotes_worker(char *string, t_data *data)
 {
 	char q;
 
 	q = get_dominator_quotes(string);
 	if (q == '\'')
-		return del_quotes(string, '\'');
+		return del_quotes(string, '\'', data);
 	else if (q == '"')
-		return del_quotes(string, '"');
+		return del_quotes(string, '"', data);
 	return (string);
 }
 
-char *begin_env_replace(char *string, t_list_env *envs)
+char *begin_env_replace(char *string, t_list_env *envs, t_data *data)
 {
 	int sq;
 	int dq;
@@ -74,7 +76,9 @@ char *begin_env_replace(char *string, t_list_env *envs)
 				(!i)))
 		{
 			tmp = string;
-			string = env_worker(string, i, envs);
+			string = env_worker(string, i, envs, data);
+			if (string == NULL)
+				ft_exit(-1, data, 1);
 			free(tmp);
 		}
 		i++;
@@ -84,9 +88,6 @@ char *begin_env_replace(char *string, t_list_env *envs)
 
 char type_quotes(char *string, int i)
 {
-	int j;
-
-	j = 0;
 	if ((!i && string[i] == '\'') || \
 				(i && string[i] == '\'' && string[i - 1] != '\\'))
 		return '\'';

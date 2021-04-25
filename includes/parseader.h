@@ -36,9 +36,10 @@ int		get_curr_location(t_args *ar, t_list_env *envs);
 
 int		begin(char *line, int i, t_data *data);
 void	pars_data_init(char *line, t_par *par);
-int		start_validators(char *line, t_par *pars);
+void	pars_data_init2(char *line, t_par *pars);
+int		start_validators(char *line, t_par *pars, t_data *data);
 int		quotes_counter(char *line, t_par *pars);
-void	quotes_locations(char *line, t_par *pars);
+void	quotes_locations(char *line, t_par *pars, t_data *data);
 void	counter(char *line, t_par *pars);
 
 void	locations(char *line, t_par *pars);
@@ -57,36 +58,37 @@ bool	between_only_spaces_or_twinks(char *line, int start, int stop, int len);
 bool	has_twinks_redirects(t_par *pars);
 
 
-void	spaces_worker(t_par *pars, char *line);
+void	spaces_worker(t_par *pars, char *line, t_data *data);
 void	delete_excess_spaces(t_par *pars, int false_space);
 void	separation_trash(t_par *pars);
 void	back_separation_trash(char *line, t_par *pars);
-void	new_spaces_array(t_par *pars, int count);
+void	new_spaces_array(t_par *pars, int count, t_data *data);
 
 
 char	*split_on_semicolon(char *line, int i, t_par *pars); //  TODO скорее всего это не понадобится
 int		get_end(int i, t_par *pars);
 
-char   **splitter(t_par *pars, char *line, int i, int location);
+char	**splitter(t_par *pars, char *line, int i, int location);
 int		get_str(char *new_str, char *splits, int ind, int next);
 int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
 void	get_args(t_data *data, t_par *pars, int i, char *line);
 void 	args_normalizer(char **splits, t_data *data);
 
-char	*begin_env_replace(char *string, t_list_env *envs);
+char	*begin_env_replace(char *string, t_list_env *envs, t_data *data);
 char	type_quotes(char *string, int i);
-char	*env_worker(char *string, int i, t_list_env *envs);
-char	*get_env_key(char *key_begin);
+char	*env_worker(char *string, int i, t_list_env *envs, t_data *data);
+char	*get_env_key(char *key_begin, t_data *data);
 void	env_replacer(char *string, char *value, char *new_string, int key_len);
 
-char	*slash_replacer(char *string);
-char	*trash_replacer(char *string);
+char	*slash_replacer(char *string, t_data *data);
+char	*trash_replacer(char *string, t_data *data);
 
-char	*quotes_worker(char *string);
+char	*quotes_worker(char *string, t_data *data);
 char	get_dominator_quotes(char *string);
 int		len_without_quotes(char *string, char q);
-char	*del_quotes(char *string, char quotes);
+char	*del_quotes(char *string, char quotes, t_data *data);
+void	freedom(t_par *pars);
 
 
 // helpers

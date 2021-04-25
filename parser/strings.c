@@ -61,7 +61,7 @@ void	counter(char *line, t_par *pars)
 	}
 }
 
-void	allocate_locations(t_par *pars) //TODO free 2
+void	allocate_locations(t_par *pars)
 {
 	if (pars->scc)
 		pars->sccl = (int *)malloc(sizeof(int) * pars->scc);
@@ -89,4 +89,3 @@ void	locations_compile(t_par *pars)
 	sorted_array(pars);
 	pars->locs[pars->scc + pars->ppc + pars->rc + pars->rrc] = -1;
 }
-

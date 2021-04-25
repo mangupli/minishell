@@ -22,7 +22,7 @@ char **splitter(t_par *pars, char *line, int i, int location)
 	splits[j] = (char *)malloc(location - next + 1);
 	get_str(line, splits[j], i, location - 1);
 	splits[j + 1] = NULL;
-	return (splits); // TODO может вернуть массив с пустой строкой и null я уже хуй знает как это обойти
+	return (splits);
 }
 
 int get_str(char *line, char *splits, int ind, int next)

@@ -31,14 +31,16 @@ int splits_count(int *array, int array_el_count, int i, int next)
 	return (count + 2);
 }
 
-char *slash_replacer(char *string)
+char *slash_replacer(char *string, t_data *data)
 {
 	char *new_string;
 	int i;
 	int j;
 	int f;
 
-	new_string = (char *)malloc(ft_strlen(string)); //TODO MALLOCS
+	new_string = (char *)malloc(ft_strlen(string));
+	if (new_string == NULL)
+		ft_exit(-1, data, 1);
 	i = 0;
 	j = 0;
 	f = 0;
@@ -55,4 +57,16 @@ char *slash_replacer(char *string)
 	}
 	new_string[j] = '\0';
 	return (new_string);
+}
+
+void freedom(t_par *pars)
+{
+	free(pars->dql);
+	free(pars->sql);
+	free(pars->ppl);
+	free(pars->sccl);
+	free(pars->rl);
+	free(pars->rrl);
+	free(pars->sl);
+	free(pars->locs);
 }

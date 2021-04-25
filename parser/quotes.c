@@ -17,20 +17,19 @@ int	quotes_counter(char *line, t_par *pars)
 		i++;
 	}
 	if (pars->sqc % 2 || pars->dqc % 2)
-	{
-		display_error("minishell", "syntax error", "unexpected token");
 		return (-1);
-	}
 	return (0);
 }
 
-void quotes_locations(char *line, t_par *pars) //TODO free 1
+void quotes_locations(char *line, t_par *pars, t_data *data)
 {
 	pars->tmpi = 0;
 	if (pars->dqc)
-		pars->dql = (int *)malloc(sizeof(int) * pars->dqc); // TODO защитить маллоки???
+		pars->dql = (int *)malloc(sizeof(int) * pars->dqc);
 	if (pars->sqc)
-		pars->sql = (int *)malloc(sizeof(int) * pars->sqc); // TODO защитить маллоки???
+		pars->sql = (int *)malloc(sizeof(int) * pars->sqc);
+	if (pars->sql == NULL || pars->dql == NULL)
+		ft_exit(-1, data, 1);
 	while (line[pars->tmpi] != '\0' && (pars->sqc || pars->dqc))
 	{
 		if (!behind_has_backslash(line, line[pars->tmpi], "'", pars->tmpi) && \
@@ -83,7 +82,7 @@ int len_without_quotes(char *string, char q)
 	return (len);
 }
 
-char *del_quotes(char *string, char quotes)
+char *del_quotes(char *string, char quotes, t_data *data)
 {
 	char *new_string;
 	int i;
@@ -91,7 +90,9 @@ char *del_quotes(char *string, char quotes)
 
 	i = 0;
 	j = 0;
-	new_string = (char *)malloc(len_without_quotes(string, quotes)); // Todo маллоки
+	new_string = (char *)malloc(len_without_quotes(string, quotes) + 1);
+	if (new_string == NULL)
+		ft_exit(-1, data, 1);
 	while (string[i] != '\0')
 	{
 		if (string[i] != quotes)
