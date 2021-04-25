@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "parseader.h"
 
-char *get_env_key(char *key_begin)
+char *get_env_key(char *key_begin, t_data *data)
 {
 	int i;
 	char *key;
@@ -10,10 +10,17 @@ char *get_env_key(char *key_begin)
 	while (ft_strrchr(ascii, key_begin[i])  && key_begin[i] != '\0')
 		i++;
 	if (!i && key_begin[0] != '\0' && key_begin[0] == '?')
-		return (ft_strdup("?"));
+	{
+		key = ft_strdup("?");
+		if (key == NULL)
+			ft_exit(-1, data, 1);
+		return (key);
+	}
 	if (!i)
 		return (NULL);
-	key = (char *)malloc(i + 1); // TODO маллоки
+	key = (char *)malloc(i + 1);
+	if (key == NULL)
+		ft_exit(-1, data, 1);
 	i = 0;
 	while (ft_strrchr(ascii, key_begin[i])  && key_begin[i] != '\0')
 	{
@@ -24,25 +31,29 @@ char *get_env_key(char *key_begin)
 	return (key);
 }
 
-char *env_worker(char *string, int i, t_list_env *envs)
+char *env_worker(char *string, int i, t_list_env *envs, t_data *data)
 {
 	char *value;
 	char *key;
 	int len;
 	char *new_string;
 
-	key = get_env_key(&string[i + 1]);
+	key = get_env_key(&string[i + 1], data);
 	if (key == NULL)
 		return (ft_strdup(string));
 	if (ft_strcmp("?", key) == 0)
+	{
 		value = ft_itoa(g_status);
+		if (value == NULL)
+			ft_exit(-1, data, 1);
+	}
 	else
 		value = find_env_content(envs, key);
 	if (!value)
 		len = ft_strlen(string) + 1;
 	else
 		len = ft_strlen(string) + ft_strlen(value) + 1;
-	new_string = (char *)malloc(len); // TODO маллоки
+	new_string = (char *)malloc(len);
 	env_replacer(string, value, new_string, ft_strlen(key));
 	if (ft_strcmp("?", key) == 0)
 		free(value);
@@ -59,6 +70,8 @@ void env_replacer(char *string, char *value, char *new_string, int key_len)
 	i = 0;
 	j = 0;
 	x = 0;
+	if (new_string == NULL)
+		return ;
 	while (string[i] != '\0')
 	{
 		if (string[i] == '$' && !j)
@@ -78,7 +91,7 @@ void env_replacer(char *string, char *value, char *new_string, int key_len)
 	new_string[x] = '\0';
 }
 
-char *trash_replacer(char *string)
+char *trash_replacer(char *string, t_data *data)
 {
 	int sq;
 	int dq;
@@ -97,7 +110,7 @@ char *trash_replacer(char *string)
 		if (string[i] == '\\' && !(sq % 2))
 		{
 			tmp = string;
-			string = slash_replacer(string);
+			string = slash_replacer(string, data);
 			free(tmp);
 		}
 		i++;
