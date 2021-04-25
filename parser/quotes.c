@@ -75,7 +75,8 @@ int len_without_quotes(char *string, char q)
 	i = 0;
 	while (string[i] != '\0')
 	{
-		if (string[i] != q)
+		if (string[i] != q || (string[i] == q && i \
+				&& string[i - 1] == '\\'))
 			len++;
 		i++;
 	}
@@ -95,7 +96,8 @@ char *del_quotes(char *string, char quotes, t_data *data)
 		ft_exit(-1, data, 1);
 	while (string[i] != '\0')
 	{
-		if (string[i] != quotes)
+		if (string[i] != quotes || (string[i] == quotes && i \
+				&& string[i - 1] == '\\'))
 		{
 			new_string[j] = string[i];
 			j++;
