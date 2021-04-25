@@ -1,6 +1,6 @@
 #include "parseader.h"
 
-int	validations(char *line, t_par *pars) // TODO free
+int	validations(char *line, t_par *pars)
 {
 	int i;
 	int next;

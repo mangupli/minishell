@@ -21,7 +21,7 @@ int	quotes_counter(char *line, t_par *pars)
 	return (0);
 }
 
-void quotes_locations(char *line, t_par *pars, t_data *data) //TODO free 1
+void quotes_locations(char *line, t_par *pars, t_data *data)
 {
 	pars->tmpi = 0;
 	if (pars->dqc)
