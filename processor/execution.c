@@ -52,24 +52,10 @@ static void parent_process(t_data *data)
 {
 	int ret;
 
-	dup2(data->orig_fd[0], 0);
-	dup2(data->orig_fd[1], 1);
-	ret = waitpid(-1, &g_status, 0);
-	if (ret == -1)
-		ft_exit(-1, data, 1);
-	if (WIFEXITED(g_status))
-	{
-		g_status = WEXITSTATUS(g_status);
-		//printf("exit code = %d\n", g_status);
-	}
-	else if (WIFSIGNALED(g_status))
-	{
-		g_status = g_status | 128;
-		printf("\nexit code = %d\n", g_status);
-		if (g_status == 131)
-			ft_putstr_fd("Quit: 3\n", 2);
-	}
-	errno = 0;
+	//dup2(data->orig_fd[0], 0);
+	//dup2(data->orig_fd[1], 1);
+	
+
 }
 
 static void child_process(t_data *data, t_args *ar)
@@ -94,13 +80,13 @@ static void child_process(t_data *data, t_args *ar)
 	}
 
 //debug arguments
-	print_arguments(ar->args, 0);
+//	print_arguments(ar->args, 0);
 //end debug arguments
 
-	//envlist_to_array(data);
+	//envlist_to_array(data); // TODO: data->envp  передавать в execve
 	execve(ar->args[0], ar->args, 0);
 
-	if (errno == 2)
+	if (errno == 2) 
 	{
 		display_error("minishell", "command not found", ar->args[0]);
 		ft_exit(127, data, 0);
@@ -120,17 +106,12 @@ static void find_fd(t_data *data, t_args *ar)
 	data->fd[0] = find_fdin(data, ar);
 	data->fd[1] = find_fdout(data, ar);
 
-/*
-	printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
-	printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
-	printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
-	printf("ar->file_fd[0]:%d | ar->file_fd[1]:%d\n",ar->file[0], ar->file[1]);
-*/
 
-	dup2(data->fd[0], 0);
-	close(data->fd[0]);
-	dup2(data->fd[1], 1);
-	close(data->fd[1]);
+	//printf("data->orig_fd[0]:%d | data->orig_fd[1]:%d\n", data->orig_fd[0], data->orig_fd[1]);
+	//printf("data->fd[0]:%d | data->fd[1]:%d\n", data->fd[0], data->fd[1]);
+	//printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
+	//printf("ar->file_fd[0]:%d | ar->file_fd[1]:%d\n",ar->file[0], ar->file[1]);
+
 }
 
 static int processes(t_data *data, t_args *tmp)
@@ -141,12 +122,18 @@ static int processes(t_data *data, t_args *tmp)
 	pid = fork();
 	if (pid == 0)
 	{
+		dup2(data->fd[0], 0);
+		close(data->fd[0]);
+		dup2(data->fd[1], 1);
+		close(data->fd[1]);
 		child_process(data, tmp);
 	}
 	else if (pid > 0)
 	{
 		g_lastpid = pid;
-		parent_process(data);
+
+		//dup2(data->orig_fd[0], 0);
+		//dup2(data->orig_fd[1], 1);
 	}
 	else
 	{
@@ -185,5 +172,26 @@ int  execution(t_data *data)
 		}
 		tmp = tmp->next;
 	}
+
+		
+	
+	int ret2 = waitpid(-1, &g_status, 0);
+	if (ret2 == -1)
+		ft_exit(-1, data, 1);
+	if (WIFEXITED(g_status))
+	{
+		g_status = WEXITSTATUS(g_status);
+		//printf("exit code = %d\n", g_status);
+	}
+	else if (WIFSIGNALED(g_status))
+	{
+		g_status = g_status | 128;
+		printf("\nexit code = %d\n", g_status);
+		if (g_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
+	}
+	errno = 0;
+	
+
 	return (0);
 }

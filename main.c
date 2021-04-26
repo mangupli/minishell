@@ -33,8 +33,8 @@ void	close_all_redir_fd(t_data *data)
 
 void reset_fd(t_data *data, int *file_fd)
 {
-	dup2(data->orig_fd[0], 0);
-	dup2(data->orig_fd[1], 1);
+	//dup2(data->orig_fd[0], 0);
+	//dup2(data->orig_fd[1], 1);
 	close_2_fd(file_fd);
 }
 
@@ -70,6 +70,15 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->add_to_prompt = NULL;
 }
 
+
+static void process_and_clear(char *line, t_data *data)
+{
+	add_history(line, &data->hist); // Add to the list.
+	execution(data);
+	renew_data(data);
+}
+
+
 /*
 ** i = begin(line, 0, &data);
 ** while (1 <= i)
@@ -98,25 +107,21 @@ void minishell(t_data *data)
 			ret = begin(line, 0, data);
 			if (ret == -1)
 			{
-				ft_putstr_fd("POSHEL NA HUI", 2);
 				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
-				g_status = 258; // TODO: может виталик присвоить его?
 				continue ;
 			}
-			add_history(line, &data->hist); // Add to the list.
-			execution(data);
-			renew_data(data);
-
+			process_and_clear(line, data);
 			while (ret > 0)
 			{
 				//ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
+				
 				ret = begin(line, ret + 1, data);
+				
 				//debug parser
 				//printf("argslist size %d\n", argslstsize(data->ar));
 				//end debug
-				add_history(line, &data->hist); // Add to the list.
-				execution(data);
-				renew_data(data);
+
+				process_and_clear(line, data);
 			}
 		}
 		free(line);

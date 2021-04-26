@@ -1,0 +1,112 @@
+ls
+pwd
+ps aux | grep mspyke 
+ps aux
+ps aux | grep Library
+ls | grep m
+ps aux | grep Library
+exit
+ls
+ls | grep m | grep ma | grep mai
+ls | grep m | grep ma | grep mai ; pwd
+ls | grep m | grep ma | grep mai ; pwd
+pwd ; ls -la | grep m | grep ma
+pwd ; ls -la | grep m | grep ma
+exit
+exit
+ls ; pwd ;  e
+ls ; pwd ;  e
+ls ; pwd ;  e
+exit
+pwd ; ls | grep main ; echo liza 
+pwd ; ls | grep main ; echo liza 
+pwd ; ls | grep main ; echo liza 
+exit
+ls ; pwd ; echo liza
+ls ; pwd ; echo liza
+ls ; pwd ; echo liza
+exit
+ls
+pwd
+cat file1
+ls -la | grep m
+ls -la | grep main
+ls -la | cat
+cat
+cat | cat 
+ls | grep main
+ls | grep m | grep main
+cat | cat
+cat | cat | cat
+exit
+cat | cat | cat
+exit
+ls | grep m | grep main
+exit
+ls | grep main
+exit
+exit
+ls | grep m
+ls | grep m | grep main
+exit
+ls | grep main
+ls | grep m | grep main
+cat | cat | cat
+exit
+ls
+ls ; pwd
+ls ; pwd
+exit
+ls ; pwd
+ls ; pwd
+exit
+cat | cat | cat
+exit
+ls | grep m
+ls -la
+pwd ; ls -la
+pwd ; ls -la
+echo asdfghjjj
+exit
+ks
+ls
+cat | cat | cat
+exit
+cat | cat | cat
+cat | cat 
+make
+./mini	
+exit
+ls
+pwd
+pwd ; ls
+pwd ; ls
+echo liza | cat 
+ls
+exit
+ls ; pwd
+ls ; pwd
+ls ; pwd
+ls ; pwd
+ls ; pwd
+ls ; pwd
+cat | cat | cat
+cat | cat | cat -e
+sfB
+exit
+ls ; pwd
+ls ; pwd
+cat file1
+cat | cat
+cat | cat | cat
+cat | cat | cat -e
+exit | exit
+ps aux | grep root
+ps aux | grep root | grep sbin
+exit
+ls
+ps aux | grep root
+ps aux | grep root | grep sbin
+exit
+cat | cat | cat -e
+exit
