@@ -107,7 +107,7 @@ void minishell(t_data *data)
 		{
 			ret = begin_parser(line, 0, data);
 			//debug parser
-			//printf("argslist size %d\n", argslstsize(data->ar));
+			printf("argslist size %d\n", argslstsize(data->ar));
 			//end debug
 			if (ret == -1)
 			{

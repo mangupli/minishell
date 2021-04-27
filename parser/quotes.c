@@ -28,7 +28,7 @@ void quotes_locations(char *line, t_par *pars, t_data *data)
 		pars->dql = (int *)malloc(sizeof(int) * pars->dqc);
 	if (pars->sqc)
 		pars->sql = (int *)malloc(sizeof(int) * pars->sqc);
-	if (pars->sql == NULL || pars->dql == NULL)
+	if ((pars->sql == NULL && pars->sqc) || (pars->dql == NULL && pars->dqc))
 		ft_exit(-1, data, 1);
 	while (line[pars->tmpi] != '\0' && (pars->sqc || pars->dqc))
 	{

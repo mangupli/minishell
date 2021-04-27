@@ -122,3 +122,28 @@ ls
 exit
 ls
 exit
+ls
+cd ..
+wdfgh waesrdtgfaw waesrdt
+exit
+ls
+
+ls
+
+
+
+ls
+
+ls
+ls
+ls
+cd ..
+pwd
+ls
+cd shell
+ls
+exit
+ps aux | grep root
+ls | grep ma
+ls | grep ma
+exit

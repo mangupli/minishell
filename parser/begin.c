@@ -52,6 +52,7 @@ int start_validators(char *line, t_par *pars, t_data *data)
 	if (quotes_counter(line, pars) == -1)
 		return (-1);
 	quotes_locations(line, pars, data);
+
 	counter(line, pars);
 	locations(line, pars);
 	if (pars->scc || pars->ppc || pars->rc || pars->rrc)
@@ -76,14 +77,14 @@ int begin_parser(char *line, int i, t_data *data)
 	{
 		pars_data_init(line, &data->pars);
 		pars_data_init2(line, &data->pars);
-		/*
+
 		if (start_validators(line, &data->pars, data) == -1)
 		{
 			g_status = 258;
 			display_error("minishell", "syntax error", "unexpected token");
 			return (-1);
 		}
-		 */
+
 	}
 	pars = data->pars;
 	pars.next = get_end(i, &pars);
