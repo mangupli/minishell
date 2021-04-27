@@ -67,7 +67,7 @@ int start_validators(char *line, t_par *pars, t_data *data)
 	return (0);
 }
 
-int begin(char *line, int i, t_data *data)
+int begin_parser(char *line, int i, t_data *data)
 {
 	t_par pars;
 	int j;
@@ -76,12 +76,14 @@ int begin(char *line, int i, t_data *data)
 	{
 		pars_data_init(line, &data->pars);
 		pars_data_init2(line, &data->pars);
+		/*
 		if (start_validators(line, &data->pars, data) == -1)
 		{
 			g_status = 258;
 			display_error("minishell", "syntax error", "unexpected token");
 			return (-1);
 		}
+		 */
 	}
 	pars = data->pars;
 	pars.next = get_end(i, &pars);

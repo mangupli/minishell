@@ -34,7 +34,7 @@ char	**path_parser(t_list_env *envs); // ITS YOUR FUNCS
 int		get_curr_location(t_args *ar, t_list_env *envs);
 
 
-int		begin(char *line, int i, t_data *data);
+int		begin_parser(char *line, int i, t_data *data);
 void	pars_data_init(char *line, t_par *par);
 void	pars_data_init2(char *line, t_par *pars);
 int		start_validators(char *line, t_par *pars, t_data *data);

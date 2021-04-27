@@ -78,12 +78,11 @@ static void process_and_clear(char *line, t_data *data)
 	renew_data(data);
 }
 
-
 /*
 ** i = begin(line, 0, &data);
 ** while (1 <= i)
 ** {
-**		i = begin(line, i+1, &data);
+**		i = begin_parser(line, i+1, &data);
 ** }
 */
 
@@ -104,7 +103,7 @@ void minishell(t_data *data)
 		}
 		if (line[0] != '\0')
 		{
-			ret = begin(line, 0, data);
+			ret = begin_parser(line, 0, data);
 			if (ret == -1)
 			{
 				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
@@ -115,7 +114,7 @@ void minishell(t_data *data)
 			{
 				//ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
 				
-				ret = begin(line, ret + 1, data);
+				ret = begin_parser(line, ret + 1, data);
 				
 				//debug parser
 				//printf("argslist size %d\n", argslstsize(data->ar));

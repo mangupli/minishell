@@ -110,3 +110,9 @@ ps aux | grep root | grep sbin
 exit
 cat | cat | cat -e
 exit
+ls
+pwd
+ps aux
+exit
+cat | cat
+exit
