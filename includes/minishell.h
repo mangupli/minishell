@@ -14,8 +14,10 @@
 
 extern int	g_status;
 extern char	g_echo_n;
+struct termios orig_termios; /* In order to restore at exit.*/ // TODO: make it a part of a global stucture
 extern pid_t pid[500];
 extern int g_countpid;
+
 
 typedef struct s_glob
 {
@@ -66,6 +68,7 @@ typedef struct		s_args
 	char			type;
 	int				file[2];
 	struct s_args	*next;
+	pid_t 			pid;
 }					t_args;
 
 /*
@@ -162,8 +165,6 @@ enum KEY_ACTION{
 # define HISTORY_MAX_LEN 500
 # define MAX_LINE 4096
 
-struct termios orig_termios; /* In order to restore at exit.*/ // TODO: make it a part of a global stucture
-
 /*
  * Logic functions
  */
@@ -209,6 +210,7 @@ int			envlstsize(t_list_env *lst);
 t_list_env	*envlstnew(char *string);
 t_list_env	*envlistnew1(char *name, char *content, char has_equal);
 void		env_lst_addback(t_list_env **lst, t_list_env *new);
+void		envslst_clear(t_list_env **lst);
 void 		add_var_to_list(t_list_env **envs, char *str);
 int			find_function_path(t_args *ar, t_list_env *envs);
 

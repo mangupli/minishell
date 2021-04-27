@@ -44,7 +44,6 @@ static int first_my_function(char **args, char type, t_data *data)
 		return (func_in_return(data, args, shell_export));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (func_in_return(data, args, shell_unset));
-	args[0] = ft_str_to_lower(args[0]);
 	return (0);
 }
 
@@ -52,38 +51,49 @@ static void parent_process(t_data *data)
 {
 	int ret;
 
-	//dup2(data->orig_fd[0], 0);
-	//dup2(data->orig_fd[1], 1);
-	
-
+	dup2(data->orig_fd[0], 0);
+	dup2(data->orig_fd[1], 1);
+	ret = waitpid(-1, &g_status, 0);
+	if (ret == -1)
+		ft_exit(-1, data, 1);
+	if (WIFEXITED(g_status))
+		g_status = WEXITSTATUS(g_status);
+	else if (WIFSIGNALED(g_status))
+	{
+		g_status = g_status + 128;
+		printf("\nexit code = %d\n", g_status);
+		if (g_status == 130)
+			ft_putstr_fd("\n", 1);
+		if (g_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
+	}
+	errno = 0;
 }
 
 static void child_process(t_data *data, t_args *ar)
 {
 	int ret;
 
-
 	ret = exec_my_function(ar->args, ar->type, data);
 	if (ret)
 	{
 		//debug arguments
-		print_arguments(ar->args, 1);
+		//print_arguments(ar->args, 1);
 		//end debug arguments
 		exit(g_status);
 	}
 	if (!ft_strchr(ar->args[0], '/'))
 	{
 		ret = find_function_path(ar, data->envlist);
-
 		if (ret == -1)
 			ft_exit(-1, data, 0);
 	}
 
-//debug arguments
-//	print_arguments(ar->args, 0);
-//end debug arguments
+	//debug arguments
+	//print_arguments(ar->args, 0);
+	//end debug arguments
 
-	//envlist_to_array(data); // TODO: data->envp  передавать в execve
+	//envlist_to_array(data);
 	execve(ar->args[0], ar->args, 0);
 
 	if (errno == 2) 
@@ -112,6 +122,10 @@ static void find_fd(t_data *data, t_args *ar)
 	//printf("data->pipe_fd[0]:%d | data->pipe_fd[1]:%d\n", data->pipe_fd[0], data->pipe_fd[1]);
 	//printf("ar->file_fd[0]:%d | ar->file_fd[1]:%d\n",ar->file[0], ar->file[1]);
 
+	dup2(data->fd[0], 0);
+	close(data->fd[0]);
+	dup2(data->fd[1], 1);
+	close(data->fd[1]);
 }
 
 static int processes(t_data *data, t_args *tmp)
@@ -121,18 +135,11 @@ static int processes(t_data *data, t_args *tmp)
 	find_fd(data, tmp);
 	ret = fork();
 	if (ret == 0)
-	{
-		dup2(data->fd[0], 0);
-		close(data->fd[0]);
-		dup2(data->fd[1], 1);
-		close(data->fd[1]);
 		child_process(data, tmp);
-	}
 	else if (ret > 0)
 	{
-		pid[g_countpid++] = ret;
-		//dup2(data->orig_fd[0], 0);
-		//dup2(data->orig_fd[1], 1);
+		data->ar->pid = ret;
+		parent_process(data);
 	}
 	else
 	{
@@ -142,28 +149,14 @@ static int processes(t_data *data, t_args *tmp)
 	return (0);
 }
 
-void ft_wait(t_data *data)
+void ft_wait(t_data *data, pid_t pid)
 {
 	int ret;
 
-	ret = waitpid(-1, &g_status, 0);
+	ret = waitpid(pid, &g_status, 0);
 	if (ret == -1)
 		ft_exit(-1, data, 1);
-	if (WIFEXITED(g_status))
-	{
-		g_status = WEXITSTATUS(g_status);
-		//printf("exit code = %d\n", g_status);
-	}
-	else if (WIFSIGNALED(g_status))
-	{
-		g_status = g_status | 128;
-		printf("\nexit code = %d\n", g_status);
-		if (g_status == 131)
-			ft_putstr_fd("Quit: 3\n", 2);
-	}
 }
-
-
 
 int  execution(t_data *data)
 {
@@ -183,7 +176,7 @@ int  execution(t_data *data)
 				if (ret)
 				{
 					//debug arguments
-					print_arguments(tmp->args, 1);
+					//print_arguments(tmp->args, 1);
 					//end debug arguments
 					return (0);
 				}
@@ -195,11 +188,5 @@ int  execution(t_data *data)
 		}
 		tmp = tmp->next;
 	}
-
-	//тут нужно просто в цикле всех дочек подождать
-	i = -1;
-	while(++i < g_countpid)
-		ft_wait(data);
-	errno = 0;
 	return (0);
 }

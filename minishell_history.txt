@@ -147,3 +147,140 @@ ps aux | grep root
 ls | grep ma
 ls | grep ma
 exit
+ls
+ls | grep f
+exit
+echo>file>file
+echo>file'>'wdc
+echo">"ff
+echo sdfgdh""sdfgfh
+echo sdfgdh""sdfgfh
+exit
+ls
+ls | grep main
+exit
+ls | grep main
+echo $?
+exit
+ls
+ls -la
+ls | grep m
+exit
+ls | grep main
+ls | grep main
+ls | grep main
+ls | grep main
+ls | grep main
+ls
+ls | grep main
+ls | grep main | grep main.c
+ls
+ls | grep main | grep main.
+ls -la | grep m
+ls -la | grep m | grep mi
+exit
+ls
+ls | grep main
+ls | grep main
+exit
+ls | grep main
+exit
+ls | grep main
+exit
+ls | grep main
+exit
+ls | grep main
+cat asdsfg | asfdg
+cat | cat 
+exit
+cat
+exit
+cat
+exit
+cat
+exit
+cat
+exir
+exit
+ls
+ls | grep main
+exit
+cat | cat
+ls -la | grep m | grep main
+echo 4?
+echo $?
+./minishell
+export
+./minishell
+exit
+./minishell
+bash
+exit
+export
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+export
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+./minishell
+echo $?
+exit
+ls -la
+export
+exit
+ls
+ls -la
+export
+env
+exit
+export
+exit
+export
+exit
+bash
+exit
+exit
+export
+./mini	
+./minishell
+exit
+export
+exit
+export
+exit
+export
+exit
+export 
+exit
+export
+exit
+ls
+export
+env
+exit
+export
+env
+export
+export liza=
+exit
+export
+exit
+export
+exit

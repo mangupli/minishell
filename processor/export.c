@@ -20,6 +20,7 @@ static void print_export(t_list_env *envs)
 		ft_putstr_fd("\n", 1);
 		tmp = tmp->next;
 	}
+	envslst_clear(&tmp);
 }
 
 void			change_content(t_list_env **envs, t_list_env *new)

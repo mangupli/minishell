@@ -46,6 +46,7 @@ t_args *arglstnew(char **args, char type)
 	new->args = args;
 	new->file[0] = -1;
 	new->file[1] = -1;
+	new->pid = -1;
 	new->type = type;
 	new->next = NULL;
 	return (new);

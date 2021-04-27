@@ -14,7 +14,7 @@ int		envlstsize(t_list_env *lst)
 }
 
 
-void	ft_mylstclear(t_list_env **lst)
+void	envslst_clear(t_list_env **lst)
 {
 	t_list_env *tmp;
 

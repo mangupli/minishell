@@ -15,17 +15,15 @@ static char		*get_envstring(t_list_env *var)
 		if (var->has_equal == 1)
 		{
 			tmp = ft_strjoin(str, "=");
-			if (str == NULL)
+			if (tmp == NULL)
 				return (NULL);
-			free(str);
-			str = NULL;
+			ft_free((void **)&str);
 			if (var->content)
 			{
 				str = ft_strjoin(tmp, var->content);
 				if (str == NULL)
 					return (NULL);
-				free(tmp);
-				tmp = NULL;
+				ft_free((void **)&tmp);
 			}
 		}
 	}
@@ -35,9 +33,10 @@ static char		*get_envstring(t_list_env *var)
 
 void			envlist_to_array(t_data *data)
 {
-	char **envp;
-	t_list_env *tmp;
-	int i;
+	char		**envp;
+	t_list_env	*tmp;
+	int			i;
+	int			k;
 
 	if (data->envp)
 		free_2d_array(data->envp, 0);
@@ -46,10 +45,10 @@ void			envlist_to_array(t_data *data)
 	if (envp == NULL)
 		return ;
 	tmp = data->envlist;
-	i = -1;
-	while (envp[++i])
+	k = -1;
+	while (++k < i)
 	{
-		envp[i] = get_envstring(tmp);
+		envp[k] = get_envstring(tmp);
 		tmp = tmp->next;
 	}
 	envp[i] = NULL;

@@ -4,8 +4,7 @@
 int g_status = 0;
 int g_lastpid = 0;
 char g_echo_n = 0;
-pid_t pid[500];
-int g_countpid = 0;
+
 
 void close_2_fd(int *fd)
 {
@@ -50,7 +49,6 @@ static void renew_data(t_data *data)
 {
 	close_all_redir_fd(data);
 	args_clearlist(&data->ar);
-	g_countpid = 0;
 }
 
 static void init_shell(t_data *data, int argc, char **argv, char **env)
@@ -91,10 +89,9 @@ static void process_and_clear(char *line, t_data *data)
 void minishell(t_data *data)
 {
 	char *line;
-	int count;
 	int ret;
 
-	count = 0;
+	//line = "ls | grep main";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (g_echo_n == 1)
@@ -107,7 +104,7 @@ void minishell(t_data *data)
 		{
 			ret = begin_parser(line, 0, data);
 			//debug parser
-			printf("argslist size %d\n", argslstsize(data->ar));
+			//printf("argslist size %d\n", argslstsize(data->ar));
 			//end debug
 			if (ret == -1)
 			{
