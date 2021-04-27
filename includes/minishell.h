@@ -13,8 +13,9 @@
 #include	<signal.h>
 
 extern int	g_status;
-extern int	g_lastpid;
 extern char	g_echo_n;
+extern pid_t pid[500];
+extern int g_countpid;
 
 typedef struct s_glob
 {

@@ -116,3 +116,9 @@ ps aux
 exit
 cat | cat
 exit
+ls
+cat
+ls
+exit
+ls
+exit

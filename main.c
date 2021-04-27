@@ -4,6 +4,8 @@
 int g_status = 0;
 int g_lastpid = 0;
 char g_echo_n = 0;
+pid_t pid[500];
+int g_countpid = 0;
 
 void close_2_fd(int *fd)
 {
@@ -48,6 +50,7 @@ static void renew_data(t_data *data)
 {
 	close_all_redir_fd(data);
 	args_clearlist(&data->ar);
+	g_countpid = 0;
 }
 
 static void init_shell(t_data *data, int argc, char **argv, char **env)
@@ -69,7 +72,6 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->envp = NULL;
 	data->add_to_prompt = NULL;
 }
-
 
 static void process_and_clear(char *line, t_data *data)
 {
@@ -104,6 +106,9 @@ void minishell(t_data *data)
 		if (line[0] != '\0')
 		{
 			ret = begin_parser(line, 0, data);
+			//debug parser
+			//printf("argslist size %d\n", argslstsize(data->ar));
+			//end debug
 			if (ret == -1)
 			{
 				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
@@ -115,7 +120,6 @@ void minishell(t_data *data)
 				//ret = test_parser(line + count, count, data); // TODO: строку сначала давай в парсер виталика, а не line+count
 				
 				ret = begin_parser(line, ret + 1, data);
-				
 				//debug parser
 				//printf("argslist size %d\n", argslstsize(data->ar));
 				//end debug

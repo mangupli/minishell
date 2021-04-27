@@ -116,11 +116,11 @@ static void find_fd(t_data *data, t_args *ar)
 
 static int processes(t_data *data, t_args *tmp)
 {
-	pid_t pid;
+	pid_t ret;
 
 	find_fd(data, tmp);
-	pid = fork();
-	if (pid == 0)
+	ret = fork();
+	if (ret == 0)
 	{
 		dup2(data->fd[0], 0);
 		close(data->fd[0]);
@@ -128,10 +128,9 @@ static int processes(t_data *data, t_args *tmp)
 		close(data->fd[1]);
 		child_process(data, tmp);
 	}
-	else if (pid > 0)
+	else if (ret > 0)
 	{
-		g_lastpid = pid;
-
+		pid[g_countpid++] = ret;
 		//dup2(data->orig_fd[0], 0);
 		//dup2(data->orig_fd[1], 1);
 	}
@@ -143,10 +142,34 @@ static int processes(t_data *data, t_args *tmp)
 	return (0);
 }
 
+void ft_wait(t_data *data)
+{
+	int ret;
+
+	ret = waitpid(-1, &g_status, 0);
+	if (ret == -1)
+		ft_exit(-1, data, 1);
+	if (WIFEXITED(g_status))
+	{
+		g_status = WEXITSTATUS(g_status);
+		//printf("exit code = %d\n", g_status);
+	}
+	else if (WIFSIGNALED(g_status))
+	{
+		g_status = g_status | 128;
+		printf("\nexit code = %d\n", g_status);
+		if (g_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
+	}
+}
+
+
+
 int  execution(t_data *data)
 {
 	int ret;
 	t_args *tmp;
+	int i;
 
 	tmp = data->ar;
 	while (tmp)
@@ -173,25 +196,10 @@ int  execution(t_data *data)
 		tmp = tmp->next;
 	}
 
-		
-	
-	int ret2 = waitpid(-1, &g_status, 0);
-	if (ret2 == -1)
-		ft_exit(-1, data, 1);
-	if (WIFEXITED(g_status))
-	{
-		g_status = WEXITSTATUS(g_status);
-		//printf("exit code = %d\n", g_status);
-	}
-	else if (WIFSIGNALED(g_status))
-	{
-		g_status = g_status | 128;
-		printf("\nexit code = %d\n", g_status);
-		if (g_status == 131)
-			ft_putstr_fd("Quit: 3\n", 2);
-	}
+	//тут нужно просто в цикле всех дочек подождать
+	i = -1;
+	while(++i < g_countpid)
+		ft_wait(data);
 	errno = 0;
-	
-
 	return (0);
 }

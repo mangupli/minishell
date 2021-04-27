@@ -3,6 +3,7 @@
 static void	signal_handler(int sig)
 {
 	int ret;
+	int i;
 
 	ret = waitpid(-1, 0, WNOHANG);
 	if (ret == -1)
@@ -11,7 +12,12 @@ static void	signal_handler(int sig)
 		exit(-1);
 	}
 	if (ret)
+	{
 		kill(1, sig);
+		//i = 0;
+		//while (i < g_countpid)
+			//kill(pid[i++], sig);
+	}
 }
 
 void set_signals(t_data *data)
