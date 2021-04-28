@@ -29,19 +29,43 @@ void set_shlvl(char **env, t_list_env **new_list)
 		content = ft_itoa(lvl);
 		new_elem = envlistnew1("SHLVL", content, 1);
 		change_content(new_list, new_elem);
+		envsclear_node(new_elem);
 		free(content);
 	}
 	else
 		add_var_to_list(new_list, "SHLVL=1");
 }
 
+void add_variables(char **env, t_list_env **new_list)
+{
+	int			i;
+	char		*pwd;
+	t_list_env	*new_elem;
 
+	i = find_envvar(new_list, "OLDPWD");
+	if (!i)
+		add_var_to_list(new_list, "OLDPWD=");
+	i = find_envvar(new_list, "PWD");
+	if (!i)
+	{
+		pwd = getcwd(NULL, 0);
+		new_elem = envlistnew1("PWD", pwd, 1);
+		env_lst_addback(new_list, new_elem);
+		if (pwd)
+			free(pwd);
+	}
+	i = find_envvar(new_list, "SHLVL");
+	if (!i)
+		add_var_to_list(new_list, "SHLVL=1");
+	else
+		set_shlvl(env, new_list);
+}
 
 t_list_env	*get_envlist(char **env)
 {
-	int i;
-	t_list_env *new_list;
-	t_list_env *new_elem;
+	int			i;
+	t_list_env	*new_list;
+	t_list_env	*new_elem;
 
 	i = -1;
 	new_list = NULL;
@@ -50,22 +74,7 @@ t_list_env	*get_envlist(char **env)
 		new_elem = envlstnew(env[i]);
 		env_lst_addback(&new_list, new_elem);
 	}
-	i = find_envvar(&new_list, "OLDPWD");
-	if (!i)
-		add_var_to_list(&new_list, "OLDPWD=");
-	/*
-	i = find_envvar(&new_list, "PWD");
-	if (!i)
-	{
-		new_elem = envlistnew1("PWD", getcwd(NULL, 0), 1);
-		env_lst_addback(&new_list, new_elem);
-	}
-	i = find_envvar(&new_list, "SHLVL");
-	if (!i)
-		add_var_to_list(&new_list, "SHLVL=1");
-	else
-		set_shlvl(env, &new_list);
-	 */
+	add_variables(env, &new_list);
 	return (new_list);
 }
 

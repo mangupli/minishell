@@ -2,9 +2,11 @@
 
 static void print_export(t_list_env *envs)
 {
+	t_list_env *new_list;
 	t_list_env *tmp;
 
-	tmp = sort_list(envs);
+	new_list = sort_list(envs);
+	tmp = new_list;
 	while (tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
@@ -20,7 +22,7 @@ static void print_export(t_list_env *envs)
 		ft_putstr_fd("\n", 1);
 		tmp = tmp->next;
 	}
-	envslst_clear(&tmp);
+	envslst_clear(&new_list);
 }
 
 void			change_content(t_list_env **envs, t_list_env *new)
@@ -46,6 +48,21 @@ void			change_content(t_list_env **envs, t_list_env *new)
 	}
 }
 
+void envsclear_node(t_list_env *env)
+{
+	if (env)
+	{
+		if (env->name)
+			free(env->name);
+		if (env->content)
+			free(env->content);
+		free(env);
+		env = NULL;
+	}
+}
+
+
+
 void 		add_var_to_list(t_list_env **envs, char *str)
 {
 	t_list_env *new;
@@ -56,6 +73,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	if (found)
 	{
 		change_content(envs, new);
+		envsclear_node(new);
 	}
 	else
 	{
@@ -68,6 +86,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 			display_error("minishell", "export", "not a valid identifier");
 		}
 	}
+
 }
 
 void		add_export_var(t_data *data, char **args)

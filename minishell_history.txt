@@ -284,3 +284,94 @@ export
 exit
 export
 exit
+export
+exit
+export
+exit
+exit
+exit
+export
+env
+env
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export
+exit
+export liza=liza
+exit
+export liza
+export liza=liza
+export
+export baba=sakdjf
+exit
+export PWD=sdfg
+exit
+export PWD=lsdfg
+export
+export PWD=sdf
+export
+exit
+export liza=liza
+export liza=LIZA
+exit
+export
+exit
+exit
+export
+exit
+expot
+export
+exit
+export
+export liza=liza
+export liza=LIZA
+export
+./minishell
+make
+./mini	
+./minis	
+./minishell
+exit
+export
+./minishell
+exit
+export
+./minishell
+exit
+cat>fila
+unset PWD; pwd
+unset PWD; pwd
+echo $pwd
+sdghjk | cd sfgd
+exit
+export
+./minishell
+export
+exit

@@ -211,6 +211,7 @@ t_list_env	*envlstnew(char *string);
 t_list_env	*envlistnew1(char *name, char *content, char has_equal);
 void		env_lst_addback(t_list_env **lst, t_list_env *new);
 void		envslst_clear(t_list_env **lst);
+void		envsclear_node(t_list_env *env);
 void 		add_var_to_list(t_list_env **envs, char *str);
 int			find_function_path(t_args *ar, t_list_env *envs);
 
