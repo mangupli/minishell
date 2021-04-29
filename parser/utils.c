@@ -69,4 +69,26 @@ void freedom(t_par *pars)
 	free(pars->rrl);
 	free(pars->sl);
 	free(pars->locs);
+	free(pars->line_copy);
+}
+
+int get_location(t_par *pars, int i)
+{
+	int pipes_loc;
+	int redirect_loc;
+	int reredirect_loc;
+
+	pipes_loc = i_inside_array(pars->ppl, pars->ppc, i, pars->next);
+	redirect_loc = i_inside_array(pars->rl, pars->rc, i, pars->next);
+	reredirect_loc = i_inside_array(pars->rrl, pars->rrc, i, pars->next);
+	if(pipes_loc > redirect_loc && redirect_loc > reredirect_loc)
+	{
+		return (reredirect_loc);
+	}
+	else if (redirect_loc < reredirect_loc)
+	{
+		return (redirect_loc);
+	}
+	else
+		return (pipes_loc);
 }
