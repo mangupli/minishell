@@ -7,7 +7,7 @@ void spaces_locations(int i, t_par *pars)
 	pars->sci++;
 }
 
-void pars_data_init(char *line, t_par *pars)
+void pars_data_init(t_par *pars)
 {
 	pars->dqc = 0;
 	pars->sqc = 0;
@@ -26,7 +26,7 @@ void pars_data_init(char *line, t_par *pars)
 	pars->locs = NULL;
 }
 
-void pars_data_init2(char *line, t_par *pars)
+void pars_data_init2(char *line, t_par *pars, t_data *data)
 {
 	pars->sci = 0;
 	pars->dqi = 0;
@@ -40,6 +40,9 @@ void pars_data_init2(char *line, t_par *pars)
 	pars->tmpr = 0;
 	pars->tmprr = 0;
 	pars->next = 0;
+	pars->line_copy = ft_strdup(line);
+	if (pars->line_copy == NULL)
+		ft_exit(-1, data, 1);
 }
 
 int start_validators(char *line, t_par *pars, t_data *data)
@@ -50,9 +53,11 @@ int start_validators(char *line, t_par *pars, t_data *data)
 			im_alone_redirect(line, pars->len))
 		return (-1);
 	if (quotes_counter(line, pars) == -1)
+	{
+		freedom(pars);
 		return (-1);
+	}
 	quotes_locations(line, pars, data);
-
 	counter(line, pars);
 	locations(line, pars);
 	if (pars->scc || pars->ppc || pars->rc || pars->rrc)
@@ -75,9 +80,8 @@ int begin_parser(char *line, int i, t_data *data)
 
 	if (!i)
 	{
-		pars_data_init(line, &data->pars);
-		pars_data_init2(line, &data->pars);
-
+		pars_data_init(&data->pars);
+		pars_data_init2(line, &data->pars, data);
 		if (start_validators(line, &data->pars, data) == -1)
 		{
 			g_status = 258;

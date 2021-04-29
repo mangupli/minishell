@@ -61,7 +61,7 @@ void	counter(char *line, t_par *pars)
 	}
 }
 
-void	allocate_locations(t_par *pars)
+void	allocate_locations(t_par *pars) // TODO DOHYA mallocs
 {
 	if (pars->scc)
 		pars->sccl = (int *)malloc(sizeof(int) * pars->scc);

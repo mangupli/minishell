@@ -78,10 +78,11 @@ bool	has_twinks_redirects(t_par *pars)
 
 bool	between_only_spaces_or_twinks(char *line, int start, int stop, int len)
 {
-	if (stop - start == 1 && line[start] != '>')
+	if (stop - start == 1 && line[start] != '>' && line[stop] != '>')
 		return (True);
 	if ((line[start] == '>' && line[stop] == '>' && stop - start == 1) || \
-				 (stop == len && line[start] == ';'))
+			(stop == len && line[start] == ';') || \
+			(stop - start == 1 && (line[start] == '>' || line[stop] == '>')))
 		return (False);
 	start++;
 	while (start < stop)
