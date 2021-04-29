@@ -43,6 +43,8 @@ void			change_content(t_list_env **envs, t_list_env *new)
 					tmp->content = ft_strdup(new->content);
 				}
 			}
+			else
+				tmp->content = ft_strdup(new->content);
 		}
 		tmp = tmp->next;
 	}
@@ -61,13 +63,74 @@ void envsclear_node(t_list_env *env)
 	}
 }
 
+void	add_content(t_list_env **envs, t_list_env *new)
+{
+	t_list_env	*tmp;
+	char		*save;
 
+	tmp = *envs;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, new->name))
+		{
+			tmp->has_equal = new->has_equal;
+			if (tmp->content)
+			{
+				save = tmp->content;
+				tmp->content = ft_strjoin(save, new->content);
+				free(save);
+			}
+			else
+				tmp->content = ft_strdup(new->name);
+		}
+		tmp = tmp->next;
+	}
+}
+
+/*
+** Check_symbols() returns:
+** 2 -- if there is '+=' in the string
+** 1 -- if there is invalid indentifier somwhere before '='
+** (valid - only letters and '_')
+** 0 -- if the function didn't find anything
+*/
 
 void 		add_var_to_list(t_list_env **envs, char *str)
 {
-	t_list_env *new;
-	int found;
+	t_list_env	*new;
+	int			found;
+	int			symbols;
+	char		*tmp;
 
+	symbols = check_symbols(str);
+	if (symbols == 1)
+	{
+		g_status = 1;
+		display_error("minishell", "export", "not a valid identifier");	
+		return ;
+	}
+	new = envlstnew(str);
+	if (symbols == 2)
+	{
+		tmp = new->name;
+		new->name = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+		free(tmp);
+	}
+	found = find_envvar(envs, new->name);
+	if (found)
+	{
+		if (symbols == 2)
+			add_content(envs, new);
+		else
+			change_content(envs, new);
+		envsclear_node(new);
+	}
+	else
+		env_lst_addback(envs, new);
+	
+	
+	
+	/*
 	new = envlstnew(str);
 	found = find_envvar(envs, new->name);
 	if (found)
@@ -86,7 +149,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 			display_error("minishell", "export", "not a valid identifier");
 		}
 	}
-
+	*/
 }
 
 void		add_export_var(t_data *data, char **args)

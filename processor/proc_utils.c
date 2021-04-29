@@ -6,17 +6,20 @@ void	ft_free(void **ptr)
 	*ptr = NULL;
 }
 
-int check_symbols(char *name)
+int check_symbols(char *str)
 {
 	int i;
 
-	if (!ft_isalpha(name[0]) && name[0] != '_')
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (1);
-	i = 0;
-	while (name[++i])
+	i = 1;
+	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
+		if (str[i] == '+' && str[i + 1] == '=')
+			return (2);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (1);
+		i++;
 	}
 	return (0);
 }
