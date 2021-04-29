@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void print_export(t_list_env *envs)
+static void	print_export(t_list_env *envs)
 {
 	t_list_env *new_list;
 	t_list_env *tmp;
@@ -25,7 +25,7 @@ static void print_export(t_list_env *envs)
 	envslst_clear(&new_list);
 }
 
-void			change_content(t_list_env **envs, t_list_env *new)
+void		change_content(t_list_env **envs, t_list_env *new)
 {
 	t_list_env *tmp;
 
@@ -50,7 +50,7 @@ void			change_content(t_list_env **envs, t_list_env *new)
 	}
 }
 
-void envsclear_node(t_list_env *env)
+void	envsclear_node(t_list_env *env)
 {
 	if (env)
 	{
@@ -87,6 +87,23 @@ void	add_content(t_list_env **envs, t_list_env *new)
 	}
 }
 
+void	exec_export(int symbols, t_list_env **envs, t_list_env *new)
+{
+	int			found;
+	
+	found = find_envvar(envs, new->name);
+	if (found)
+	{
+		if (symbols == 2)
+			add_content(envs, new);
+		else
+			change_content(envs, new);
+		envsclear_node(new);
+	}
+	else
+		env_lst_addback(envs, new);
+}
+
 /*
 ** Check_symbols() returns:
 ** 2 -- if there is '+=' in the string
@@ -98,7 +115,6 @@ void	add_content(t_list_env **envs, t_list_env *new)
 void 		add_var_to_list(t_list_env **envs, char *str)
 {
 	t_list_env	*new;
-	int			found;
 	int			symbols;
 	char		*tmp;
 
@@ -116,40 +132,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 		new->name = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
 		free(tmp);
 	}
-	found = find_envvar(envs, new->name);
-	if (found)
-	{
-		if (symbols == 2)
-			add_content(envs, new);
-		else
-			change_content(envs, new);
-		envsclear_node(new);
-	}
-	else
-		env_lst_addback(envs, new);
-	
-	
-	
-	/*
-	new = envlstnew(str);
-	found = find_envvar(envs, new->name);
-	if (found)
-	{
-		change_content(envs, new);
-		envsclear_node(new);
-	}
-	else
-	{
-		found = check_symbols(new->name);
-		if (!found)
-			env_lst_addback(envs, new);
-		else
-		{
-			g_status = 1;
-			display_error("minishell", "export", "not a valid identifier");
-		}
-	}
-	*/
+	exec_export(symbols, envs, new);
 }
 
 void		add_export_var(t_data *data, char **args)

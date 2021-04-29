@@ -5,7 +5,7 @@ static void	signal_handler(int sig)
 	int ret;
 	int i;
 
-	ret = waitpid(-1, 0, WNOHANG);
+	ret = wait(&g_status);
 	if (ret == -1)
 	{
 		display_error("minishell", NULL, strerror(errno));
@@ -13,10 +13,11 @@ static void	signal_handler(int sig)
 	}
 	if (ret)
 	{
-		kill(1, sig);
-		//i = 0;
-		//while (i < g_countpid)
-			//kill(pid[i++], sig);
+		g_status += 128;
+		if (g_status == 130)
+			ft_putstr_fd("\n", 1);
+		if (g_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
 	}
 }
 

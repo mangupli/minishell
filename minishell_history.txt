@@ -435,3 +435,33 @@ export
 export zz+=lol
 export
 exit
+ls
+ls sdf
+echo $?
+exit
+cat
+cat
+echo $?
+cat
+exit
+cat
+echo $?
+ls sadfg
+echo $?
+exit
+cat
+echo $?
+exit
+cat
+echo $?
+exit
+cat
+echo $;2D
+echo $;2D
+cat
+echo $?
+exit
+cat | cat
+ls
+ls -la
+exit
