@@ -35,8 +35,8 @@ int		get_curr_location(t_args *ar, t_list_env *envs);
 
 
 int		begin_parser(char *line, int i, t_data *data);
-void	pars_data_init(char *line, t_par *par);
-void	pars_data_init2(char *line, t_par *pars);
+void	pars_data_init(t_par *par);
+void	pars_data_init2(char *line, t_par *pars, t_data *data);
 int		start_validators(char *line, t_par *pars, t_data *data);
 int		quotes_counter(char *line, t_par *pars);
 void	quotes_locations(char *line, t_par *pars, t_data *data);
@@ -69,7 +69,9 @@ char	*split_on_semicolon(char *line, int i, t_par *pars); //  TODO скорее 
 int		get_end(int i, t_par *pars);
 
 char	**splitter(t_par *pars, char *line, int i, int location);
-int		get_str(char *new_str, char *splits, int ind, int next);
+int		get_str(t_par *pars, char *splits, int ind, int next);
+
+
 int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
 void	get_args(t_data *data, t_par *pars, int i, char *line);
@@ -97,7 +99,7 @@ bool im_in_quotes(int i, int count, int *locations);
 bool im_in_end(char *line, char needed, int len);
 bool im_in_begin(char *line, char needed);
 bool im_alone_redirect(char *line, int len);
-
+int get_location(t_par *pars, int i);
 
 //порядок
 //проверка на пустую строку или из одного элемента, но если это ; то что-то сделать

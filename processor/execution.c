@@ -53,20 +53,13 @@ static void parent_process(t_data *data)
 
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
+	
 	ret = waitpid(-1, &g_status, 0);
-	if (ret == -1)
-		ft_exit(-1, data, 1);
-	if (WIFEXITED(g_status))
-		g_status = WEXITSTATUS(g_status);
-	else if (WIFSIGNALED(g_status))
-	{
-		g_status = g_status + 128;
-		printf("\nexit code = %d\n", g_status);
-		if (g_status == 130)
-			ft_putstr_fd("\n", 1);
-		if (g_status == 131)
-			ft_putstr_fd("Quit: 3\n", 2);
-	}
+	if (g_status > 255)
+		g_status %= 255;
+	else if (WIFSIGNALED(g_status) && g_status != 2 && g_status != 3)			
+		g_status += 128;
+	
 	errno = 0;
 }
 
@@ -188,5 +181,12 @@ int  execution(t_data *data)
 		}
 		tmp = tmp->next;
 	}
+	/*
+	ret = waitpid(-1, &g_status, 0);
+	if (g_status > 255)
+		g_status %= 255;
+	else if (WIFSIGNALED(g_status) && g_status != 2 && g_status != 3)			
+		g_status += 128;
+		*/
 	return (0);
 }

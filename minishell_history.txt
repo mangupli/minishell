@@ -375,3 +375,93 @@ export
 ./minishell
 export
 exit
+ls
+ls | grep main
+export
+env
+export
+exit
+export loiasdf.=sdf
+exit
+export
+export tima=
+export
+export tima=tima
+export tima=tima
+export
+exit
+exit
+exit
+exit
+exit
+export
+export tima=tima
+export
+export tima=tima
+export
+exit
+export tima=tima
+export
+export time=timfoey
+export
+export tima+=timatimofey
+export
+export tima+=ggg
+exit
+export
+export tima=timatimofey
+export
+export tima+=***
+export
+exit
+export
+export liza=liza
+export liza=
+export
+env
+export | grep liza
+export liza+=liza
+export | grep liza
+exit
+export += HAHA
+export HAHA +=
+export
+export zz+=
+export
+export zz = hahah
+export zz=hahahah
+expor
+export
+export zz+=lol
+export
+exit
+ls
+ls sdf
+echo $?
+exit
+cat
+cat
+echo $?
+cat
+exit
+cat
+echo $?
+ls sadfg
+echo $?
+exit
+cat
+echo $?
+exit
+cat
+echo $?
+exit
+cat
+echo $;2D
+echo $;2D
+cat
+echo $?
+exit
+cat | cat
+ls
+ls -la
+exit

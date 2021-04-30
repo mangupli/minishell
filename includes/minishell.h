@@ -58,6 +58,7 @@ typedef struct s_par
 	int 	sci; // temp space index locations
 
 	int 	next; // next iteration
+	char	*line_copy;
 	 //
 }				t_par;
 
