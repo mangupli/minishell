@@ -61,8 +61,6 @@ void envsclear_node(t_list_env *env)
 	}
 }
 
-
-
 void 		add_var_to_list(t_list_env **envs, char *str)
 {
 	t_list_env *new;
@@ -86,7 +84,6 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 			display_error("minishell", "export", "not a valid identifier");
 		}
 	}
-
 }
 
 void		add_export_var(t_data *data, char **args)
