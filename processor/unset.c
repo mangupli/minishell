@@ -1,16 +1,15 @@
 #include "minishell.h"
 
-void 		delete_node(t_list_env **envs, char *name)
+void	delete_node(t_list_env **envs, char *name)
 {
-	t_list_env *tmp;
-	t_list_env *del;
+	t_list_env	*tmp;
+	t_list_env	*del;
 
 	tmp = *envs;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->next->name, name))
 		{
-
 			del = tmp->next;
 			tmp->next = tmp->next->next;
 			free(del->content);
@@ -22,10 +21,9 @@ void 		delete_node(t_list_env **envs, char *name)
 	}
 }
 
-void 		delete_var_from_list(t_list_env **envs, char *name)
+void	delete_var_from_list(t_list_env **envs, char *name)
 {
-	int found;
-	t_list_env *tmp;
+	int	found;
 
 	found = check_symbols(name);
 	if (found)
@@ -43,9 +41,9 @@ void 		delete_var_from_list(t_list_env **envs, char *name)
 	}
 }
 
-void		shell_unset(t_data *data, char **args)
+void	shell_unset(t_data *data, char **args)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (args[i])

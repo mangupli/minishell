@@ -199,13 +199,18 @@ int			find_fdin(t_data *data, t_args *ar);
 int			find_fdout(t_data *data, t_args *ar);
 void		free_2d_array(char **array, int start);
 void 		envlist_to_array(t_data *data); // TODO: no need ? also what about char **envp in t_data? is it needed?
-void		reset_fd(t_data *data, int *file_fd);
+void		reset_fd(int *file_fd);
 void		ft_free(void **ptr);
 void		close_all_redir_fd(t_data *data);
 void		minishell(t_data *data);
 void 		set_signals(t_data *data);
 void		close_2_fd(int *fd);
 void		find_echo_n(t_data *data);
+void		renew_data(t_data *data);
+int			first_my_function(char **args, t_data *data);
+int			exec_my_function(char **args, t_data *data);
+int			func_in_return(t_data *data, char **args, void (*f)(t_data *, char **));
+void		add_content(t_list_env **envs, t_list_env *new);
 
 /*
  * Parser functions
@@ -230,7 +235,6 @@ int			find_function_path(t_args *ar, t_list_env *envs);
  * for test|debug functions
  */
 
-int		test_parser(char *line, int count, t_data *data);
 void	print_arguments(char **args, char type);
 
 /*
@@ -240,9 +244,9 @@ void	print_arguments(char **args, char type);
 char		*ft_readline(t_data *data);
 int			add_history(char *line, t_hist *h);
 void		refresh_line(t_state *a);
-int			get_cols(int ifd, int ofd);
+int			get_cols(int ofd);
 void		refresh_line(t_state *a);
-int			get_cursor_pos(int ifd, int ofd);
+int			get_cursor_pos(int ofd);
 void		save_history(t_data *data);
 void		load_history(t_data *data);
 void		edit_history_next(t_state *a, t_data *data, int dir);

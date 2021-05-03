@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void shell_pwd(t_data *data, char **args)
+void	shell_pwd(t_data *data, char **args)
 {
-	char *pwd;
+	char	*pwd;
 
 	(void)data;
 	(void)args;

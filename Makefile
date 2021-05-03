@@ -26,9 +26,8 @@ LIBFT = libft.a
 SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
 history.c exit.c execution.c echo.c pwd.c cd.c proc_utils.c export.c \
 env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c \
-signals.c \
-\
-for_test.c
+signals.c reset.c buildin.c export_utils.c echo_n.c\
+
 
 SRCS_PARSER = path_parser.c args.c begin.c envs.c helpers.c locations.c \
 quotes.c spaces.c splitters.c strings.c utils.c validators.c redirectors.c
@@ -46,17 +45,17 @@ OBJS = $(addprefix  $(OBJS_DIR), $(OBJS_PROCCESS) $(OBJS_PARSER) $(OBJS_MAIN))
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	gcc $(OBJS) libft/libft.a -ltermcap -o $@
+	gcc $(OBJS) $(FLAGS) libft/libft.a -ltermcap -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(OBJS_DIR)%.o : $(PROCESS_DIR)%.c $(PROCESS_INC)
 	@mkdir -p $(OBJS_DIR)
-	gcc -I./includes -c $< -o $@
+	gcc $(FLAGS) -I./includes -c $< -o $@
 
 $(OBJS_DIR)%.o : %.c
-	gcc -I./includes -c $< -o $@
+	gcc $(FLAGS) -I./includes -c $< -o $@
 
 $(OBJS_DIR)%.o : $(PARSER_DIR)%.c $(PARSER_INC)
 	gcc -I./includes -c $< -o $@

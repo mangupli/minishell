@@ -1,28 +1,36 @@
 #include "minishell.h"
 
-static char		*get_envstring(t_list_env *var)
+t_list_env	*find_env_pointer(t_list_env *envs, char *name)
 {
-	char *str;
-	char *tmp;
+	t_list_env	*tmp;
+
+	tmp = envs;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+static char	*get_envstring(t_list_env *var)
+{
+	char	*str;
+	char	*tmp;
 
 	str = NULL;
 	tmp = NULL;
 	if (var)
 	{
 		str = ft_strjoin(tmp, var->name);
-		if (str == NULL)
-			return (NULL);
 		if (var->has_equal == 1)
 		{
 			tmp = ft_strjoin(str, "=");
-			if (tmp == NULL)
-				return (NULL);
 			ft_free((void **)&str);
 			if (var->content)
 			{
 				str = ft_strjoin(tmp, var->content);
-				if (str == NULL)
-					return (NULL);
 				ft_free((void **)&tmp);
 			}
 		}
@@ -30,8 +38,7 @@ static char		*get_envstring(t_list_env *var)
 	return (str);
 }
 
-
-void			envlist_to_array(t_data *data)
+void	envlist_to_array(t_data *data)
 {
 	char		**envp;
 	t_list_env	*tmp;
@@ -55,9 +62,9 @@ void			envlist_to_array(t_data *data)
 	data->envp = envp;
 }
 
-static void print_env(t_list_env *envs)
+static void	print_env(t_list_env *envs)
 {
-	t_list_env *tmp;
+	t_list_env	*tmp;
 
 	tmp = envs;
 	while (tmp)
@@ -73,7 +80,7 @@ static void print_env(t_list_env *envs)
 	}
 }
 
-void		shell_env(t_data *data, char **args)
+void	shell_env(t_data *data, char **args)
 {
 	if (!args[1])
 	{

@@ -96,6 +96,7 @@ int begin_parser(char *line, int i, t_data *data)
 	data->pars.next = get_end(i, &data->pars);
 	if (get_args(data, &data->pars, i, line) == -2)
 		return (-2);
+	/* debud print TODO: убрать
 	t_args *tmp;
 	tmp = data->ar;
 	while (tmp)
@@ -110,6 +111,7 @@ int begin_parser(char *line, int i, t_data *data)
 		tmp = tmp->next;
 	}
 	printf("----\n");
+	 */
 
 	j = data->pars.next + 1;
 	find_echo_n(data); // TODO: вставить функцию в парсер виталика

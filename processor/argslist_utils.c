@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int		argslstsize(t_args *lst)
+int	argslstsize(t_args *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -13,9 +13,9 @@ int		argslstsize(t_args *lst)
 	return (i);
 }
 
-void args_clearlist(t_args **ar)
+void	args_clearlist(t_args **ar)
 {
-	t_args *tmp;
+	t_args	*tmp;
 
 	if (ar)
 	{
@@ -36,9 +36,9 @@ void args_clearlist(t_args **ar)
 ** (2)type '|' or 0
 */
 
-t_args *arglstnew(char **args, char type)
+t_args	*arglstnew(char **args, char type)
 {
-	t_args *new;
+	t_args	*new;
 
 	new = (t_args *)malloc(sizeof(t_args));
 	if (NULL == new)

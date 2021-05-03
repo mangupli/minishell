@@ -1,25 +1,11 @@
 #include "minishell.h"
 
-t_list_env *find_env_pointer(t_list_env *envs, char *name)
-{
-	t_list_env *tmp;
-
-	tmp = envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-void set_shlvl(char **env, t_list_env **new_list)
+void	set_shlvl(t_list_env **new_list)
 {
 	int			lvl;
 	char		*content;
 	int			num;
-	t_list_env *new_elem;
+	t_list_env	*new_elem;
 
 	content = find_env_content(*new_list, "SHLVL");
 	if (content)
@@ -36,7 +22,7 @@ void set_shlvl(char **env, t_list_env **new_list)
 		add_var_to_list(new_list, "SHLVL=1");
 }
 
-void add_variables(char **env, t_list_env **new_list)
+void	add_variables(t_list_env **new_list)
 {
 	int			i;
 	char		*pwd;
@@ -58,7 +44,7 @@ void add_variables(char **env, t_list_env **new_list)
 	if (!i)
 		add_var_to_list(new_list, "SHLVL=1");
 	else
-		set_shlvl(env, new_list);
+		set_shlvl(new_list);
 }
 
 t_list_env	*get_envlist(char **env)
@@ -74,13 +60,13 @@ t_list_env	*get_envlist(char **env)
 		new_elem = envlstnew(env[i]);
 		env_lst_addback(&new_list, new_elem);
 	}
-	add_variables(env, &new_list);
+	add_variables(&new_list);
 	return (new_list);
 }
 
 int	find_envvar(t_list_env **envs, char *name)
 {
-	t_list_env *tmp;
+	t_list_env	*tmp;
 
 	tmp = *envs;
 	while (tmp)
@@ -92,9 +78,9 @@ int	find_envvar(t_list_env **envs, char *name)
 	return (0);
 }
 
-char		*find_env_content(t_list_env *envs, char *name)
+char	*find_env_content(t_list_env *envs, char *name)
 {
-	t_list_env *tmp;
+	t_list_env	*tmp;
 
 	tmp = envs;
 	while (tmp)

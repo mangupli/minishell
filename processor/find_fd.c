@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int		find_fdin(t_data *data, t_args *ar)
+int	find_fdin(t_data *data, t_args *ar)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (ar->file[0] >= 0)
@@ -17,10 +17,10 @@ int		find_fdin(t_data *data, t_args *ar)
 	return (fd);
 }
 
-int		find_fdout(t_data *data, t_args *ar)
+int	find_fdout(t_data *data, t_args *ar)
 {
-	int fd;
-	int ret;
+	int	fd;
+	int	ret;
 
 	fd = 0;
 	if (ar->type == '|')

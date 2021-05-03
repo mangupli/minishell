@@ -1,19 +1,23 @@
 #include "minishell.h"
 
-void   edit_history_next(t_state *a, t_data *data, int dir)
+/*
+** dir == 0 -> UP | dir == 1 -> DOWN
+*/
+
+void	edit_history_next(t_state *a, t_data *data, int dir)
 {
 	if (data->hist.len > 1)
 	{
 		free(data->hist.list[data->hist.len - 1 - a->index]);
 		data->hist.list[data->hist.len - 1 - a->index] = ft_strdup(a->buf);
-		if (dir == 0) // UP
+		if (dir == 0)
 			a->index += 1;
 		else
-			a->index -= 1; // DOWN
+			a->index -= 1;
 		if (a->index < 0)
 		{
 			a->index = 0;
-			return;
+			return ;
 		}
 		else if (a->index >= data->hist.len)
 		{
@@ -29,9 +33,9 @@ void   edit_history_next(t_state *a, t_data *data, int dir)
 	}
 }
 
-int add_history(char *line, t_hist *h)
+int	add_history(char *line, t_hist *h)
 {
-	char *cpy;
+	char	*cpy;
 
 	if (h->list == NULL)
 	{
@@ -53,19 +57,22 @@ int add_history(char *line, t_hist *h)
 	return (0);
 }
 
-void load_history(t_data *data)
+void	load_history(t_data *data)
 {
-	int fd;
-	char *line;
-	int ret;
+	int		fd;
+	char	*line;
+	int		ret;
 
+	line = NULL;
 	fd = open("minishell_history.txt", O_RDONLY, 700);
 	if (fd < 0)
 		return ;
-	while ((ret = get_next_line(fd, &line)) > 0)
+	ret = get_next_line(fd, &line);
+	while (ret > 0)
 	{
 		add_history(line, &data->hist);
 		free(line);
+		ret = get_next_line(fd, &line);
 	}
 	if (ret < 0)
 		return ;
@@ -73,12 +80,11 @@ void load_history(t_data *data)
 	close(fd);
 }
 
-
-void save_history(t_data *data)
+void	save_history(t_data *data)
 {
-	int i;
-	int fd;
-	char **history;
+	int		i;
+	int		fd;
+	char	**history;
 
 	history = data->hist.list;
 	fd = open("minishell_history.txt", O_RDWR | O_CREAT | O_TRUNC, 0700);

@@ -71,7 +71,7 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 	a.buflen = MAX_LINE;
 	a.pos = 0;
 	a.len = 0;
-	a.cols = get_cols(stdin_fd, stdout_fd);
+	a.cols = get_cols(stdout_fd);
 	a.index = 0;
 
 	/* Buffer starts empty. */
@@ -82,7 +82,7 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 	 * initially is just an empty string. */
 	add_history("", &data->hist);
 
-	write(a.ofd, a.prompt, a.plen);
+	ret = write(a.ofd, a.prompt, a.plen);
 	if (ret == -1)
 		return (-1);
 	while (1)

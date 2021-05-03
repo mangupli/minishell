@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-static void new_pwd_env(t_list_env *envs, char *new_pwd)
+static void	new_pwd_env(t_list_env *envs, char *new_pwd)
 {
-	t_list_env *pwd;
-	t_list_env *oldpwd;
+	t_list_env	*pwd;
+	t_list_env	*oldpwd;
 
 	pwd = find_env_pointer(envs, "PWD");
 	oldpwd = find_env_pointer(envs, "OLDPWD");
@@ -16,40 +16,46 @@ static void new_pwd_env(t_list_env *envs, char *new_pwd)
 	pwd->content = new_pwd;
 }
 
-/*
-** Is there always OLDPWD and what if it goes unset?
-*/
-
-void 	shell_cd(t_data *data, char **args)
+int	change_dir(char *arg)
 {
-	char *new_pwd;
-	char *home;
-	int ret;
+	int	ret;
 
-	if (!args[1] || !ft_strcmp(args[1], "~") ||
-		!ft_strcmp(args[1], "--"))
+	ret = chdir(arg);
+	if (ret == -1)
+	{
+		g_status = 1;
+		display_error("cd", arg, "No such file or directory");
+		return (-1);
+	}
+	return (0);
+}
+
+void	shell_cd(t_data *data, char **args)
+{
+	char	*new_pwd;
+	char	*home;
+	int		ret1;
+	int		ret2;
+
+	ret1 = ft_strcmp(args[1], "~");
+	ret2 = ft_strcmp(args[1], "--");
+	if (!args[1] || !ret1 || !ret2)
 	{
 		home = find_env_content(data->envlist, "HOME");
-		ret = chdir(home); // try with Null
-		if (ret == -1)
-		{
-			g_status = 1;
-			display_error("cd", NULL, "HOME not set");
+		ret1 = change_dir(home);
+		if (ret1 == -1)
 			return ;
-		}
 	}
 	else
 	{
-		ret = chdir(args[1]);
-		if (ret == -1)
-		{
-			g_status = 1;
-			display_error("cd", args[1],
-						  "No such file or directory");
-			return;
-		}
+		ret1 = change_dir(args[1]);
+		if (ret1 == -1)
+			return ;
 	}
 	new_pwd = getcwd(NULL, 0);
-	new_pwd_env(data->envlist, new_pwd);
+	if (new_pwd)
+		new_pwd_env(data->envlist, new_pwd);
+	else
+		display_error("cd", NULL, strerror(errno));
 	g_status = 0;
 }

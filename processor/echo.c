@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static char skip_flag_n(char **args, int *i)
+static char	skip_flag_n(char **args, int *i)
 {
-	char ret;
+	char	ret;
 
 	ret = 0;
 	while (!ft_strcmp(args[*i], "-n"))
@@ -10,25 +10,29 @@ static char skip_flag_n(char **args, int *i)
 		(*i)++;
 		ret = 1;
 		if (args[*i] == NULL)
-			break;
+			break ;
 	}
 	return (ret);
 }
 
-
-
-static void print_echo_n(t_data *data, char **args, int i)
+static void	print_args(char **args, int i)
 {
-	g_echo_n = 1;
-	//handle_args(data, args, i - 1);
-	ft_putstr_fd(data->add_to_prompt, 1);
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1] != NULL)
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
+	ft_putstr_fd("\n", 1);
 }
 
-void 	shell_echo(t_data *data, char **args)
+void	shell_echo(t_data *data, char **args)
 {
-	char flag;
-	int i;
+	char	flag;
+	int		i;
 
+	(void)data;
 	g_status = 0;
 	if (args)
 	{
@@ -40,16 +44,7 @@ void 	shell_echo(t_data *data, char **args)
 		i = 1;
 		flag = skip_flag_n(args, &i);
 		if (!flag)
-		{
-			while (args[i])
-			{
-				ft_putstr_fd(args[i], 1);
-				if (args[i + 1] != NULL)
-					ft_putstr_fd(" ", 1);
-				i++;
-			}
-			ft_putstr_fd("\n", 1);
-		}
+			print_args(args, i);
 	}
 	g_status = 0;
 }

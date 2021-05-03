@@ -2,8 +2,8 @@
 
 static void	print_export(t_list_env *envs)
 {
-	t_list_env *new_list;
-	t_list_env *tmp;
+	t_list_env	*new_list;
+	t_list_env	*tmp;
 
 	new_list = sort_list(envs);
 	tmp = new_list;
@@ -25,71 +25,9 @@ static void	print_export(t_list_env *envs)
 	envslst_clear(&new_list);
 }
 
-void		change_content(t_list_env **envs, t_list_env *new)
-{
-	t_list_env *tmp;
-
-	tmp = *envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, new->name))
-		{
-			tmp->has_equal = new->has_equal;
-			if (tmp->content)
-			{
-				if (ft_strcmp(tmp->content, new->content))
-				{
-					free(tmp->content);
-					tmp->content = ft_strdup(new->content);
-				}
-			}
-			else
-				tmp->content = ft_strdup(new->content);
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	envsclear_node(t_list_env *env)
-{
-	if (env)
-	{
-		if (env->name)
-			free(env->name);
-		if (env->content)
-			free(env->content);
-		free(env);
-		env = NULL;
-	}
-}
-
-void	add_content(t_list_env **envs, t_list_env *new)
-{
-	t_list_env	*tmp;
-	char		*save;
-
-	tmp = *envs;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, new->name))
-		{
-			tmp->has_equal = new->has_equal;
-			if (tmp->content)
-			{
-				save = tmp->content;
-				tmp->content = ft_strjoin(save, new->content);
-				free(save);
-			}
-			else
-				tmp->content = ft_strdup(new->name);
-		}
-		tmp = tmp->next;
-	}
-}
-
 void	exec_export(int symbols, t_list_env **envs, t_list_env *new)
 {
-	int			found;
+	int	found;
 
 	found = find_envvar(envs, new->name);
 	if (found)
@@ -112,7 +50,7 @@ void	exec_export(int symbols, t_list_env **envs, t_list_env *new)
 ** 0 -- if the function didn't find anything
 */
 
-void 		add_var_to_list(t_list_env **envs, char *str)
+void	add_var_to_list(t_list_env **envs, char *str)
 {
 	t_list_env	*new;
 	int			symbols;
@@ -135,9 +73,9 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	exec_export(symbols, envs, new);
 }
 
-void		add_export_var(t_data *data, char **args)
+void	add_export_var(t_data *data, char **args)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (args[i])
@@ -147,7 +85,7 @@ void		add_export_var(t_data *data, char **args)
 	}
 }
 
-void		shell_export(t_data *data, char **args)
+void	shell_export(t_data *data, char **args)
 {
 	if (!args[1])
 	{

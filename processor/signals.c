@@ -2,9 +2,9 @@
 
 static void	signal_handler(int sig)
 {
-	int ret;
-	int i;
+	int	ret;
 
+	(void)sig;
 	ret = wait(&g_status);
 	if (ret == -1)
 	{
@@ -21,7 +21,7 @@ static void	signal_handler(int sig)
 	}
 }
 
-void set_signals(t_data *data)
+void	set_signals(t_data *data)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		ft_exit(-1, data, 1);

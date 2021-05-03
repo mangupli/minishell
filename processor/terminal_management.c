@@ -6,7 +6,7 @@
 ** cursor.
 */
 
-int get_cursor_pos(int ifd, int ofd)
+int get_cursor_pos(int ofd)
 {
 	char buf[32];
 	int cols;
@@ -57,7 +57,7 @@ int get_cursor_pos(int ifd, int ofd)
 ** if it fails.
 */
 
-int get_cols(int ifd, int ofd)
+int get_cols(int ofd)
 {
 	struct winsize ws;
 	char seq[32];
@@ -68,13 +68,13 @@ int get_cols(int ifd, int ofd)
 	{
 		/* ioctl() failed. Try to query the terminal itself. */
 		/* Get the initial position so we can restore it later. */
-		start = get_cursor_pos(ifd, ofd);
+		start = get_cursor_pos(ofd);
 		if (start == -1)
 			return (80);
 		/* Go to right margin and get position. */
 		if (write(ofd,"\x1b[999C",6) != 6)
 			return (80);
-		cols = get_cursor_pos(ifd, ofd);
+		cols = get_cursor_pos(ofd);
 		if (cols == -1)
 			return (80);
 		/* Restore position. */

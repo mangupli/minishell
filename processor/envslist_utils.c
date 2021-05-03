@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int		envlstsize(t_list_env *lst)
+int	envlstsize(t_list_env *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -13,25 +13,7 @@ int		envlstsize(t_list_env *lst)
 	return (i);
 }
 
-
-void	envslst_clear(t_list_env **lst)
-{
-	t_list_env *tmp;
-
-	tmp = *lst;
-	if (lst)
-	{
-		while (tmp)
-		{
-			free(tmp->content);
-			free(tmp->name);
-			free(tmp);
-			tmp = tmp->next;
-		}
-	}
-}
-
-t_list_env	*ft_mylstlast(t_list_env *lst)
+static t_list_env	*envslstlast(t_list_env *lst)
 {
 	if (lst)
 		while (lst->next)
@@ -49,7 +31,7 @@ void	env_lst_addback(t_list_env **lst, t_list_env *new)
 		if (*lst == NULL)
 			*lst = new;
 		else
-			ft_mylstlast(tmp)->next = new;
+			envslstlast(tmp)->next = new;
 	}
 }
 
@@ -64,8 +46,8 @@ void	env_lst_addback(t_list_env **lst, t_list_env *new)
 
 t_list_env	*envlstnew(char *string)
 {
-	t_list_env *new;
-	char *str;
+	t_list_env	*new;
+	char		*str;
 
 	new = (t_list_env *)malloc(sizeof(t_list_env));
 	if (NULL == new)
@@ -92,7 +74,7 @@ t_list_env	*envlstnew(char *string)
 
 t_list_env	*envlistnew1(char *name, char *content, char has_equal)
 {
-	t_list_env *new;
+	t_list_env	*new;
 
 	new = (t_list_env *)malloc(sizeof(t_list_env));
 	if (NULL == new)
