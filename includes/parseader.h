@@ -68,13 +68,21 @@ void	new_spaces_array(t_par *pars, int count, t_data *data);
 char	*split_on_semicolon(char *line, int i, t_par *pars); //  TODO скорее всего это не понадобится
 int		get_end(int i, t_par *pars);
 
-char	**splitter(t_par *pars, char *line, int i, int location);
-int		get_str(t_par *pars, char *splits, int ind, int next);
+char	**splitter(t_data *data, char *line, int i, int location);
+int		get_str(t_data *data, char *splits, int ind, int next);
 
+int		file_opener(char *string_with_file, t_data *data);
+int		redirect_type(char *text, char *red_type, int i);
+int		get_filename(char *text, char **filename, int i, t_data *data);
+int		set_redir_fd(char *red_type, char *filename, t_args *ar);
+int		reverse_redirect_open(char *filename, t_args *ar);
+int		double_redirect_open(char *filename, t_args *ar);
+int		redirect_open(char *filename, t_args *ar);
+void	redirects_extractor(char **splits, int i);
 
 int		splits_count(int *array, int array_el_count, int i, int next);
 int		i_inside_array(int *array, int count, int i, int next);
-void	get_args(t_data *data, t_par *pars, int i, char *line);
+int		get_args(t_data *data, t_par *pars, int i, char *line);
 void 	args_normalizer(char **splits, t_data *data);
 
 char	*begin_env_replace(char *string, t_list_env *envs, t_data *data);

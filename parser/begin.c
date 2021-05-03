@@ -75,7 +75,7 @@ int start_validators(char *line, t_par *pars, t_data *data)
 
 int begin_parser(char *line, int i, t_data *data)
 {
-	t_par pars;
+	//t_par pars;
 	int j;
 
 	if (!i)
@@ -90,9 +90,10 @@ int begin_parser(char *line, int i, t_data *data)
 		}
 
 	}
-	pars = data->pars;
-	pars.next = get_end(i, &pars);
-	get_args(data, &pars, i, line);
+	//pars = data->pars;
+	data->pars.next = get_end(i, &data->pars);
+	if (get_args(data, &data->pars, i, line) == -2)
+		return (-2);
 
 	t_args *tmp;
 	tmp = data->ar;
@@ -109,13 +110,13 @@ int begin_parser(char *line, int i, t_data *data)
 	}
 	printf("----\n");
 
-	j = pars.next + 1;
-	while (line[j] != '\0' && pars.next < pars.len)
+	j = data->pars.next + 1;
+	while (line[j] != '\0' && data->pars.next < data->pars.len)
 	{
 		if (line[j] != ' ')
-			return (pars.next);
+			return (data->pars.next);
 		j++;
 	}
-	freedom(&pars);
+	freedom(&data->pars);
 	return (0);
 }

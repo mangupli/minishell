@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "parseader.h"
 
-void get_args(t_data *data, t_par *pars, int i, char *line)
+int get_args(t_data *data, t_par *pars, int i, char *line)
 {
 	t_args *node;
 	int location;
@@ -11,17 +11,22 @@ void get_args(t_data *data, t_par *pars, int i, char *line)
 	location = i_inside_array(pars->ppl, pars->ppc, i, pars->next);
 	while (location)
 	{
-		strings = splitter(pars, line, i, location);
+		strings = splitter(data, line, i, location);
+		if (strings == NULL)
+			return (-2);
 		args_normalizer(strings, data);
 		node = arglstnew(strings, '|');
 		args_lstadd_back(&data->ar, node);
 		i = location;
 		location = i_inside_array(pars->ppl, pars->ppc, i, pars->next);
 	}
-	strings = splitter(pars, line, i, pars->next);
+	strings = splitter(data, line, i, pars->next);
+	if (strings == NULL)
+		return (-2);
 	args_normalizer(strings, data);
 	node = arglstnew(strings, 0);
 	args_lstadd_back(&data->ar, node);
+	return (0);
 }
 
 void args_normalizer(char **splits, t_data *data)
@@ -34,12 +39,21 @@ void args_normalizer(char **splits, t_data *data)
 	{
 		tmp = splits[i];
 		splits[i] = ft_strtrim(splits[i], " |");
+		free(tmp);
 		if (splits[i] == NULL)
 			ft_exit(-1, data, 1);
-		free(tmp);
-		splits[i] = begin_env_replace(splits[i], data->envlist, data);
-		splits[i] = quotes_worker(splits[i], data);
-		splits[i] = trash_replacer(splits[i], data);
+		if (splits[i][0] == '<' || splits[i][0] == '>')
+		{
+			tmp = splits[i];
+			redirects_extractor(splits, i);
+			free(tmp);
+		}
+		else
+		{
+			splits[i] = begin_env_replace(splits[i], data->envlist, data);
+			splits[i] = quotes_worker(splits[i], data);
+			splits[i] = trash_replacer(splits[i], data);
+		}
 		i++;
 	}
 }
