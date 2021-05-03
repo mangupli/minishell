@@ -19,11 +19,6 @@ int get_args(t_data *data, t_par *pars, int i, char *line)
 		args_lstadd_back(&data->ar, node);
 		i = location;
 		location = i_inside_array(pars->ppl, pars->ppc, i, pars->next);
-		if (data->pars.redirs)
-		{
-			file_opener(data->pars.redirs, data);
-			data->pars.redirs = NULL;
-		}
 	}
 	strings = splitter(data, line, i, pars->next);
 	if (strings == NULL)
@@ -31,11 +26,6 @@ int get_args(t_data *data, t_par *pars, int i, char *line)
 	args_normalizer(strings, data);
 	node = arglstnew(strings, 0);
 	args_lstadd_back(&data->ar, node);
-	if (data->pars.redirs)
-	{
-		file_opener(data->pars.redirs, data);
-		data->pars.redirs = NULL;
-	}
 	return (0);
 }
 
