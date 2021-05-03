@@ -464,4 +464,10 @@ exit
 cat | cat
 ls
 ls -la
+exi
+cat | cat
+exit
+cat | cat 
+exit
+ls
 exit
