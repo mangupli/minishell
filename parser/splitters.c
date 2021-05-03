@@ -21,7 +21,7 @@ char **splitter(t_data *data, char *line, int i, int location)
 			ft_exit(-1, data, 1);
 		i = get_str(data, splits[j], i, next);
 		if (i == -2)
-			return (NULL); //TODO утечет
+			return (NULL); //TODO не утечет, переделывай
 		next = i_inside_array(data->pars.sl, data->pars.sc, next, location);
 		j++;
 	}
@@ -60,22 +60,16 @@ int get_str(t_data *data, char *splits, int ind, int next)
 	}
 	splits[i] = '\0';
 	if (splits[0] == '>' || splits[0] == '<')
-	{
-		if (file_opener(splits, data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(splits);
 	else if (stop != next + 1)
-	{
-		if (file_opener(&splits[ft_strlen(splits) + 1], data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
 	return (ind);
 }
 
 
 int file_opener(char *string_with_file, t_data *data)
 {
-	int	i;
+	int i;
 	char *red_type;
 	char *filename;
 	int r;
@@ -90,7 +84,6 @@ int file_opener(char *string_with_file, t_data *data)
 		i = redirect_type(string_with_file, red_type, i);
 		i = get_filename(string_with_file, &filename, i, data);
 		r = set_redir_fd(red_type, filename, data->ar);
-		printf("|%s|%s|\n", red_type, filename);
 		free(filename);
 		free(red_type);
 		if (r == -2)
@@ -125,7 +118,7 @@ int get_filename(char *text, char **filename, int i, t_data *data)
 
 	len = 0;
 	while (text[i] != ' ' && text[i] != ';' && text[i] != '|' \
-			&& text[i] != '\\' && text[i] != '>' && text[i] != '<')
+   && text[i] != '\\' && text[i] != '>' && text[i] != '<')
 	{
 		i++;
 		len++;

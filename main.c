@@ -68,6 +68,7 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 	data->pipe_fd[0] = 0;
 	data->pipe_fd[1] = 0;
 	data->envp = NULL;
+	data->redir = NULL;
 	data->add_to_prompt = NULL;
 }
 

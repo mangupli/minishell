@@ -43,6 +43,7 @@ typedef struct s_par
 	int		*locs; // all symbols
 	int     sc; // spaces count
 	int     *sl; // spaces locations
+	char	*redirs;
 
 	//helpers
 	int		dqi; //double quotes location index
@@ -123,17 +124,18 @@ typedef struct 			s_list_redir
 
 typedef struct	s_data
 {
-	t_hist		hist;
-	const char	*prompt;
-	t_args		*ar;
-	t_list_env  *envlist;
-	char		**envp;
-	int			orig_fd[2];
-	int 		pipe_fd[2];
-	int 		fd[2];
-	t_par		pars;
-	char		*add_to_prompt;
-}				t_data;
+	t_hist			hist;
+	const char		*prompt;
+	t_args			*ar;
+	t_list_env		*envlist;
+	t_list_redir	*redir;
+	char			**envp;
+	int				orig_fd[2];
+	int 			pipe_fd[2];
+	int 			fd[2];
+	t_par			pars;
+	char			*add_to_prompt;
+}					t_data;
 
 /*
 ** It is an "append buffer" structure. It helps

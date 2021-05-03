@@ -100,6 +100,15 @@ int		len_without_quotes(char *string, char q);
 char	*del_quotes(char *string, char quotes, t_data *data);
 void	freedom(t_par *pars);
 
+// redirlist utils
+void		redir_lst_addback(t_list_redir **lst, t_list_redir *new);
+void		redirslst_clear(t_list_redir **lst);
+int			redirlstsize(t_list_redir *lst);
+t_list_redir	*redirlstnew(char *filename, char *red_type);
+
+
+
+
 
 // helpers
 bool behind_has_backslash(char *line, char current, char *set, int i);
