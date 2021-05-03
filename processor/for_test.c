@@ -68,7 +68,7 @@ void set_to_null_last_arguments(char **args, int start)
 	}
 }
 
-int	set_redir_fd(t_args *ar)
+int	set_redir_fd_test(t_args *ar)
 {
 	int i;
 
