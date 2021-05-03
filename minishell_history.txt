@@ -1,38 +1,3 @@
-ls
-pwd
-ps aux | grep mspyke 
-ps aux
-ps aux | grep Library
-ls | grep m
-ps aux | grep Library
-exit
-ls
-ls | grep m | grep ma | grep mai
-ls | grep m | grep ma | grep mai ; pwd
-ls | grep m | grep ma | grep mai ; pwd
-pwd ; ls -la | grep m | grep ma
-pwd ; ls -la | grep m | grep ma
-exit
-exit
-ls ; pwd ;  e
-ls ; pwd ;  e
-ls ; pwd ;  e
-exit
-pwd ; ls | grep main ; echo liza 
-pwd ; ls | grep main ; echo liza 
-pwd ; ls | grep main ; echo liza 
-exit
-ls ; pwd ; echo liza
-ls ; pwd ; echo liza
-ls ; pwd ; echo liza
-exit
-ls
-pwd
-cat file1
-ls -la | grep m
-ls -la | grep main
-ls -la | cat
-cat
 cat | cat 
 ls | grep main
 ls | grep m | grep main
@@ -464,4 +429,72 @@ exit
 cat | cat
 ls
 ls -la
+exi
+cat | cat
+exit
+cat | cat 
+exit
+ls
+exit
+ls
+
+echo liza
+ls
+
+pwd
+pwd
+pwd
+pwd
+pwd
+echo liza
+echo liza
+pwd
+ls
+ls -la
+pwd
+
+pwd
+pwd
+pwd
+pwd
+ls
+cat
+pwd
+pwd
+pwd
+ls
+ls
+ls
+ls
+ls
+export
+export
+export
+export
+export
+unset
+echo $?
+exit | exit
+echo $?
+echo $?
+echo vitalit
+echo vitalik
+echo vitalik
+echo vitalik
+echo vitalik
+echo vitalik
+echo vitalik
+echo liza
+echo liza
+echo liza
+echo liza
+echo liza
+echo liza
+echo liza
+pwd
+echo liza
+ls
+
+echo liza > file1
+cat file1
 exit

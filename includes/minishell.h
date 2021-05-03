@@ -115,6 +115,13 @@ typedef struct 			s_list_env
 	struct s_list_env 	*next;
 }						t_list_env;
 
+typedef struct 			s_list_redir
+{
+	char				*filename;
+	char				*red_type;
+	struct t_list_redir *next;
+}						t_list_redir;
+
 typedef struct	s_data
 {
 	t_hist		hist;

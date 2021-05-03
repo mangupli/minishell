@@ -90,7 +90,7 @@ void	add_content(t_list_env **envs, t_list_env *new)
 void	exec_export(int symbols, t_list_env **envs, t_list_env *new)
 {
 	int			found;
-	
+
 	found = find_envvar(envs, new->name);
 	if (found)
 	{
@@ -122,7 +122,7 @@ void 		add_var_to_list(t_list_env **envs, char *str)
 	if (symbols == 1)
 	{
 		g_status = 1;
-		display_error("minishell", "export", "not a valid identifier");	
+		display_error("minishell", "export", "not a valid identifier");
 		return ;
 	}
 	new = envlstnew(str);
