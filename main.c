@@ -73,7 +73,6 @@ static void init_shell(t_data *data, int argc, char **argv, char **env)
 
 static void process_and_clear(char *line, t_data *data)
 {
-	add_history(line, &data->hist); // Add to the list.
 	execution(data);
 	renew_data(data);
 }
@@ -91,7 +90,7 @@ void minishell(t_data *data)
 	char *line;
 	int ret;
 
-	//line = "ls | grep main";
+	//line = "echo > liza liza | echo batya > batya";
 	while ((line = ft_readline(data)) != NULL)
 	{
 		if (g_echo_n == 1)
@@ -111,6 +110,11 @@ void minishell(t_data *data)
 				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
 				continue ;
 			}
+			if (ret == -2)
+			{
+				renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
+				continue ;
+			}
 			process_and_clear(line, data);
 			while (ret > 0)
 			{
@@ -120,6 +124,12 @@ void minishell(t_data *data)
 				//debug parser
 				//printf("argslist size %d\n", argslstsize(data->ar));
 				//end debug
+				if (ret == -2)
+				{
+					renew_data(data); // TODO: нужно, потому что может ошибка какая-то при открытии файлов, но нужно ли фришить аргументы или просто закрыть файлы редиректов?
+					break ;
+				}
+
 
 				process_and_clear(line, data);
 			}

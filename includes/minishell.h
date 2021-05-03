@@ -205,6 +205,7 @@ void		close_all_redir_fd(t_data *data);
 void		minishell(t_data *data);
 void 		set_signals(t_data *data);
 void		close_2_fd(int *fd);
+void		find_echo_n(t_data *data);
 
 /*
  * Parser functions
@@ -214,6 +215,7 @@ t_args		*arglstnew(char **args, char type);
 void		args_lstadd_back(t_args **lst, t_args *new);
 void		args_clearlist(t_args **ar);
 int			argslstsize(t_args *lst);
+t_args		*arglstlast(t_args *lst);
 t_list_env	*get_envlist(char **env);
 int			envlstsize(t_list_env *lst);
 t_list_env	*envlstnew(char *string);

@@ -253,7 +253,7 @@ static void handle_args(t_data *data, char **args, int i)
 	data->add_to_prompt = string;
 }
 
-static void find_echo_n(t_data *data)
+void find_echo_n(t_data *data)
 {
 	t_args *tmp;
 	int i;

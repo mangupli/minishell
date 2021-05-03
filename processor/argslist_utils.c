@@ -52,7 +52,7 @@ t_args *arglstnew(char **args, char type)
 	return (new);
 }
 
-static t_args	*arglstlast(t_args *lst)
+t_args	*arglstlast(t_args *lst)
 {
 	if (lst)
 		while (lst->next)

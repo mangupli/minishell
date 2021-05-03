@@ -81,6 +81,7 @@ int begin_parser(char *line, int i, t_data *data)
 
 	if (!i)
 	{
+		add_history(line, &data->hist); // Add to the list
 		pars_data_init(&data->pars);
 		pars_data_init2(line, &data->pars, data);
 		if (start_validators(line, &data->pars, data) == -1)
@@ -95,7 +96,6 @@ int begin_parser(char *line, int i, t_data *data)
 	data->pars.next = get_end(i, &data->pars);
 	if (get_args(data, &data->pars, i, line) == -2)
 		return (-2);
-
 	t_args *tmp;
 	tmp = data->ar;
 	while (tmp)
@@ -112,6 +112,7 @@ int begin_parser(char *line, int i, t_data *data)
 	printf("----\n");
 
 	j = data->pars.next + 1;
+	find_echo_n(data); // TODO: вставить функцию в парсер виталика
 	while (line[j] != '\0' && data->pars.next < data->pars.len)
 	{
 		if (line[j] != ' ')

@@ -24,7 +24,7 @@ char **splitter(t_data *data, char *line, int i, int location)
 		j++;
 	}
 	splits[j] = (char *)malloc(location - next + 2);
-	if (splits[i] == NULL)
+	if (splits[j] == NULL)
 		ft_exit(-1, data, 1);
 	if (get_str(data, splits[j], i, location - 1) == -2)
 		return (NULL);
@@ -65,7 +65,7 @@ int get_str(t_data *data, char *splits, int ind, int next)
 }
 
 
-int file_opener(char *string_with_file, t_data *data)
+int file_opener(char *string_with_file, t_data *data, t_args *ar)
 {
 	int	i;
 	char *red_type;
@@ -81,7 +81,7 @@ int file_opener(char *string_with_file, t_data *data)
 			ft_exit(-1, data, 1);
 		i = redirect_type(string_with_file, red_type, i);
 		i = get_filename(string_with_file, &filename, i, data);
-		r = set_redir_fd(red_type, filename, data->ar);
+		r = set_redir_fd(red_type, filename, ar);
 		printf("|%s|%s|\n", red_type, filename);
 		free(filename);
 		free(red_type);

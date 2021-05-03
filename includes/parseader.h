@@ -71,7 +71,7 @@ int		get_end(int i, t_par *pars);
 char	**splitter(t_data *data, char *line, int i, int location);
 int		get_str(t_data *data, char *splits, int ind, int next);
 
-int		file_opener(char *string_with_file, t_data *data);
+int		file_opener(char *string_with_file, t_data *data, t_args *ar);
 int		redirect_type(char *text, char *red_type, int i);
 int		get_filename(char *text, char **filename, int i, t_data *data);
 int		set_redir_fd(char *red_type, char *filename, t_args *ar);
