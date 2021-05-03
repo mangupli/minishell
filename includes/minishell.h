@@ -43,6 +43,7 @@ typedef struct s_par
 	int		*locs; // all symbols
 	int     sc; // spaces count
 	int     *sl; // spaces locations
+	char *redirs;
 
 	//helpers
 	int		dqi; //double quotes location index

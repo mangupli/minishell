@@ -40,6 +40,7 @@ void pars_data_init2(char *line, t_par *pars, t_data *data)
 	pars->tmpr = 0;
 	pars->tmprr = 0;
 	pars->next = 0;
+	pars->redirs = NULL;
 	pars->line_copy = ft_strdup(line);
 	if (pars->line_copy == NULL)
 		ft_exit(-1, data, 1);

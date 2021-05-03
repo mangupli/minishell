@@ -60,15 +60,9 @@ int get_str(t_data *data, char *splits, int ind, int next)
 	}
 	splits[i] = '\0';
 	if (splits[0] == '>' || splits[0] == '<')
-	{
-		if (file_opener(splits, data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(splits);
 	else if (stop != next + 1)
-	{
-		if (file_opener(&splits[ft_strlen(splits) + 1], data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
 	return (ind);
 }
 
@@ -89,12 +83,11 @@ int file_opener(char *string_with_file, t_data *data)
 			ft_exit(-1, data, 1);
 		i = redirect_type(string_with_file, red_type, i);
 		i = get_filename(string_with_file, &filename, i, data);
-		//r = set_redir_fd(red_type, filename, data->ar);
-		printf("|%s|%s|\n", red_type, filename);
+		r = set_redir_fd(red_type, filename, data->ar);
 		free(filename);
 		free(red_type);
-		//if (r == -2)
-		//	return (-2);
+		if (r == -2)
+			return (-2);
 	}
 	return (0);
 }
