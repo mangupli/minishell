@@ -30,7 +30,8 @@ signals.c \
 \
 for_test.c
 
-SRCS_PARSER = path_parser.c args.c begin.c envs.c helpers.c locations.c quotes.c spaces.c splitters.c strings.c utils.c validators.c
+SRCS_PARSER = path_parser.c args.c begin.c envs.c helpers.c locations.c \
+quotes.c spaces.c splitters.c strings.c utils.c validators.c redirectors.c
 
 
 

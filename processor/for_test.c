@@ -130,7 +130,7 @@ int	set_redir(t_data *data, t_args **args)
 		start_redir = find_redir(tmp->args);
 		if (start_redir)
 		{
-			ret = set_redir_fd(tmp);
+			ret = set_redir_fd_test(tmp);
 			if (ret == -1)
 				return (-1);
 			free_2d_array(tmp->args, start_redir);

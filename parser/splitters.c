@@ -89,12 +89,12 @@ int file_opener(char *string_with_file, t_data *data)
 			ft_exit(-1, data, 1);
 		i = redirect_type(string_with_file, red_type, i);
 		i = get_filename(string_with_file, &filename, i, data);
-		//r = set_redir_fd(red_type, filename, data->ar);
+		r = set_redir_fd(red_type, filename, data->ar);
 		printf("|%s|%s|\n", red_type, filename);
 		free(filename);
 		free(red_type);
-		//if (r == -2)
-		//	return (-2);
+		if (r == -2)
+			return (-2);
 	}
 	return (0);
 }
