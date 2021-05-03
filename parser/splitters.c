@@ -20,8 +20,6 @@ char **splitter(t_data *data, char *line, int i, int location)
 		if (splits[j] == NULL)
 			ft_exit(-1, data, 1);
 		i = get_str(data, splits[j], i, next);
-		if (i == -2)
-			return (NULL); //TODO утечет
 		next = i_inside_array(data->pars.sl, data->pars.sc, next, location);
 		j++;
 	}
@@ -60,15 +58,9 @@ int get_str(t_data *data, char *splits, int ind, int next)
 	}
 	splits[i] = '\0';
 	if (splits[0] == '>' || splits[0] == '<')
-	{
-		if (file_opener(splits, data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(splits);
 	else if (stop != next + 1)
-	{
-		if (file_opener(&splits[ft_strlen(splits) + 1], data) == -2)
-			return (-2);
-	}
+		data->pars.redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
 	return (ind);
 }
 
