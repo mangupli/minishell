@@ -32,8 +32,10 @@ char	**splitter(t_data *data, int i, int location)
 int	get_str(t_par *pars, char *splits, int ind, int next)
 {
 	int	i;
+	int	handjob;
 
 	i = 0;
+	handjob = 0;
 	pars->xr = i_inside_array(pars->rl, pars->rc, ind, pars->next);
 	pars->xrr = i_inside_array(pars->rrl, pars->rrc, ind, pars->next);
 	pars->xstop = next + 1;
@@ -44,17 +46,14 @@ int	get_str(t_par *pars, char *splits, int ind, int next)
 	while (ind <= next)
 	{
 		if (ind == pars->xstop && pars->line_copy[ind] != '>')
-			splits[i] = '\0';
-		else
-			splits[i] = pars->line_copy[ind];
+			handjob = i;
+		splits[i] = pars->line_copy[ind];
 		i++;
 		ind++;
 	}
 	splits[i] = '\0';
-	if (splits[0] == '>' || splits[0] == '<')
-		pars->redirs = ft_strdup(splits);
-	else if (pars->xstop != next + 1)
-		pars->redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
+	if (splits[0] == '>' || splits[0] == '<' || handjob)
+		super_ultra_giga_extra_mega_handjob(pars, splits, handjob);
 	return (ind);
 }
 
@@ -108,8 +107,8 @@ int	get_filename(char *text, char **filename, int i, t_data *data)
 	int	j;
 
 	len = 0;
-	while (text[i] != ' ' && text[i] != ';' && text[i] != '|' \
-			&& text[i] != '\\' && text[i] != '>' && text[i] != '<')
+	while (text[i] != ' ' && text[i] != ';' && text[i] != '|' && text[i] != \
+		'\\' && text[i] != '>' && text[i] != '<' && text[i] != '\0')
 	{
 		i++;
 		len++;

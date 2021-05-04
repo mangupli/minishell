@@ -68,3 +68,17 @@ void	locations_compile(t_par *pars)
 	sorted_array(pars);
 	pars->locs[pars->scc + pars->ppc + pars->rc + pars->rrc] = -1;
 }
+
+void	super_ultra_giga_extra_mega_handjob(t_par *pars, char *str,
+										 int handjob)
+{
+	if (str[0] == '>' || str[0] == '<')
+		pars->redirs = ft_strdup(str);
+	else
+	{
+		while (str[handjob] != '>' && str[handjob] != '<')
+			handjob++;
+		pars->redirs = ft_strdup(&str[handjob]);
+		str[handjob] = '\0';
+	}
+}
