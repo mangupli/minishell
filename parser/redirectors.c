@@ -12,7 +12,7 @@ int	set_redir_fd(char *red_type, char *filename, t_args *ar)
 	return (0);
 }
 
-int reverse_redirect_open(char *filename, t_args *ar)
+int	reverse_redirect_open(char *filename, t_args *ar)
 {
 	if (ar->file[0] >= 0)
 		close(ar->file[0]);
@@ -20,14 +20,14 @@ int reverse_redirect_open(char *filename, t_args *ar)
 	if (ar->file[0] < 0)
 	{
 		display_error("minishell", filename,
-				"No such file or directory");
+					  "No such file or directory");
 		g_struct.status = 1;
 		return (-2);
 	}
 	return (0);
 }
 
-int double_redirect_open(char *filename, t_args *ar)
+int	double_redirect_open(char *filename, t_args *ar)
 {
 	if (ar->file[1] >= 0)
 		close(ar->file[1]);
@@ -42,7 +42,7 @@ int double_redirect_open(char *filename, t_args *ar)
 	return (0);
 }
 
-int redirect_open(char *filename, t_args *ar)
+int	redirect_open(char *filename, t_args *ar)
 {
 	if (ar->file[1] >= 0)
 		close(ar->file[1]);
@@ -50,16 +50,16 @@ int redirect_open(char *filename, t_args *ar)
 	if (ar->file[1] < 0)
 	{
 		display_error("minishell", filename,
-				strerror(errno));
+					  strerror(errno));
 		g_struct.status = 1;
 		return (-2);
 	}
 	return (0);
 }
 
-void redirects_extractor(char **splits, int i)
+void	redirects_extractor(char **splits, int i)
 {
-	int j;
+	int	j;
 
 	j = i;
 	while (splits[j] != NULL)
