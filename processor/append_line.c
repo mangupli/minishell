@@ -57,6 +57,8 @@ void	refresh_line(t_state *a)
 	keys = ft_calloc(64, sizeof(char));
 	if (keys == NULL)
 		return ;
+	//ft_joinstr();
+
 	keys = ft_strcpy(keys, "\r");
 	ab_joinstr(&ab, keys, ft_strlen(keys));
 	ab_joinstr(&ab, a->prompt, ft_strlen(a->prompt));
@@ -64,6 +66,7 @@ void	refresh_line(t_state *a)
 	keys = ft_strcpy(keys, "\x1b[0K");
 	ab_joinstr(&ab, keys, ft_strlen(keys));
 	res = (int)(pos + a->plen);
+
 	len = ft_numlen(res);
 	keys[0] = '\r';
 	keys[1] = '\x1b';
