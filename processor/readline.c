@@ -59,7 +59,11 @@ static int	what_symbol(t_state *a, t_data *data, char c, char *buf)
 	else if (c == BACKSPACE)
 		backspace_edit(a);
 	else if (c == CTRL_D)
+	{
+		if (a->len)
+			return (0);
 		return (one_step_back(data, a, 1, 1));
+	}
 	else if (c == CTRL_BACKSLASH)
 		return (0);
 	else if (c == ESC)
@@ -110,7 +114,7 @@ int	edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 			return (0);
 		if (c == ENTER)
 			return (ret);
-		if (c == CTRL_D || ret == -1)
+		if (ret == -1)
 			return (-1);
 		if (ret == -2)
 			break ;
