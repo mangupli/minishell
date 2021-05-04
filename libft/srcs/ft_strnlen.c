@@ -14,7 +14,7 @@
 
 size_t	ft_strnlen(const char *s, size_t max)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (s[len] && len < max)

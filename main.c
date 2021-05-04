@@ -1,8 +1,10 @@
 #include "minishell.h"
 #include "parseader.h"
 
-int		g_status = 0;
+/*
+int		g_struct.status = 0;
 char	g_echo_n = 0;
+*/
 
 static void	init_shell(t_data *data, int argc, char **argv, char **env)
 {
@@ -22,6 +24,8 @@ static void	init_shell(t_data *data, int argc, char **argv, char **env)
 	data->pipe_fd[1] = 0;
 	data->envp = NULL;
 	data->add_to_prompt = NULL;
+	g_struct.echo_n = 0;
+	g_struct.status = 0;
 }
 
 static void	process_and_clear(t_data *data)
@@ -62,9 +66,9 @@ void	minishell(t_data *data)
 	line = ft_readline(data);
 	while (line != NULL)
 	{
-		if (g_echo_n == 1)
+		if (g_struct.echo_n == 1)
 		{
-			g_echo_n = 0;
+			g_struct.echo_n = 0;
 			if (data->add_to_prompt != NULL)
 				ft_free((void **)&data->add_to_prompt);
 		}

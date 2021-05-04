@@ -12,19 +12,20 @@
 # include	"../libft/includes/libft.h"
 #include	<signal.h>
 
+/*
 extern int	g_status;
 extern char	g_echo_n;
-struct termios orig_termios; /* In order to restore at exit.*/ // TODO: make it a part of a global stucture
-extern pid_t pid[500];
-extern int g_countpid;
-
+struct termios orig_termios; // In order to restore at exit.*
+*/
 
 typedef struct s_glob
 {
 	int			status;
-	int			lastpid;
 	char		echo_n;
+	struct		termios orig_termios;
 }				t_glob;
+
+t_glob		g_struct;
 
 typedef struct s_par
 {
@@ -149,26 +150,26 @@ typedef struct	s_apbuf
 }				t_apbuf;
 
 enum KEY_ACTION{
-	KEY_NULL = 0,	    /* NULL */
-	CTRL_A = 1,         /* Ctrl+a */
-	CTRL_B = 2,         /* Ctrl-b */
-	CTRL_C = 3,         /* Ctrl-c */
-	CTRL_D = 4,         /* Ctrl-d */
-	CTRL_E = 5,         /* Ctrl-e */
-	CTRL_F = 6,         /* Ctrl-f */
-	CTRL_H = 8,         /* Ctrl-h */
-	TAB = 9,            /* Tab */
-	CTRL_K = 11,        /* Ctrl+k */
-	CTRL_L = 12,        /* Ctrl+l */
-	ENTER = 13,         /* Enter */
-	CTRL_N = 14,        /* Ctrl-n */
-	CTRL_P = 16,        /* Ctrl-p */
-	CTRL_T = 20,        /* Ctrl-t */
-	CTRL_U = 21,        /* Ctrl+u */
-	CTRL_W = 23,        /* Ctrl+w */
+	KEY_NULL = 0,
+	CTRL_A = 1,
+	CTRL_B = 2,
+	CTRL_C = 3,
+	CTRL_D = 4,
+	CTRL_E = 5,
+	CTRL_F = 6,
+	CTRL_H = 8,
+	TAB = 9,
+	CTRL_K = 11,
+	CTRL_L = 12,
+	ENTER = 13,
+	CTRL_N = 14,
+	CTRL_P = 16,
+	CTRL_T = 20,
+	CTRL_U = 21,
+	CTRL_W = 23,
 	ESC = 27,
-	CTRL_BACKSLASH = 28,/* Escape */
-	BACKSPACE =  127    /* Backspace */
+	CTRL_BACKSLASH = 28,
+	BACKSPACE =  127
 };
 
 # define HISTORY_MAX_LEN 500

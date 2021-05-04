@@ -4,7 +4,7 @@
 ** Insert the character 'c' at cursor current position.
 */
 
-static int		edit_insert(t_state *a, char c)
+static int	edit_insert(t_state *a, char c)
 {
 	if (a->len < a->buflen)
 	{
@@ -41,6 +41,25 @@ static void	backspace_edit(t_state *a)
 	}
 }
 
+
+static void init_struct_a(t_state *a, int stdin_fd, int stdout_fd, t_data *data)
+{
+	a->ifd = stdin_fd;
+	a->ofd = stdout_fd;
+	if (data->add_to_prompt != NULL)
+		a->prompt = ft_strjoin(data->add_to_prompt, data->prompt);
+	else
+		a->prompt = data->prompt;
+	a->plen = ft_strlen(a->prompt);
+	a->buflen = MAX_LINE;
+	a->pos = 0;
+	a->len = 0;
+	a->cols = get_cols(stdout_fd);
+	a->index = 0;
+	a->buflen--;
+}
+
+
 /*
 **This function is the core of the line editing capability of linenoise.
 ** It expects 'orig_fd' to be already in "raw mode" so that every key pressed
@@ -50,38 +69,28 @@ static void	backspace_edit(t_state *a)
 ** when ctrl+d is typed.
 **
 ** The function returns the length of the current buffer.
+** The latest history entry is always our current buffer, that
+** initially is just an empty string. That's why we add_history() before input.
+**
+** a.buf[0] = '\0' -> buffer starts empty
+**
+** Sequences: Esc[A == UP arrow key | ESC[B == DOWN arrow key
+**
+**
 */
 
-static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
+static int	edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 {
-	t_state a;
-	int ret;
-	char c;
-	int bytes;
-	char keys[3];
+	t_state	a;
+	int		ret;
+	char	c;
+	int		bytes;
+	char	keys[3];
 
-	a.ifd = stdin_fd;
-	a.ofd = stdout_fd;
-	if (data->add_to_prompt != NULL)
-		a.prompt = ft_strjoin(data->add_to_prompt, data->prompt);
-	else
-		a.prompt = data->prompt;
-	a.plen = ft_strlen(a.prompt);
+	init_struct_a(&a, stdin_fd, stdout_fd, data);
 	a.buf = buf;
-	a.buflen = MAX_LINE;
-	a.pos = 0;
-	a.len = 0;
-	a.cols = get_cols(stdout_fd);
-	a.index = 0;
-
-	/* Buffer starts empty. */
 	a.buf[0] = '\0';
-	a.buflen--; /* Make sure there is always space for the nulterm */
-
-	/* The latest list entry is always our current buffer, that
-	 * initially is just an empty string. */
 	add_history("", &data->hist);
-
 	ret = write(a.ofd, a.prompt, a.plen);
 	if (ret == -1)
 		return (-1);
@@ -93,15 +102,15 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		if (c == ENTER)
 		{
 			data->hist.len--;
-			free(data->hist.list[data->hist.len]);
-			if (g_echo_n == 1)
+			ft_free((void **)&data->hist.list[data->hist.len]);
+			if (g_struct.echo_n == 1)
 				ft_free((void **)&a.prompt);
 			return (a.len);
 		}
 		else if (c == CTRL_C)
 		{
 			errno = EAGAIN;
-			g_status = 1;
+			g_struct.status = 1;
 			buf[0] = '\0';
 			return (0);
 		}
@@ -110,8 +119,8 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		else if (c == CTRL_D)
 		{
 			data->hist.len--;
-			free(data->hist.list[data->hist.len]);
-			if (g_echo_n == 1)
+			ft_free((void **)&data->hist.list[data->hist.len]);
+			if (g_struct.echo_n == 1)
 				ft_free((void **)&a.prompt);
 			ft_putstr_fd("exit", 1);
 			return (-1);
@@ -122,17 +131,13 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 		{
 			ret = read(a.ifd, keys, 2);
 			if (ret == -1)
-				break;
+				break ;
 			if (keys[0] == '[')
 			{
-				if (keys[1] == 'A') /* UP */
-				{
+				if (keys[1] == 'A')
 					edit_history_next(&a, data, 0);
-				}
-				if (keys[1] == 'B') /* DOWN */
-				{
+				if (keys[1] == 'B')
 					edit_history_next(&a, data, 1);
-				}
 			}
 		}
 		else
@@ -144,32 +149,40 @@ static int edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 	return (a.len);
 }
 
-static int enable_mode(int fd)
-{
-	struct termios raw;
+/*
+** g_struct.orig_termious -> the original mode which we will modify
+** (BRKINT | ICRNL | INPCK | ISTRIP | IXON) -> input modes:
+**                      no break, no CR to NL, no parity check, no strip char,
+**                      no start/stop output control.
+** (OPOST) -> disable post processing
+** (CS8) -> set 8 bit chars
+** (ECHO | ICANON | IEXTEN | ISIG) -> local modes:
+** 								choing off, canonical off, no extended functions,
+**								no signal chars (^Z,^C)
+** raw.c_cc[VMIN] and raw.c_cc[VTIME] ->
+** control chars - set return condition: min number of bytes and timer.
+** We want read to return every single byte, without timeout. 1 byte, no timer
+** tcsetattr(fd, TCSAFLUSH, &raw) -> put terminal in raw mode after flushing
+**
+**
+*/
 
-	if (tcgetattr(fd, &orig_termios) == -1)
+static int	enable_mode(int fd)
+{
+	struct termios	raw;
+
+	if (tcgetattr(fd, &g_struct.orig_termios) == -1)
 	{
 		errno = ENOTTY;
 		return (-1);
 	}
-
-	raw = orig_termios;  /* modify the original mode */
-	/* input modes: no break, no CR to NL, no parity check, no strip char,
-	 * no start/stop output control. */
+	raw = g_struct.orig_termios;
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	/* output modes - disable post processing */
 	raw.c_oflag &= ~(OPOST);
-	/* control modes - set 8 bit chars */
 	raw.c_cflag |= (CS8);
-	/* local modes - choing off, canonical off, no extended functions,
-	 * no signal chars (^Z,^C) */
 	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-	/* control chars - set return condition: min number of bytes and timer.
-	 * We want read to return every single byte, without timeout. */
-	raw.c_cc[VMIN] = 1; raw.c_cc[VTIME] = 0; /* 1 byte, no timer */
-	/* put terminal in raw mode after flushing */
-
+	raw.c_cc[VMIN] = 1;
+	raw.c_cc[VTIME] = 0;
 	if (tcsetattr(fd, TCSAFLUSH, &raw) < 0)
 	{
 		errno = ENOTTY;
@@ -183,22 +196,22 @@ static int enable_mode(int fd)
 ** the STDIN file descriptor set in raw mode.
 */
 
-static int rawline(char *buf, t_data *data)
+static int	rawline(char *buf, t_data *data)
 {
-	int count;
+	int	count;
 
 	if (enable_mode(STDIN_FILENO) == -1)
 		return (-1);
 	count = edit(STDIN_FILENO, STDOUT_FILENO, buf, data);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_struct.orig_termios);
 	ft_putstr_fd("\n", 1);
 	return (count);
 }
 
 char	*ft_readline(t_data *data)
 {
-	char buf[MAX_LINE];
-	int ret;
+	char	buf[MAX_LINE];
+	int		ret;
 
 	ret = rawline(buf, data);
 	if (ret == -1)

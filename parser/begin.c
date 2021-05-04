@@ -86,7 +86,7 @@ int begin_parser(char *line, int i, t_data *data)
 		pars_data_init2(line, &data->pars, data);
 		if (start_validators(line, &data->pars, data) == -1)
 		{
-			g_status = 258;
+			g_struct.status = 258;
 			display_error("minishell", "syntax error", "unexpected token");
 			return (-1);
 		}
@@ -96,7 +96,6 @@ int begin_parser(char *line, int i, t_data *data)
 	data->pars.next = get_end(i, &data->pars);
 	if (get_args(data, &data->pars, i, line) == -2)
 		return (-2);
-	/* debud print TODO: убрать
 	t_args *tmp;
 	tmp = data->ar;
 	while (tmp)
@@ -111,7 +110,6 @@ int begin_parser(char *line, int i, t_data *data)
 		tmp = tmp->next;
 	}
 	printf("----\n");
-	 */
 
 	j = data->pars.next + 1;
 	find_echo_n(data); // TODO: вставить функцию в парсер виталика

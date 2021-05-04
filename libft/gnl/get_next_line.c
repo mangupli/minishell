@@ -27,10 +27,10 @@
 ** The variable tmp_stack was used in order to avoid leaks.
 */
 
-int		find_line(char **stack, char **line)
+int	find_line(char **stack, char **line)
 {
-	char *ptr_n;
-	char *tmp_stack;
+	char	*ptr_n;
+	char	*tmp_stack;
 
 	ptr_n = gnl_strchr(*stack, '\n');
 	if (ptr_n)
@@ -64,14 +64,15 @@ int		find_line(char **stack, char **line)
 ** The variable tmp_stack was used in order to avoid leaks.
 */
 
-int		read_file(int fd, char **stack, char *buf, char **line)
+int	read_file(int fd, char **stack, char *buf, char **line)
 {
 	char	*tmp_stack;
 	int		ret;
 	int		new_line;
 
 	new_line = 0;
-	while (!new_line && (ret = read(fd, buf, BUFFER_SIZE)) > 0)
+	ret = read(fd, buf, BUFFER_SIZE);
+	while (!new_line && ret > 0)
 	{
 		buf[ret] = '\0';
 		if (!*stack)
@@ -81,10 +82,27 @@ int		read_file(int fd, char **stack, char *buf, char **line)
 		free(tmp_stack);
 		if (find_line(stack, line))
 			new_line = 1;
+		if (!new_line)
+			ret = read(fd, buf, BUFFER_SIZE);
 	}
 	if (ret < 0)
 		return (ret);
-	return (ret > 0 ? 1 : ret);
+	if (ret > 0)
+		return (1);
+	return (0);
+}
+
+static int	proccess_new_line(char **buf, char **stack, char **line)
+{
+	int	ret;
+
+	ret = find_line(stack, line);
+	if (ret)
+	{
+		free(*buf);
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -110,21 +128,21 @@ int		read_file(int fd, char **stack, char *buf, char **line)
 ** we put the content of STACK in our LINE, and point the STACK to NULL.
 */
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			ret;
 	char		*buf;
 	static char	*stack;
 
-	if (!line || (fd < 0 || fd > 256) || BUFFER_SIZE < 1 \
-			|| !(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buf == NULL || !line || (fd < 0 || fd > 999) || BUFFER_SIZE < 1)
 		return (-1);
 	if (stack)
-		if ((ret = find_line(&stack, line)))
-		{
-			free(buf);
+	{
+		ret = proccess_new_line(&buf, &stack, line);
+		if (ret)
 			return (1);
-		}
+	}
 	ret = read_file(fd, &stack, buf, line);
 	free(buf);
 	if (ret != 0 || stack == NULL || stack[0] == '\0')

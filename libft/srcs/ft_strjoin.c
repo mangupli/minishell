@@ -22,7 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s2)
 		s2 = "\0";
 	total = ft_strlen(s1) + ft_strlen(s2);
-	if ((dst = (char *)malloc(sizeof(char) * (total + 1))))
+	dst = (char *)malloc(sizeof(char) * (total + 1));
+	if (dst != NULL)
 	{
 		ft_strlcpy(dst, s1, ft_strlen(s1) + 1);
 		ft_strlcat(dst, s2, total + 1);

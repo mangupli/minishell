@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-static void ab_init(t_apbuf *ab)
+static void	ab_init(t_apbuf *ab)
 {
 	ab->b = NULL;
 	ab->len = 0;
 }
 
-static void ab_free(t_apbuf *ab)
+static void	ab_free(t_apbuf *ab)
 {
 	free(ab->b);
 	ab->b = NULL;
 }
 
-static int ab_joinstr(t_apbuf *ab, const char *str, int len)
+static int	ab_joinstr(t_apbuf *ab, const char *str, int len)
 {
-	char *new;
+	char	*new;
 
 	new = malloc(sizeof(char) * (ab->len + len));
 	if (new == NULL)
@@ -33,14 +33,14 @@ static int ab_joinstr(t_apbuf *ab, const char *str, int len)
 ** cursor position, and number of columns of the terminal.
 */
 
-void refresh_line(t_state *a)
+void	refresh_line(t_state *a)
 {
-	char *keys;
-	t_apbuf ab;
-	size_t len;
-	size_t pos;
-	char *buf;
-	int res;
+	char	*keys;
+	t_apbuf	ab;
+	size_t	len;
+	size_t	pos;
+	char	*buf;
+	int		res;
 
 	len = a->len;
 	pos = a->pos;
@@ -58,11 +58,11 @@ void refresh_line(t_state *a)
 	if (keys == NULL)
 		return ;
 	keys = ft_strcpy(keys, "\r");
-	ab_joinstr(&ab, keys, strlen(keys));
-	ab_joinstr(&ab, a->prompt, strlen(a->prompt));
+	ab_joinstr(&ab, keys, ft_strlen(keys));
+	ab_joinstr(&ab, a->prompt, ft_strlen(a->prompt));
 	ab_joinstr(&ab, buf, len);
 	keys = ft_strcpy(keys, "\x1b[0K");
-	ab_joinstr(&ab, keys, strlen(keys));
+	ab_joinstr(&ab, keys, ft_strlen(keys));
 	res = (int)(pos + a->plen);
 	len = ft_numlen(res);
 	keys[0] = '\r';
@@ -76,7 +76,7 @@ void refresh_line(t_state *a)
 		res /= 10;
 		len--;
 	}
-	ab_joinstr(&ab, keys, strlen(keys));
+	ab_joinstr(&ab, keys, ft_strlen(keys));
 	write(a->ofd, ab.b, ab.len);
 	ab_free(&ab);
 	free(keys);

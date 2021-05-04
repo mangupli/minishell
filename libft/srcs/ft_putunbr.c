@@ -14,7 +14,7 @@
 
 void	ft_putunbr(uintmax_t n)
 {
-	char c;
+	char	c;
 
 	if (n < 10)
 	{

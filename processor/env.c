@@ -88,7 +88,7 @@ void	shell_env(t_data *data, char **args)
 	}
 	else
 	{
-		g_status = 127;
+		g_struct.status = 127;
 		display_error("env", args[1], "Too many arguments");
 	}
 }

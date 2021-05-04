@@ -4,13 +4,14 @@ static void	parent_process(t_data *data)
 {
 	dup2(data->orig_fd[0], 0);
 	dup2(data->orig_fd[1], 1);
-	waitpid(-1, &g_status, 0);
-	if (g_status > 255)
+	waitpid(-1, &g_struct.status, 0);
+	if (g_struct.status > 255)
 	{
-		g_status %= 255;
+		g_struct.status %= 255;
 	}
-	else if (WIFSIGNALED(g_status) && g_status != 130 && g_status != 131)
-		g_status += 128;
+	else if (WIFSIGNALED(g_struct.status) && g_struct.status != 130 \
+													&& g_struct.status != 131)
+		g_struct.status += 128;
 	errno = 0;
 }
 
@@ -20,7 +21,7 @@ static void	child_process(t_data *data, t_args *ar)
 
 	ret = exec_my_function(ar->args, data);
 	if (ret)
-		exit(g_status);
+		exit(g_struct.status);
 	if (!ft_strchr(ar->args[0], '/'))
 	{
 		ret = find_function_path(ar, data->envlist);

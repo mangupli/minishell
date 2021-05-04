@@ -23,7 +23,7 @@ int	change_dir(char *arg)
 	ret = chdir(arg);
 	if (ret == -1)
 	{
-		g_status = 1;
+		g_struct.status = 1;
 		display_error("cd", arg, "No such file or directory");
 		return (-1);
 	}
@@ -34,22 +34,20 @@ void	shell_cd(t_data *data, char **args)
 {
 	char	*new_pwd;
 	char	*home;
-	int		ret1;
-	int		ret2;
+	int		ret;
 
-	ret1 = ft_strcmp(args[1], "~");
-	ret2 = ft_strcmp(args[1], "--");
-	if (!args[1] || !ret1 || !ret2)
+	ret = ft_strcmp(args[1], "~") && ft_strcmp(args[1], "--");
+	if (!args[1] || !ret)
 	{
 		home = find_env_content(data->envlist, "HOME");
-		ret1 = change_dir(home);
-		if (ret1 == -1)
+		ret = change_dir(home);
+		if (ret == -1)
 			return ;
 	}
 	else
 	{
-		ret1 = change_dir(args[1]);
-		if (ret1 == -1)
+		ret = change_dir(args[1]);
+		if (ret == -1)
 			return ;
 	}
 	new_pwd = getcwd(NULL, 0);
@@ -57,5 +55,5 @@ void	shell_cd(t_data *data, char **args)
 		new_pwd_env(data->envlist, new_pwd);
 	else
 		display_error("cd", NULL, strerror(errno));
-	g_status = 0;
+	g_struct.status = 0;
 }

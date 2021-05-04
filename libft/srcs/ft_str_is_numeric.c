@@ -12,9 +12,9 @@
 
 #include "../includes/libft.h"
 
-int		ft_str_is_numeric(char *str)
+int	ft_str_is_numeric(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (str[0] == '\0')

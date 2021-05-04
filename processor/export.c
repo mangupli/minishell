@@ -59,7 +59,7 @@ void	add_var_to_list(t_list_env **envs, char *str)
 	symbols = check_symbols(str);
 	if (symbols == 1)
 	{
-		g_status = 1;
+		g_struct.status = 1;
 		display_error("minishell", "export", "not a valid identifier");
 		return ;
 	}

@@ -21,7 +21,7 @@ int reverse_redirect_open(char *filename, t_args *ar)
 	{
 		display_error("minishell", filename,
 				"No such file or directory");
-		g_status = 1;
+		g_struct.status = 1;
 		return (-2);
 	}
 	return (0);
@@ -36,7 +36,7 @@ int double_redirect_open(char *filename, t_args *ar)
 	{
 		display_error("minishell", filename,
 					  strerror(errno));
-		g_status = 1;
+		g_struct.status = 1;
 		return (-2);
 	}
 	return (0);
@@ -51,7 +51,7 @@ int redirect_open(char *filename, t_args *ar)
 	{
 		display_error("minishell", filename,
 				strerror(errno));
-		g_status = 1;
+		g_struct.status = 1;
 		return (-2);
 	}
 	return (0);

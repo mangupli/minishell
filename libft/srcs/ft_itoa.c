@@ -14,7 +14,7 @@
 
 static size_t	ft_cntnmb(int n)
 {
-	size_t digits;
+	size_t	digits;
 
 	digits = 0;
 	if (n < 0)
@@ -27,7 +27,7 @@ static size_t	ft_cntnmb(int n)
 	return (digits + 1);
 }
 
-static void		ft_locate_chars(char *start, char *ptr, int n)
+static void	ft_locate_chars(char *start, char *ptr, int n)
 {
 	while (ptr >= start)
 	{
@@ -37,7 +37,7 @@ static void		ft_locate_chars(char *start, char *ptr, int n)
 	}
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*str;
 	size_t	len;

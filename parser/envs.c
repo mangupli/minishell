@@ -43,7 +43,7 @@ char *env_worker(char *string, int i, t_list_env *envs, t_data *data)
 		return (ft_strdup(string));
 	if (ft_strcmp("?", key) == 0)
 	{
-		value = ft_itoa(g_status);
+		value = ft_itoa(g_struct.status);
 		if (value == NULL)
 			ft_exit(-1, data, 1);
 	}

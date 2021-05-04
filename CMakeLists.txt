@@ -12,7 +12,7 @@ add_executable(shell main.c
 
 
         processor/readline.c
-        processor/terminal_management.c
+        processor/get_cols.c
         processor/append_line.c
         processor/history.c
         processor/exit.c

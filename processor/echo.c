@@ -33,7 +33,7 @@ void	shell_echo(t_data *data, char **args)
 	int		i;
 
 	(void)data;
-	g_status = 0;
+	g_struct.status = 0;
 	if (args)
 	{
 		if (!args[1])
@@ -46,5 +46,5 @@ void	shell_echo(t_data *data, char **args)
 		if (!flag)
 			print_args(args, i);
 	}
-	g_status = 0;
+	g_struct.status = 0;
 }

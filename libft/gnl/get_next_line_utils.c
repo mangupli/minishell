@@ -14,12 +14,14 @@
 
 char	*gnl_strchr(char *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	return (s[i] == '\0' ? NULL : &s[i]);
+	if (s[i] == '\0')
+		return (NULL);
+	return (&s[i]);
 }
 
 char	*gnl_strjoin(char const *s1, char const *s2)
@@ -53,7 +55,7 @@ char	*gnl_strjoin(char const *s1, char const *s2)
 
 size_t	gnl_strlen(const char *s)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (s[len])

@@ -23,7 +23,7 @@ NAME = minishell
 SRCS_MAIN = main.c
 LIBFT = libft.a
 
-SRCS_PROCCESS = readline.c terminal_management.c append_line.c \
+SRCS_PROCCESS = readline.c get_cols.c append_line.c \
 history.c exit.c execution.c echo.c pwd.c cd.c proc_utils.c export.c \
 env.c envir_var.c envslist_utils.c unset.c find_fd.c argslist_utils.c \
 signals.c reset.c buildin.c export_utils.c echo_n.c\

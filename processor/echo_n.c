@@ -35,7 +35,7 @@ void	skip_n(t_data *data, t_args *tmp)
 
 	if ((!ft_strcmp(tmp->args[1], "-n")))
 	{
-		g_echo_n = 1;
+		g_struct.echo_n = 1;
 		i = 0;
 		while (!ft_strcmp(tmp->args[++i], "-n"))
 		{

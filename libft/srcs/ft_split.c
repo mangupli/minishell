@@ -43,8 +43,8 @@ static void	ft_free(char **str, size_t i)
 
 static char	**ft_allocate(char **new, const char *s, char c, size_t i)
 {
-	size_t k;
-	size_t start;
+	size_t	k;
+	size_t	start;
 
 	k = 0;
 	while (s[i])
@@ -69,7 +69,7 @@ static char	**ft_allocate(char **new, const char *s, char c, size_t i)
 	return (new);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**new;
 	size_t	i;

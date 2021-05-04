@@ -25,7 +25,7 @@ int	shell_exit(char **args, int errcode, t_data *data)
 		else if (args[2])
 		{
 			display_error("minishell", "exit", "too many arguments");
-			g_status = 1;
+			g_struct.status = 1;
 			return (1);
 		}
 		else
