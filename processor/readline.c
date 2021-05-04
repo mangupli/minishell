@@ -75,8 +75,6 @@ static void init_struct_a(t_state *a, int stdin_fd, int stdout_fd, t_data *data)
 ** a.buf[0] = '\0' -> buffer starts empty
 **
 ** Sequences: Esc[A == UP arrow key | ESC[B == DOWN arrow key
-**
-**
 */
 
 static int	edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
@@ -163,8 +161,6 @@ static int	edit(int stdin_fd, int stdout_fd, char *buf, t_data *data)
 ** control chars - set return condition: min number of bytes and timer.
 ** We want read to return every single byte, without timeout. 1 byte, no timer
 ** tcsetattr(fd, TCSAFLUSH, &raw) -> put terminal in raw mode after flushing
-**
-**
 */
 
 static int	enable_mode(int fd)
