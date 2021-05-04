@@ -34,6 +34,9 @@ add_executable(shell main.c
         processor/buildin.c
         processor/export_utils.c
         processor/echo_n.c
+        processor/terminal_management.c
+        processor/keys.c
+
 
         parser/begin.c
         parser/helpers.c
