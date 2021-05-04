@@ -2,8 +2,8 @@
 
 int	validations(char *line, t_par *pars)
 {
-	int i;
-	int next;
+	int	i;
+	int	next;
 
 	locations_compile(pars);
 	if (has_twinks_redirects(pars))
@@ -25,9 +25,9 @@ int	validations(char *line, t_par *pars)
 
 void	sorted_array(t_par *pars)
 {
-	int i;
-	int j;
-	int tmp;
+	int	i;
+	int	j;
+	int	tmp;
 
 	i = 0;
 	while (i < (pars->scc + pars->ppc + pars->rc + pars->rrc))
@@ -49,7 +49,7 @@ void	sorted_array(t_par *pars)
 
 int	fill_locs_array(t_par *pars, int *src, int i, int stop)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (j < stop)
@@ -63,7 +63,7 @@ int	fill_locs_array(t_par *pars, int *src, int i, int stop)
 
 bool	has_twinks_redirects(t_par *pars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i + 2 < pars->rc)
@@ -90,7 +90,7 @@ bool	between_only_spaces_or_twinks(char *line, int start, int stop, int len)
 		return (True);
 	if ((line[start] == '>' && line[stop] == '>' && stop - start == 1) || \
 			(stop == len && line[start] == ';') || \
-			(stop - start == 1 && (line[start] == '>' || line[stop] == '>' ||
+			(stop - start == 1 && (line[start] == '>' || line[stop] == '>' || \
 			(line[start] == '<' || line[stop] == '<'))))
 		return (False);
 	start++;

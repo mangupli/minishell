@@ -1,19 +1,17 @@
 #include "minishell.h"
 #include "parseader.h"
 
-char *get_env_key(char *key_begin, t_data *data)
+char	*get_env_key(char *key_begin, t_data *data)
 {
-	int i;
-	char *key;
+	int		i;
+	char	*key;
 
 	i = 0;
-	while (ft_strrchr(ascii, key_begin[i])  && key_begin[i] != '\0')
+	while (ft_strrchr(ascii, key_begin[i]) && key_begin[i] != '\0')
 		i++;
 	if (!i && key_begin[0] != '\0' && key_begin[0] == '?')
 	{
 		key = ft_strdup("?");
-		if (key == NULL)
-			ft_exit(-1, data, 1);
 		return (key);
 	}
 	if (!i)
@@ -22,7 +20,7 @@ char *get_env_key(char *key_begin, t_data *data)
 	if (key == NULL)
 		ft_exit(-1, data, 1);
 	i = 0;
-	while (ft_strrchr(ascii, key_begin[i])  && key_begin[i] != '\0')
+	while (ft_strrchr(ascii, key_begin[i]) && key_begin[i] != '\0')
 	{
 		key[i] = key_begin[i];
 		i++;
@@ -31,7 +29,7 @@ char *get_env_key(char *key_begin, t_data *data)
 	return (key);
 }
 
-char *env_worker(char *string, int i, t_list_env *envs, t_data *data)
+char	*env_worker(char *string, int i, t_list_env *envs, t_data *data)
 {
 	char *value;
 	char *key;
@@ -42,11 +40,7 @@ char *env_worker(char *string, int i, t_list_env *envs, t_data *data)
 	if (key == NULL)
 		return (ft_strdup(string));
 	if (ft_strcmp("?", key) == 0)
-	{
 		value = ft_itoa(g_struct.status);
-		if (value == NULL)
-			ft_exit(-1, data, 1);
-	}
 	else
 		value = find_env_content(envs, key);
 	if (!value)
@@ -61,18 +55,16 @@ char *env_worker(char *string, int i, t_list_env *envs, t_data *data)
 	return (new_string);
 }
 
-void env_replacer(char *string, char *value, char *new_string, int key_len)
+void	env_replacer(char *string, char *value, char *new_string, int key_len)
 {
-	int i;
-	int j;
-	int x;
+	int	i;
+	int	j;
+	int	x;
 
 	i = 0;
 	j = 0;
 	x = 0;
-	if (new_string == NULL)
-		return ;
-	while (string[i] != '\0')
+	while (new_string != NULL && string[i] != '\0')
 	{
 		if (string[i] == '$' && !j)
 		{
@@ -88,15 +80,16 @@ void env_replacer(char *string, char *value, char *new_string, int key_len)
 		i++;
 		x++;
 	}
-	new_string[x] = '\0';
+	if (new_string != NULL)
+		new_string[x] = '\0';
 }
 
-char *trash_replacer(char *string, t_data *data)
+char	*trash_replacer(char *string, t_data *data)
 {
-	int sq;
-	int dq;
-	int i;
-	char *tmp;
+	int		sq;
+	int		dq;
+	int		i;
+	char	*tmp;
 
 	sq = 0;
 	dq = 0;
