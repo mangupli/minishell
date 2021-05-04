@@ -58,11 +58,12 @@ static int	core_minishell(t_data *data, char *line)
 	return (0);
 }
 
+//line = getenv("to_test"); // for script.sh
+
 void	minishell(t_data *data)
 {
 	char	*line;
 
-	//line = getenv("to_test");
 	line = ft_readline(data);
 	while (line != NULL)
 	{

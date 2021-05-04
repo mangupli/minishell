@@ -12,12 +12,6 @@
 # include	"../libft/includes/libft.h"
 # include	<signal.h>
 
-/*
-extern int	g_status;
-extern char	g_echo_n;
-struct termios orig_termios; // In order to restore at exit.*
-*/
-
 typedef struct s_glob
 {
 	int				status;
