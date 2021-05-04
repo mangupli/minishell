@@ -1,9 +1,9 @@
 #include "parseader.h"
 
-void spaces_worker(t_par *pars, char *line, t_data *data)
+void	spaces_worker(t_par *pars, char *line, t_data *data)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	while (line[i] == ' ')
@@ -24,10 +24,10 @@ void spaces_worker(t_par *pars, char *line, t_data *data)
 	new_spaces_array(pars, count, data);
 }
 
-void delete_excess_spaces(t_par *pars, int false_space)
+void	delete_excess_spaces(t_par *pars, int false_space)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < pars->sc)
@@ -44,7 +44,7 @@ void delete_excess_spaces(t_par *pars, int false_space)
 	}
 }
 
-void new_spaces_array(t_par *pars, int count, t_data *data)
+void	new_spaces_array(t_par *pars, int count, t_data *data)
 {
 	int	*new_array;
 	int	i;
@@ -69,10 +69,10 @@ void new_spaces_array(t_par *pars, int count, t_data *data)
 	pars->sl = new_array;
 }
 
-void separation_trash(t_par *pars)
+void	separation_trash(t_par *pars)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < pars->sc)
@@ -88,10 +88,10 @@ void separation_trash(t_par *pars)
 	}
 }
 
-void back_separation_trash(char *line, t_par *pars)
+void	back_separation_trash(char *line, t_par *pars)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = pars->sc - 1;
 	while (i >= 0)

@@ -1,29 +1,8 @@
-
 #include "parseader.h"
 
-char *split_on_semicolon(char *line, int i, t_par *pars)
+int	get_end(int i, t_par *pars)
 {
-	int j;
-	int end;
-	char *str;
-
-	j = 0;
-	end = get_end(i, pars);
-	str = (char *)malloc(end - i + 1);
-	while (i < end)
-	{
-		str[j] = line[i];
-		i++;
-		j++;
-	}
-	str[j] = '\0';
-	pars->next = end;
-	return (str);
-}
-
-int get_end(int i, t_par *pars)
-{
-	int j;
+	int	j;
 
 	j = 0;
 	while (j < pars->scc)
@@ -37,7 +16,7 @@ int get_end(int i, t_par *pars)
 
 void	counter(char *line, t_par *pars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
@@ -61,7 +40,7 @@ void	counter(char *line, t_par *pars)
 	}
 }
 
-void	allocate_locations(t_par *pars) // TODO DOHYA mallocs
+void	allocate_locations(t_par *pars)
 {
 	if (pars->scc)
 		pars->sccl = (int *)malloc(sizeof(int) * pars->scc);
@@ -80,7 +59,7 @@ void	allocate_locations(t_par *pars) // TODO DOHYA mallocs
 
 void	locations_compile(t_par *pars)
 {
-	int i;
+	int	i;
 
 	i = fill_locs_array(pars, pars->sccl, 0, pars->scc);
 	i = fill_locs_array(pars, pars->ppl, i, pars->ppc);

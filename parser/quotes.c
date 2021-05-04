@@ -1,9 +1,8 @@
-
 #include "parseader.h"
 
 int	quotes_counter(char *line, t_par *pars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
@@ -21,7 +20,7 @@ int	quotes_counter(char *line, t_par *pars)
 	return (0);
 }
 
-void quotes_locations(char *line, t_par *pars, t_data *data)
+void	quotes_locations(char *line, t_par *pars, t_data *data)
 {
 	pars->tmpi = 0;
 	if (pars->dqc)
@@ -50,10 +49,10 @@ void quotes_locations(char *line, t_par *pars, t_data *data)
 	}
 }
 
-char get_dominator_quotes(char *string)
+char	get_dominator_quotes(char *string)
 {
-	int i;
-	char q;
+	int		i;
+	char	q;
 
 	i = 0;
 	while (string[i] != '\0')
@@ -66,10 +65,10 @@ char get_dominator_quotes(char *string)
 	return (0);
 }
 
-int len_without_quotes(char *string, char q)
+int	len_without_quotes(char *string, char q)
 {
-	int len;
-	int i;
+	int	len;
+	int	i;
 
 	len = 0;
 	i = 0;
@@ -83,11 +82,11 @@ int len_without_quotes(char *string, char q)
 	return (len);
 }
 
-char *del_quotes(char *string, char quotes, t_data *data)
+char	*del_quotes(char *string, char quotes, t_data *data)
 {
-	char *new_string;
-	int i;
-	int j;
+	char	*new_string;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;

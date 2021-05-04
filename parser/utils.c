@@ -1,9 +1,9 @@
 #include "minishell.h"
 #include "parseader.h"
 
-int i_inside_array(int *array, int count, int i, int next)
+int	i_inside_array(int *array, int count, int i, int next)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (j < count)
@@ -15,10 +15,10 @@ int i_inside_array(int *array, int count, int i, int next)
 	return (0);
 }
 
-int splits_count(int *array, int array_el_count, int i, int next)
+int	splits_count(int *array, int array_el_count, int i, int next)
 {
-	int j;
-	int count;
+	int	j;
+	int	count;
 
 	j = 0;
 	count = 0;
@@ -31,12 +31,12 @@ int splits_count(int *array, int array_el_count, int i, int next)
 	return (count + 2);
 }
 
-char *slash_replacer(char *string, t_data *data)
+char	*slash_replacer(char *string, t_data *data)
 {
-	char *new_string;
-	int i;
-	int j;
-	int f;
+	char	*new_string;
+	int		i;
+	int		j;
+	int		f;
 
 	new_string = (char *)malloc(ft_strlen(string));
 	if (new_string == NULL)
@@ -59,7 +59,7 @@ char *slash_replacer(char *string, t_data *data)
 	return (new_string);
 }
 
-void freedom(t_par *pars)
+void	freedom(t_par *pars)
 {
 	free(pars->dql);
 	free(pars->sql);
@@ -72,23 +72,13 @@ void freedom(t_par *pars)
 	free(pars->line_copy);
 }
 
-int get_location(t_par *pars, int i)
+bool	opener_begin(t_data *data)
 {
-	int pipes_loc;
-	int redirect_loc;
-	int reredirect_loc;
-
-	pipes_loc = i_inside_array(pars->ppl, pars->ppc, i, pars->next);
-	redirect_loc = i_inside_array(pars->rl, pars->rc, i, pars->next);
-	reredirect_loc = i_inside_array(pars->rrl, pars->rrc, i, pars->next);
-	if(pipes_loc > redirect_loc && redirect_loc > reredirect_loc)
+	if (data->pars.redirs)
 	{
-		return (reredirect_loc);
+		if (file_opener(data->pars.redirs, data, arglstlast(data->ar)) == -2)
+			return (True);
+		ft_free((void **)&data->pars.redirs);
 	}
-	else if (redirect_loc < reredirect_loc)
-	{
-		return (redirect_loc);
-	}
-	else
-		return (pipes_loc);
+	return (False);
 }

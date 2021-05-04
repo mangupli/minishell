@@ -26,7 +26,7 @@ void	reverse_redirects_locations(int i, t_par *pars)
 
 void	locations(char *line, t_par *pars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	allocate_locations(pars);
