@@ -20,13 +20,6 @@
 # include	"../libft/includes/libft.h"
 # define ASCII "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 
-typedef struct s_env
-{
-	char		*name;
-	char		*content;
-	char		has_equal;
-}				t_env;
-
 char	**path_parser(t_list_env *envs);
 int		begin_parser(char *line, int i, t_data *data);
 void	pars_data_init(char *line, t_par *par, t_data *data);
@@ -86,7 +79,7 @@ bool	im_in_quotes(int i, int count, int *locations);
 bool	im_in_end(char *line, char needed, int len);
 bool	im_in_begin(char *line, char needed);
 bool	im_alone_redirect(char *line, int len);
-void	super_ultra_giga_extra_mega_handjob(t_par *pars, char *str,
-											int handjob);
+void	super_ultra_giga_extra_mega_handjob(t_par *pars, char *str, \
+																int handjob);
 
 #endif
