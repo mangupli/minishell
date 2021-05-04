@@ -7,7 +7,7 @@ char	*get_env_key(char *key_begin, t_data *data)
 	char	*key;
 
 	i = 0;
-	while (ft_strrchr(ascii, key_begin[i]) && key_begin[i] != '\0')
+	while (ft_strrchr(ASCII, key_begin[i]) && key_begin[i] != '\0')
 		i++;
 	if (!i && key_begin[0] != '\0' && key_begin[0] == '?')
 	{
@@ -20,7 +20,7 @@ char	*get_env_key(char *key_begin, t_data *data)
 	if (key == NULL)
 		ft_exit(-1, data, 1);
 	i = 0;
-	while (ft_strrchr(ascii, key_begin[i]) && key_begin[i] != '\0')
+	while (ft_strrchr(ASCII, key_begin[i]) && key_begin[i] != '\0')
 	{
 		key[i] = key_begin[i];
 		i++;
@@ -31,10 +31,10 @@ char	*get_env_key(char *key_begin, t_data *data)
 
 char	*env_worker(char *string, int i, t_list_env *envs, t_data *data)
 {
-	char *value;
-	char *key;
-	int len;
-	char *new_string;
+	char	*value;
+	char	*key;
+	int		len;
+	char	*new_string;
 
 	key = get_env_key(&string[i + 1], data);
 	if (key == NULL)

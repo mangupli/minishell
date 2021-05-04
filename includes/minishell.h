@@ -45,6 +45,10 @@ typedef struct s_par
 	int     sc; // spaces count
 	int     *sl; // spaces locations
 	char	*redirs; // redirs
+	int		xr; // when you do
+	int		xrr; // not pass the norm
+	int		xstop;// they come to the rescue
+	int		hello;
 
 	//helpers
 	int		dqi; //double quotes location index

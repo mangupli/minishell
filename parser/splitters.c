@@ -17,47 +17,44 @@ char	**splitter(t_data *data, int i, int location)
 		splits[j] = (char *)malloc(next - i + 2);
 		if (splits[j] == NULL)
 			ft_exit(-1, data, 1);
-		i = get_str(data, splits[j], i, next);
+		i = get_str(&data->pars, splits[j], i, next);
 		next = i_inside_array(data->pars.sl, data->pars.sc, next, location);
 		j++;
 	}
 	splits[j] = (char *)malloc(location - next + 2);
 	if (splits[j] == NULL)
 		ft_exit(-1, data, 1);
-	get_str(data, splits[j], i, location - 1);
+	get_str(&data->pars, splits[j], i, location - 1);
 	splits[j + 1] = NULL;
 	return (splits);
 }
 
-int	get_str(t_data *data, char *splits, int ind, int next)
+int	get_str(t_par *pars, char *splits, int ind, int next)
 {
 	int	i;
-	int	r;
-	int	rr;
-	int	stop;
 
 	i = 0;
-	r = i_inside_array(data->pars.rl, data->pars.rc, ind, data->pars.next);
-	rr = i_inside_array(data->pars.rrl, data->pars.rrc, ind, data->pars.next);
-	stop = next + 1;
-	if (r && next > r)
-		stop = r - 1;
-	else if (rr && next > rr)
-		stop = rr - 1;
+	pars->xr = i_inside_array(pars->rl, pars->rc, ind, pars->next);
+	pars->xrr = i_inside_array(pars->rrl, pars->rrc, ind, pars->next);
+	pars->xstop = next + 1;
+	if (pars->xr && next > pars->xr)
+		pars->xstop = pars->xr - 1;
+	else if (pars->xrr && next > pars->xrr)
+		pars->xstop = pars->xrr - 1;
 	while (ind <= next)
 	{
-		if (ind == stop && data->pars.line_copy[ind] != '>')
+		if (ind == pars->xstop && pars->line_copy[ind] != '>')
 			splits[i] = '\0';
 		else
-			splits[i] = data->pars.line_copy[ind];
+			splits[i] = pars->line_copy[ind];
 		i++;
 		ind++;
 	}
 	splits[i] = '\0';
 	if (splits[0] == '>' || splits[0] == '<')
-		data->pars.redirs = ft_strdup(splits);
-	else if (stop != next + 1)
-		data->pars.redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
+		pars->redirs = ft_strdup(splits);
+	else if (pars->xstop != next + 1)
+		pars->redirs = ft_strdup(&splits[ft_strlen(splits) + 1]);
 	return (ind);
 }
 

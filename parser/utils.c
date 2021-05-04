@@ -77,8 +77,8 @@ bool	opener_begin(t_data *data)
 	if (data->pars.redirs)
 	{
 		if (file_opener(data->pars.redirs, data, arglstlast(data->ar)) == -2)
-			return (True);
+			return (true);
 		ft_free((void **)&data->pars.redirs);
 	}
-	return (False);
+	return (false);
 }

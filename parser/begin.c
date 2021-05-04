@@ -1,13 +1,13 @@
 #include "minishell.h"
 #include "parseader.h"
 
-void spaces_locations(int i, t_par *pars)
+void	spaces_locations(int i, t_par *pars)
 {
 	pars->sl[pars->sci] = i;
 	pars->sci++;
 }
 
-void pars_data_init(t_par *pars)
+void	pars_data_init(char *line, t_par *pars, t_data *data)
 {
 	pars->dqc = 0;
 	pars->sqc = 0;
@@ -24,9 +24,10 @@ void pars_data_init(t_par *pars)
 	pars->sc = 0;
 	pars->sl = NULL;
 	pars->locs = NULL;
+	pars_data_init2(line, &data->pars, data);
 }
 
-void pars_data_init2(char *line, t_par *pars, t_data *data)
+void	pars_data_init2(char *line, t_par *pars, t_data *data)
 {
 	pars->sci = 0;
 	pars->dqi = 0;
@@ -44,83 +45,54 @@ void pars_data_init2(char *line, t_par *pars, t_data *data)
 	pars->line_copy = ft_strdup(line);
 	if (pars->line_copy == NULL)
 		ft_exit(-1, data, 1);
+	add_history(line, &data->hist);
 }
 
-int start_validators(char *line, t_par *pars, t_data *data)
+int	start_validators(char *line, t_par *pars, t_data *data)
 {
 	if (im_in_begin(line, ';') || im_in_begin(line, '|') || \
 			im_in_end(line, '|', pars->len) || \
 			im_in_end(line, '\\', pars->len) || \
 			im_alone_redirect(line, pars->len))
-	{
-		freedom(pars);
 		return (-1);
-	}
 	if (quotes_counter(line, pars) == -1)
-	{
-		freedom(pars);
 		return (-1);
-	}
 	quotes_locations(line, pars, data);
 	counter(line, pars);
 	locations(line, pars);
 	if (pars->scc || pars->ppc || pars->rc || pars->rrc)
 	{
 		if (validations(line, pars) == -1)
-		{
-			freedom(pars);
 			return (-1);
-		}
 	}
 	if (pars->sc)
 		spaces_worker(pars, line, data);
 	return (0);
 }
 
-int begin_parser(char *line, int i, t_data *data)
+int	begin_parser(char *line, int i, t_data *data)
 {
-	//t_par pars;
-	int j;
-
 	if (!i)
 	{
-		//add_history(line, &data->hist); // Add to the list
-		pars_data_init(&data->pars);
-		pars_data_init2(line, &data->pars, data);
+		pars_data_init(line, &data->pars, data);
 		if (start_validators(line, &data->pars, data) == -1)
 		{
+			freedom(&data->pars);
 			g_struct.status = 258;
 			display_error("minishell", "syntax error", "unexpected token");
 			return (-1);
 		}
-
 	}
-	//pars = data->pars;
 	data->pars.next = get_end(i, &data->pars);
 	if (get_args(data, &data->pars, i) == -2)
 		return (-2);
-	t_args *tmp;
-	tmp = data->ar;
-	while (tmp)
+	data->pars.hello = data->pars.next + 1;
+	find_echo_n(data);
+	while (line[data->pars.hello] != '\0' && data->pars.next < data->pars.len)
 	{
-		int x = 0;
-		while(tmp->args[x])
-		{
-			printf("[%d][%s]\n", x, tmp->args[x]);
-			x++;
-		}
-		printf("type=[%c]\n", tmp->type);
-		tmp = tmp->next;
-	}
-	printf("----\n");
-
-	j = data->pars.next + 1;
-	//find_echo_n(data); // TODO: вставить функцию в парсер виталика
-	while (line[j] != '\0' && data->pars.next < data->pars.len)
-	{
-		if (line[j] != ' ')
+		if (line[data->pars.hello] != ' ')
 			return (data->pars.next);
-		j++;
+		data->pars.hello++;
 	}
 	freedom(&data->pars);
 	return (0);
