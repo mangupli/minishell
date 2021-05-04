@@ -27,6 +27,23 @@ typedef struct s_glob
 
 t_glob		g_struct;
 
+typedef struct s_cursor
+{
+	int		rows;
+	char	c;
+	int		cols;
+	int		pow;
+}				t_cursor;
+
+typedef struct s_line
+{
+	char		*keys;
+	char 		*buf;
+	int 		res;
+	size_t 		pos;
+	size_t 		len;
+}				t_line;
+
 typedef struct s_par
 {
 	int		dqc; //double quotes count
@@ -93,16 +110,16 @@ typedef struct		s_args
 
 typedef struct s_state
 {
-	int ifd;
-	int ofd;
-	char *buf;
-	size_t buflen;
-	const char *prompt;
-	size_t plen;
-	size_t pos;
-	size_t len;
-	size_t cols;
-	int index;
+	int			ifd;
+	int			ofd;
+	char		*buf;
+	size_t		buflen;
+	const char	*prompt;
+	size_t		plen;
+	size_t		pos;
+	size_t		len;
+	size_t		cols;
+	int			index;
 }				t_state;
 
 typedef struct	s_hist
@@ -246,14 +263,21 @@ void	print_arguments(char **args, char type);
  * Readline functions
  */
 
-char		*ft_readline(t_data *data);
-int			add_history(char *line, t_hist *h);
-void		refresh_line(t_state *a);
-int			get_cols(int ofd);
-void		refresh_line(t_state *a);
-int			get_cursor_pos(int ofd);
-void		save_history(t_data *data);
-void		load_history(t_data *data);
-void		edit_history_next(t_state *a, t_data *data, int dir);
+char	*ft_readline(t_data *data);
+int		add_history(char *line, t_hist *h);
+void	refresh_line(t_state *a);
+int		get_cols(int ofd);
+void	refresh_line(t_state *a);
+int		get_cursor_pos(int ofd);
+void	save_history(t_data *data);
+void	load_history(t_data *data);
+void	edit_history_next(t_state *a, t_data *data, int dir);
+int		enable_mode(int fd);
+int		rawline(char *buf, t_data *data);
+int		edit(int stdin_fd, int stdout_fd, char *buf, t_data *data);
+void	init_struct_a(t_state *a, int stdin_fd, int stdout_fd, t_data *data);
+void	backspace_edit(t_state *a);
+int		ft_ctrl_c(char *buf);
+int		ft_esc(char *keys, t_data *data, t_state *a);
 
 #endif
