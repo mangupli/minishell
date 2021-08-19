@@ -7,6 +7,7 @@ This group project is all about creating a simple shell and working in a team.
 
 ## How to use
 ```
+git clone https://github.com/mangupli/minishell.git
 make
 ./minishell
 ```
