@@ -33,7 +33,7 @@ relative or absolute path)
 6. env with no options or arguments
 7. exit with no options
 
-### The following works like in bash
+*** The following works like in bash***
 
 - double quotes and single quotes
 - redirections
@@ -42,5 +42,7 @@ relative or absolute path)
 - $? 
 - ctrl-C ctrl-D ctrl-\ 
 
+*** Additional files ***
 
-
+script.sh - for testing
+CMakeLists.txt - for building cmake project in CLion
