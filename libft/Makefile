@@ -13,18 +13,15 @@
 # Compilation #
 
 FLAGS = -Wall -Wextra -Werror
-ASM_FLAGS = -f macho64
 
 # Directories #
 
 SRCS_DIR = ./srcs/
 OBJS_DIR = ./objs/
 GNL_DIR = ./gnl/
-ASM_DIR = ./libasm/
 
 INC_DIR = ./includes/
-INC_ASM = $(INC_DIR)libasm.h
-INC_LIBFT = $(INC_DIR)libft.h $(INC_ASM)
+INC_LIBFT = $(INC_DIR)libft.h
 INC_GNL = $(INC_DIR)get_next_line.h
 LINK_INC = -I $(INC_DIR)
 
@@ -45,18 +42,17 @@ SRCS =	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		ft_strnstr.c ft_strrchr.c ft_tolower.c ft_toupper.c ft_substr.c ft_strtrim.c ft_strmapi.c ft_strrev.c \
 		\
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
-		ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_strdup.c ft_str_is_numeric.c
+		ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_strdup.c ft_str_is_numeric.c \
+		\
+		ft_strcmp.c ft_strcpy.c  ft_strlen.c 
 
 SRCS_GNL = get_next_line.c get_next_line_utils.c
-
-SRCS_ASM = ft_read.s ft_strcmp.s ft_strcpy.s  ft_strlen.s ft_write.s
 
 # Object files #
 
 OBJS_LIBFT = ${SRCS:.c=.o}
 OBJS_GNL = ${SRCS_GNL:.c=.o}
-OBJS_ASM = ${SRCS_ASM:.s=.o}
-OBJS = $(addprefix $(OBJS_DIR), $(OBJS_LIBFT) $(OBJS_GNL) $(OBJS_ASM))
+OBJS = $(addprefix $(OBJS_DIR), $(OBJS_LIBFT) $(OBJS_GNL))
 
 all: $(NAME)
 
@@ -71,9 +67,6 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INC_LIBFT)
 
 $(OBJS_DIR)%.o: $(GNL_DIR)%.c $(INC_GNL)
 	gcc $(FLAGS) $(LINK_INC) -c $< -o $@
-
-$(OBJS_DIR)%.o: $(ASM_DIR)%.s $(INC_ASM)
-	nasm $(ASM_FLAGS) $(LINK_INC) -s $< -o $@
 
 clean:
 	rm -rf $(OBJS_DIR)

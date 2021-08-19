@@ -47,6 +47,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
 	gcc $(OBJS) $(FLAGS) libft/libft.a -ltermcap -o $@
+	@echo "\033[32m$@ successfully created\033[0m" ✅
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
@@ -62,9 +63,12 @@ $(OBJS_DIR)%.o : $(PARSER_DIR)%.c $(PARSER_INC)
 	gcc -I./includes -c $< -o $@
 
 clean:
+	@make clean -C $(LIBFT_DIR)
 	rm -rf $(OBJS_DIR)
 
 fclean: clean
+	@make fclean -C $(LIBFT_DIR)
+	rm -f minishell_history.txt
 	rm -f $(NAME)
 
 re: fclean all
