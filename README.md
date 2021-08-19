@@ -12,11 +12,11 @@ cd minishell
 make
 ./minishell
 ```
-then opens up a prompt that will wait for your command:
+then a prompt shows up that will wait for your command:
 ```
 superbash>
 ```
-exit from minishell like from normal shell: print **exit** command
+exit from minishell like from original shell: print **exit** command
 
 
 ## Our minishell:
