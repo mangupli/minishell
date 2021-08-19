@@ -45,4 +45,5 @@ relative or absolute path)
 **Additional files**
 
 script.sh - for testing
+
 CMakeLists.txt - for building cmake project in CLion
