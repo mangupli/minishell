@@ -3,7 +3,7 @@
 This project is all about creating a simple shell and working in a team.
 
 **Mstoneho**: parser part;
-**Mangupli(lizagap)**: processor part;
+**Mangupli**: processor part;
 
 ## How to use
 ```
